@@ -6,7 +6,9 @@ Decided by: product owner, console answers confirmed in chat, 2026-10-22.
 - Parent routing: sample-projects in a clean checkout rather than editing the
   maintenance checkout. The latter's commits and IDE changes are preserved.
 - Repository: use an existing remote rather than create a new hosted repository.
-  Its URL remains pending; do not invent a submodule URL.
+  The owner subsequently supplied
+  `git@github.com:ccozianu/ai-learning-bootstrap.git`; read-only inspection found
+  no existing refs. Publish the initial main there before recording the gitlink.
 - Registration: Google first, optional password setup on the same account,
   rather than independent username/password registration.
 - Confirmation: email rather than an authenticator app, with the offered 30-day

@@ -13,8 +13,8 @@ Semantic versioning in `package.json`, initially 0.1.0. Change with
 ## Release Policy
 
 No release or deployment is authorized. The owner chooses release and hosting
-policy before the first publication intended for end users. A remote URL is
-still required before parent submodule registration can be completed.
+policy before the first publication intended for end users. The canonical remote is
+`git@github.com:ccozianu/ai-learning-bootstrap.git`, supplied by the owner.
 
 ## Validation Commands
 
@@ -57,6 +57,6 @@ schema or send live email without a user-directed acceptance step.
 ## Bootstrap Exception
 
 The owner explicitly requested creation of this independent child project
-while working in the parent. Its first local commit may be on `main`; remote
-publication and the reachable submodule pointer await the supplied repository.
+while working in the parent. Its first local commit may be on `main`; initial publication to the owner-supplied empty remote and the reachable
+submodule pointer complete the bootstrap delivery.
 This exception ends with the first bootstrap delivery.

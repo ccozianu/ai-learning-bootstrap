@@ -8,6 +8,8 @@ All authored application and tooling code is TypeScript. React/Vite serves the
 frontend; Fastify serves REST and GraphQL (Mercurius); Prisma 7 maps PostgreSQL.
 SQL, CSS, HTML and configuration files are the appropriate declarative formats.
 
+Canonical repository: [ccozianu/ai-learning-bootstrap](https://github.com/ccozianu/ai-learning-bootstrap).
+
 ## Open in DevCapsule and VSCodium
 
 From this repository's root, with DevCapsule 0.3.0rc2 or later:

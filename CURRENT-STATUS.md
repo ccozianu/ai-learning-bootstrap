@@ -8,8 +8,9 @@ First account bootstrap; local validation and external handoff.
 
 ## Current State
 
-- Owner requirements and console decisions are recorded. Remote URL and mail
-  service details are still pending; no hosted repository was created.
+- Owner requirements and console decisions are recorded. The owner supplied
+  `git@github.com:ccozianu/ai-learning-bootstrap.git`; it had no refs on inspection.
+  This is the canonical remote. SMTP service details remain pending.
 - React/Vite frontend, Fastify REST and Mercurius GraphQL, Prisma 7/PostgreSQL,
   Google-first signup, optional password sign-in, email challenges, sessions
   and 30-day trusted-browser tokens are implemented.
@@ -38,14 +39,14 @@ First account bootstrap; local validation and external handoff.
 
 ## Planned Next Step
 
-Obtain the existing remote URL,
-inspect it before pushing, and publish the child commit before registering the
-parent gitlink. Then enter this project through DevCapsule, have the owner apply
-SQL and configure secrets locally, and complete live sign-in acceptance.
+Enter this project through DevCapsule, have the owner apply reviewed SQL and
+configure Google/SMTP/database settings locally, and complete live sign-in
+acceptance. The parent sample-projects branch owns submodule registration and
+its integration into DevCapsule main.
 
 ## Open Threads
 
-- Existing remote URL, SMTP provider/settings, Google OAuth configuration and
+- SMTP provider/settings, Google OAuth configuration and
   the actual local allowlist have not been supplied. Never ask for secret values
   in chat. Provider choice may require adapting the mail transport.
 - Schema SQL has not been executed. No capsule was launched for this sample;
