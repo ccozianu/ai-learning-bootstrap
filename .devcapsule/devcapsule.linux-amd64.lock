@@ -1,0 +1,21 @@
+"capabilities-digest" = "0bbe003251c8a1ebfd41da8a83448856ef118802c5d3e6e1d42f4de09fe89a8c"
+"devcapsule-lock-format-version" = 1
+"platform" = "linux-amd64"
+"resolution-matrix-version" = "embedded-27"
+
+["base"]
+"build-mnemonic" = "v0.2.12-rc5"
+"contract" = "ubuntu-24.04@9"
+"reference" = "docker.io/mycodespaceai/devcapsule-base@sha256:8837edd36720763796ab9fe1dbeb66f1aa7ca2db0dabc8d73a58716440f42f7c"
+
+["capability-providers"]
+"postgresql-client" = ["postgresql-client"]
+
+["components"]
+
+["components"."postgresql-client"]
+"delivery-policy" = "base-image"
+"license" = "PostgreSQL"
+"version" = "16"
+
+["materialization"]

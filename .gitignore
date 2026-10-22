@@ -1,0 +1,27 @@
+# Python / DevCapsule defaults
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.idea/
+
+node_modules/
+dist/
+src/generated/
+.env
+.env.*
+!.env.example
+config/approved-gmail.txt
+*.log
+coverage/
+
+test-results/
+playwright-report/

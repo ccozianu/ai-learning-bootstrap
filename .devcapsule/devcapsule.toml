@@ -1,0 +1,18 @@
+"devcapsule-schema-version" = 1
+
+["capabilities"]
+"optional" = []
+"required" = ["postgresql-client"]
+
+["capabilities"."sdk-major"]
+
+["project"]
+"creator" = "https://github.com/ccozianu"
+"mount" = "/workspace/ai-learning"
+"name" = "AI Learning"
+"slug" = "ai-learning"
+
+[workflow]
+definition = "devcapsule"
+version = "0.3.0"
+mode = "single-stream"

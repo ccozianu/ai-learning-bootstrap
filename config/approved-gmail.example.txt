@@ -1,0 +1,2 @@
+# One approved @gmail.com address per line. Blank lines and comments ignored.
+# Copy to approved-gmail.txt locally. An empty list admits nobody.

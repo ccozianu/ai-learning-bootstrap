@@ -1,0 +1,51 @@
+# Current Status
+
+Workflow type: `single-stream`
+
+## Current Stage
+
+First account bootstrap; local validation and external handoff.
+
+## Current State
+
+- Owner requirements and console decisions are recorded. Remote URL and mail
+  service details are still pending; no hosted repository was created.
+- React/Vite frontend, Fastify REST and Mercurius GraphQL, Prisma 7/PostgreSQL,
+  Google-first signup, optional password sign-in, email challenges, sessions
+  and 30-day trusted-browser tokens are implemented.
+- Database scripts generate initial schema SQL offline and apply it only on a
+  human's explicit terminal command. No live database was contacted or changed.
+- DevCapsule initialized through `/usr/local/bin/devcapsule0`, version
+  `0.3.0rc2`, source e5b5a8b73309959f9407e115dcb3acd8707d6050.
+  `project config check` passed before and after workflow bootstrap. VSCodium
+  is a local choice. The project workflow was installed through `bootstrap
+  project`; generated manifest/locks were never hand-edited.
+- Node 22.23.1; Prisma client generation, TypeScript and production frontend
+  build pass. Twelve authentication route tests pass with mocked persistence.
+  SQL is generated from Prisma without credentials. Live PostgreSQL transaction
+  behavior, OAuth success and mail delivery are not yet acceptance-tested.
+
+## Planned Next Step
+
+Finish local browser validation and review. Obtain the existing remote URL,
+inspect it before pushing, and publish the child commit before registering the
+parent gitlink. Then enter this project through DevCapsule, have the owner apply
+SQL and configure secrets locally, and complete live sign-in acceptance.
+
+## Open Threads
+
+- Existing remote URL, SMTP provider/settings, Google OAuth configuration and
+  the actual local allowlist have not been supplied. Never ask for secret values
+  in chat. Provider choice may require adapting the mail transport.
+- Schema SQL has not been executed. No capsule was launched for this sample;
+  offline configuration validity is not launch acceptance.
+- Initial SQL is a manual baseline. Establish migration history before future
+  automated migrations. Expired auth-row cleanup and reverse-proxy rate-limit
+  identity belong to deployment preparation.
+- No actual secrets or live user data are intentionally preserved here.
+- Parent branch: ws-sample-projects/ai-learning, in a clean worktree; its
+  maintenance checkout is unchanged. Parent/main does not yet contain this work.
+
+## Document Index
+
+See [index.md](index.md) for requirements, decisions, workflow and setup.
