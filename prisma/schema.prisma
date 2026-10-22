@@ -12,6 +12,7 @@ enum SignInType {
   @@schema("ai_learning")
 }
 model User {
+  authVersion Int @default(0)
   id String @id @default(uuid()) @db.Uuid
   email String @unique
   googleSubject String @unique
@@ -31,6 +32,7 @@ model User {
   @@schema("ai_learning")
 }
 model Session {
+  authVersion Int @default(0)
   signInType SignInType
   tokenHash String @id
   userId String @db.Uuid
@@ -43,6 +45,7 @@ model Session {
   @@schema("ai_learning")
 }
 model Challenge {
+  authVersion Int @default(0)
   id String @id @default(uuid()) @db.Uuid
   userId String @db.Uuid
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -56,6 +59,7 @@ model Challenge {
   @@schema("ai_learning")
 }
 model TrustedDevice {
+  authVersion Int @default(0)
   tokenHash String @id
   userId String @db.Uuid
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -7,6 +7,7 @@ CREATE TYPE "ai_learning"."SignInType" AS ENUM ('GOOGLE', 'PASSWORD');
 
 -- CreateTable
 CREATE TABLE "ai_learning"."users" (
+    "authVersion" INTEGER NOT NULL DEFAULT 0,
     "id" UUID NOT NULL,
     "email" TEXT NOT NULL,
     "googleSubject" TEXT NOT NULL,
@@ -25,6 +26,7 @@ CREATE TABLE "ai_learning"."users" (
 
 -- CreateTable
 CREATE TABLE "ai_learning"."sessions" (
+    "authVersion" INTEGER NOT NULL DEFAULT 0,
     "signInType" "ai_learning"."SignInType" NOT NULL,
     "tokenHash" TEXT NOT NULL,
     "userId" UUID NOT NULL,
@@ -36,6 +38,7 @@ CREATE TABLE "ai_learning"."sessions" (
 
 -- CreateTable
 CREATE TABLE "ai_learning"."challenges" (
+    "authVersion" INTEGER NOT NULL DEFAULT 0,
     "id" UUID NOT NULL,
     "userId" UUID NOT NULL,
     "codeHash" TEXT NOT NULL,
@@ -48,6 +51,7 @@ CREATE TABLE "ai_learning"."challenges" (
 
 -- CreateTable
 CREATE TABLE "ai_learning"."trusted_devices" (
+    "authVersion" INTEGER NOT NULL DEFAULT 0,
     "tokenHash" TEXT NOT NULL,
     "userId" UUID NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,

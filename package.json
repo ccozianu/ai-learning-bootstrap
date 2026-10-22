@@ -15,7 +15,8 @@
     "db:apply": "tsx scripts/db-apply.ts",
     "check": "npm run build && npm test",
     "test": "vitest run --root . tests",
-    "test:ui": "playwright test"
+    "test:ui": "playwright test",
+    "format": "prettier --write \"src/*.ts\" web scripts tests e2e \"*.ts\" .vscode package.json tsconfig.json"
   },
   "dependencies": {
     "@fastify/cookie": "11.1.3",
@@ -44,6 +45,7 @@
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.2",
     "concurrently": "10.0.6",
+    "prettier": "3.9.10",
     "prisma": "7.10.1",
     "tsx": "4.23.15",
     "typescript": "7.0.2",

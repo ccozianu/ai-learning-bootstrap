@@ -81,7 +81,8 @@ You can preview the sign-in UI without credentials with `npx vite --host
 - Google is the only signup path. A verified, allowlisted Gmail identity creates
   and activates a user. Google subject is the stable identifier.
 - Password setup requires a Google-authenticated session less than ten minutes
-  old. Passwords use Argon2id. Updating credentials invalidates old sessions,
+  old. Passwords use Argon2id. Credential versions prevent stale in-flight login attempts from restoring
+  access after revocation. Updating credentials invalidates old sessions,
   challenges and remembered browsers. Google is the first-cut recovery path.
 - Password sign-in on an unremembered browser emails a six-digit code, valid for
   ten minutes and at most five verification attempts. Requesting another code
@@ -122,7 +123,8 @@ are not enabled. No cross-origin deployment is configured.
 `npm run check` generates Prisma types, checks TypeScript, builds the frontend,
 and runs auth route tests against mocked persistence. `npm run test:ui` runs
 recorded desktop/mobile browser flows with mocked API replies. Install Chromium
-with `npx playwright install chromium` if not already available. Evidence is in
+with `npx playwright install chromium` if not already available. To reuse an installed Chromium, set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE` to its executable path. Evidence is in
 ignored `test-results/`. These checks do not establish live Google, SMTP,
 PostgreSQL, or capsule-launch acceptance.
 

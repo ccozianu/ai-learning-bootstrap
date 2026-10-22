@@ -25,7 +25,8 @@ Run all commands at this repository's root.
 - Gate: `npm run check` (Prisma generation, strict TypeScript, frontend build,
   authentication tests with mocked persistence).
 - UI integration: `npm run test:ui`; Chromium required (`npx playwright install
-  chromium` if absent). Recorded desktop and mobile tests use a Vite process and
+  chromium` if absent; or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to an installed
+  Chromium executable and install ffmpeg with `npx playwright install ffmpeg`). Recorded desktop and mobile tests use a Vite process and
   mocked API replies. They are not live identity-provider acceptance.
 - SQL artifact: `npm run db:sql` then review the SQL diff; no database required.
 - Live end-to-end: owner applies the SQL and supplies local Google/SMTP/database

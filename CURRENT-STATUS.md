@@ -21,13 +21,24 @@ First account bootstrap; local validation and external handoff.
   is a local choice. The project workflow was installed through `bootstrap
   project`; generated manifest/locks were never hand-edited.
 - Node 22.23.1; Prisma client generation, TypeScript and production frontend
-  build pass. Twelve authentication route tests pass with mocked persistence.
+  build pass. Twenty authentication route tests pass with mocked persistence.
   SQL is generated from Prisma without credentials. Live PostgreSQL transaction
   behavior, OAuth success and mail delivery are not yet acceptance-tested.
 
+- Four recorded browser checks pass across desktop and mobile, using installed
+  Chromium build 1243 via PLAYWRIGHT_CHROMIUM_EXECUTABLE and Playwright ffmpeg
+  1013. Screenshots and WebM recordings remain in ignored test-results/.
+- Local static review by Claude Fable 5.1 identified recent-Google-session
+  renewal, lockout recovery, username-conflict handling and key-separation
+  issues; fixed with regression tests. Credential versions prevent stale login
+  attempts from surviving revocation. This is not live provider acceptance.
+- Offline Prisma 7.10.1 diff initially returned an empty result without a
+  datasource config. An inert localhost URL and nonempty four-table output
+  guard now protect the generated SQL. No live datasource was used.
+
 ## Planned Next Step
 
-Finish local browser validation and review. Obtain the existing remote URL,
+Obtain the existing remote URL,
 inspect it before pushing, and publish the child commit before registering the
 parent gitlink. Then enter this project through DevCapsule, have the owner apply
 SQL and configure secrets locally, and complete live sign-in acceptance.
