@@ -1,16 +1,15 @@
-"devcapsule-schema-version" = 1
+devcapsule-schema-version = 2
 
-["capabilities"]
-"optional" = []
-"required" = ["postgresql-client"]
+[project]
+creator = "https://github.com/ccozianu"
+mount = "/workspace/ai-learning"
+name = "AI Learning"
+slug = "ai-learning"
 
-["capabilities"."sdk-major"]
+[capabilities]
+required = ["postgresql-client"]
 
-["project"]
-"creator" = "https://github.com/ccozianu"
-"mount" = "/workspace/ai-learning"
-"name" = "AI Learning"
-"slug" = "ai-learning"
+# The project's workflow choice.
 
 [workflow]
 definition = "devcapsule"
