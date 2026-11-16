@@ -2,8 +2,9 @@
 
 ## Integration Branch
 
-`main`. This project uses single-stream workflow. The parent DevCapsule
-repository routes its submodule registration through `sample-projects`.
+`main`. This project uses `multiple-streams` workflow; default delivery to
+`main` is via pull request. The parent DevCapsule repository routes its submodule
+registration through `sample-projects`.
 
 ## Version Scheme
 

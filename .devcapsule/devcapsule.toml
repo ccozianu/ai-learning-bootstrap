@@ -14,4 +14,4 @@ required = ["postgresql-client"]
 [workflow]
 definition = "devcapsule"
 version = "0.3.0"
-mode = "single-stream"
+mode = "multiple-streams"

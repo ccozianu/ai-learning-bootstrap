@@ -3,7 +3,7 @@
 ## Project and workflow
 
 - [AGENTS.md](AGENTS.md)
-- [CURRENT-STATUS.md](CURRENT-STATUS.md)
+- [CURRENT-STATUS.md](CURRENT-STATUS.md) (workstream list in `multiple-streams` mode)
 - [DEVELOPING.md](DEVELOPING.md)
 - [INFORMATION-MODEL.md](INFORMATION-MODEL.md)
 - [PREAMBLE.md](PREAMBLE.md)
@@ -11,6 +11,11 @@
 - [REQUIREMENTS.md](REQUIREMENTS.md)
 - [WORKFLOW-LOCAL.md](WORKFLOW-LOCAL.md)
 - [WORKFLOW.md](WORKFLOW.md)
+
+## Open Workstreams
+
+- [engineering-docs/wip/2026-11-16-project-management/CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-project-management/CURRENT-STATUS.md)
+- [engineering-docs/wip/2026-11-16-maintenance/CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-maintenance/CURRENT-STATUS.md)
 
 ## Engineering records
 
