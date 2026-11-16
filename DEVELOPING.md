@@ -9,10 +9,11 @@ the schema source; SQL is reviewed and executed by the owner inside DevCapsule.
 with the PostgreSQL driver adapter. `web/` is the React frontend. `scripts/`
 contains local database operations. `prisma/` owns schema and generated SQL.
 
-Read the [requirements](REQUIREMENTS.md) and [status](CURRENT-STATUS.md).
-The only domain object in this cut is the user; sessions, challenges and devices
-are authentication infrastructure. No course, lesson, role-management, billing,
-admin UI, deployment, or public registration features have been requested.
+Read the [requirements](REQUIREMENTS.md), [project elements overview](engineering-docs/project-elements-overview.md), and [status](CURRENT-STATUS.md).
+Cut 1 implemented accounts and authentication infrastructure only; Phase 1+
+learning features, edge integration, and Cut 1 → Phase 1 migration steps are
+specified in [engineering-docs/project-elements-overview.md](engineering-docs/project-elements-overview.md)
+and gated by [WORKFLOW-LOCAL.md](WORKFLOW-LOCAL.md).
 
 Use `npm ci`, then `npm run check`. Browser validation is `npm run test:ui`.
 No automated check needs production credentials. Never inspect environment

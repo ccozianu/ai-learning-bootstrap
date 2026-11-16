@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Verbs: Group 1 Practice!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            --border-color: #ffd8d8;
+            --highlight-color: #ff7675;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #ff7675 0%, #ff9f43 100%);
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 118, 117, 0.2);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 15px rgba(255, 118, 117, 0.03);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .ex-number {
+            background: var(--highlight-color);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .ex-content {
+            flex-grow: 1;
+        }
+
+        .en-sentence {
+            font-size: 1.1rem;
+            color: #636e72;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .ro-sentence {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 50px;
+            border-bottom: 2px solid var(--highlight-color);
+            margin: 0 5px;
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+            }
+
+            header {
+                background: none;
+                box-shadow: none;
+                border-bottom: 2px solid #ccc;
+                padding: 0 0 1rem 0;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                padding-bottom: 0;
+            }
+
+            .exercises-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 5mm;
+            }
+
+            .exercise-card {
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-inside: avoid;
+                padding: 10px;
+                margin-bottom: 0;
+            }
+
+            .ex-number {
+                background: transparent;
+                color: black;
+                border: 2px solid black;
+            }
+
+            .en-sentence { color: #555; }
+            .ro-sentence { color: black; }
+            .blank { border-bottom: 1px solid black; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>✏️ Group 1 Verbs: Practice Sheet!</h1>
+        <p style="color: white; font-size: 1.2rem; font-weight: bold; margin-top: 10px;">Fill in the blanks with the correct Conjugation I Romanian verb forms.</p>
+    </header>
+
+    <div class="container">
+        <div class="exercises-grid">
+
+            <div class="exercise-card">
+                <div class="ex-number">1</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I eat soup.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">2</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will play soccer.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">3</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You ask always.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> mereu.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">4</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You leave for the seaside.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> la mare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">5</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will ask a question.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> o întrebare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">6</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have asked a question.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> o întrebare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">7</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We call a friend.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> un prieten.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">8</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all buy bread.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">9</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all play soccer.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">10</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have bought bread.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">11</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will call a friend.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> un prieten.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">12</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You dance with me.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> cu mine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">13</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will ask dad.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> pe tata.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">14</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will play soccer.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">15</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We play soccer.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">16</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have eaten soup.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">17</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has listened to mom.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> pe mama.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">18</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will play soccer.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">19</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has sung a song.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> un cântec.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">20</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will buy a toy.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> o jucărie.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">21</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I listen to the radio.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> la radio.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">22</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They listen to mom.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> pe mama.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">23</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all will play tennis.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> tenis.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">24</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They dance with me.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> cu mine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">25</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will work on the computer.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> la calculator.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">26</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will ask always.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> mereu.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">27</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all buy a toy.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> o jucărie.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">28</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They ask something.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> ceva.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">29</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will eat bread.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">30</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have bought a book.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> o carte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">31</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will call mom.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> pe mama.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">32</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will leave quickly.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> repede.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">33</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have listened to mom.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> pe mama.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">34</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will sing beautifully.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> frumos.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">35</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will work a lot.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> mult.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">36</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has worked on the computer.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> la calculator.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">37</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I have sung the piano.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> la pian.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">38</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have left quickly.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> repede.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">39</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will play tennis.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> tenis.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">40</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You eat pizza.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> pizza.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">41</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will ask a question.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> o întrebare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">42</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will dance a lot.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> mult.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">43</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will call the dog.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> câinele.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">44</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will play a game.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> un joc.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">45</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They listen to a story.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> o poveste.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">46</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has played soccer.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">47</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She leaves for the seaside.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> la mare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">48</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I eat bread.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">49</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all will leave home.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> acasă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">50</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We play a game.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> un joc.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">51</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He asks always.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> mereu.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">52</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They dance at the party.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> la petrecere.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">53</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will buy apples.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> mere.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">54</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will eat pizza.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> pizza.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">55</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You listen to the radio.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> la radio.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">56</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have played tennis.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> tenis.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">57</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We sing well.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">58</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They eat an apple.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> un măr.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">59</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I ask something.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> ceva.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">60</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have sung well.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">61</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They play soccer.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> fotbal.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">62</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I have bought a book.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> o carte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">63</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will dance with me.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> cu mine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">64</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They ask a question.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> o întrebare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">65</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will work a lot.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> mult.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">66</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I ask dad.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> pe tata.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">67</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They leave for the seaside.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> la mare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">68</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You ask a question.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> o întrebare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">69</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have called the dog.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> câinele.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">70</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will eat an apple.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> un măr.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">71</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all have played tennis.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> tenis.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">72</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has bought bread.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">73</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have listened to music.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> muzică.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">74</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will call a friend.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> un prieten.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">75</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We have played tennis.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> tenis.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">76</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has eaten soup.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">77</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will sing the piano.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> la pian.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">78</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will ask dad.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> pe tata.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">79</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He eats soup.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">80</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has eaten soup.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">81</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She calls mom.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> pe mama.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">82</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They work in the garden.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> în grădină.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">83</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They eat soup.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> supă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">84</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all will leave for the seaside.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> la mare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">85</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will work with dad.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> cu tata.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">86</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I buy apples.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> mere.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">87</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will sing the piano.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> la pian.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">88</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We leave quickly.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> repede.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">89</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will listen to the radio.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> la radio.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">90</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all will eat pizza.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> pizza.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">91</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She sings a song.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> un cântec.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">92</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will buy a toy.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> o jucărie.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">93</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have listened to the radio.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> la radio.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">94</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You sing well.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">95</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has danced at the party.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> la petrecere.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">96</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We listen to the radio.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> la radio.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">97</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has left from school.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> de la școală.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">98</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have worked in the garden.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> în grădină.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">99</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They ask dad.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> pe tata.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">100</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We will eat bread.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> pâine.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

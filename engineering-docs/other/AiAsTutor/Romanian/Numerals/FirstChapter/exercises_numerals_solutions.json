@@ -1,0 +1,502 @@
+[
+    {
+        "en": "She has 628 cities.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (628) orașe.",
+        "solution": "șase sute douăzeci și opt de"
+    },
+    {
+        "en": "He has 18 stars.",
+        "ro": "El are <span class='blank'></span> (18) stele.",
+        "solution": "optsprezece"
+    },
+    {
+        "en": "He has 14 pencils.",
+        "ro": "El are <span class='blank'></span> (14) creioane.",
+        "solution": "paisprezece"
+    },
+    {
+        "en": "There are 159,522 pencils here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (159,522) creioane aici.",
+        "solution": "o sută cincizeci și nouă de mii cinci sute douăzeci și două de"
+    },
+    {
+        "en": "We see 28 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (28) astronauți.",
+        "solution": "douăzeci și opt de"
+    },
+    {
+        "en": "We see 256,008 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (256,008) astronauți.",
+        "solution": "două sute cincizeci și șase de mii opt"
+    },
+    {
+        "en": "We have 58 cities.",
+        "ro": "Noi avem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (58) orașe.",
+        "solution": "cincizeci și opt de"
+    },
+    {
+        "en": "The city has 27,270,999 inhabitants.",
+        "ro": "Orașul are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (27,270,999) locuitori.",
+        "solution": "douăzeci și șapte de milioane două sute șaptezeci de mii nouă sute nouăzeci și nouă de"
+    },
+    {
+        "en": "They have 67 years.",
+        "ro": "Ele au <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (67) ani.",
+        "solution": "șaizeci și șapte de"
+    },
+    {
+        "en": "We see 999 stars in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (999) stele în curte.",
+        "solution": "nouă sute nouăzeci și nouă de"
+    },
+    {
+        "en": "They have 759,369 books.",
+        "ro": "Ei au <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (759,369) cărți.",
+        "solution": "șapte sute cincizeci și nouă de mii trei sute șaizeci și nouă de"
+    },
+    {
+        "en": "We see 26 cities in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (26) orașe în curte.",
+        "solution": "douăzeci și șase de"
+    },
+    {
+        "en": "There are 12 girls here.",
+        "ro": "Sunt <span class='blank'></span> (12) fete aici.",
+        "solution": "douăsprezece"
+    },
+    {
+        "en": "We see 21 movies in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (21) filme în curte.",
+        "solution": "douăzeci și una de"
+    },
+    {
+        "en": "There are 3,714 books here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (3,714) cărți aici.",
+        "solution": "trei mii șapte sute paisprezece"
+    },
+    {
+        "en": "She has 371 years old.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (371) ani.",
+        "solution": "trei sute șaptezeci și unu de"
+    },
+    {
+        "en": "We see 465 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (465) astronauți.",
+        "solution": "patru sute șaizeci și cinci de"
+    },
+    {
+        "en": "There are 188 pencils here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (188) creioane aici.",
+        "solution": "o sută optzeci și opt de"
+    },
+    {
+        "en": "We see 836,466 cities in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (836,466) orașe în curte.",
+        "solution": "opt sute treizeci și șase de mii patru sute șaizeci și șase de"
+    },
+    {
+        "en": "There are 19 stars here.",
+        "ro": "Sunt <span class='blank'></span> (19) stele aici.",
+        "solution": "nouăsprezece"
+    },
+    {
+        "en": "You all have 35 dogs.",
+        "ro": "Voi aveți <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (35) câini.",
+        "solution": "treizeci și cinci de"
+    },
+    {
+        "en": "We see 45 movies in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (45) filme în curte.",
+        "solution": "patruzeci și cinci de"
+    },
+    {
+        "en": "There are 461,357 stars here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (461,357) stele aici.",
+        "solution": "patru sute șaizeci și una de mii trei sute cincizeci și șapte de"
+    },
+    {
+        "en": "There are 78 apples here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (78) mere aici.",
+        "solution": "șaptezeci și opt de"
+    },
+    {
+        "en": "You have 632 cities.",
+        "ro": "Tu ai <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (632) orașe.",
+        "solution": "șase sute treizeci și două de"
+    },
+    {
+        "en": "We see 409,206 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (409,206) astronauți.",
+        "solution": "patru sute nouă de mii două sute șase"
+    },
+    {
+        "en": "We see 19 pencils in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (19) creioane în curte.",
+        "solution": "nouăsprezece"
+    },
+    {
+        "en": "You all have 2 stars.",
+        "ro": "Voi aveți <span class='blank'></span> (2) stele.",
+        "solution": "două"
+    },
+    {
+        "en": "There are 47,730,196 euros here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (47,730,196) euro aici.",
+        "solution": "patruzeci și șapte de milioane șapte sute treizeci de mii o sută nouăzeci și șase de"
+    },
+    {
+        "en": "You all have 14 movies.",
+        "ro": "Voi aveți <span class='blank'></span> (14) filme.",
+        "solution": "paisprezece"
+    },
+    {
+        "en": "There are 648,066 girls here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (648,066) fete aici.",
+        "solution": "șase sute patruzeci și opt de mii șaizeci și șase de"
+    },
+    {
+        "en": "You all have 1 cat.",
+        "ro": "Voi aveți <span class='blank'></span> (1) pisică.",
+        "solution": "o"
+    },
+    {
+        "en": "She has 240 years old.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (240) ani.",
+        "solution": "două sute patruzeci de"
+    },
+    {
+        "en": "We see 808 girls in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (808) fete în curte.",
+        "solution": "opt sute opt"
+    },
+    {
+        "en": "We see 4 girls in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (4) fete în curte.",
+        "solution": "patru"
+    },
+    {
+        "en": "You have 705,271 girls.",
+        "ro": "Tu ai <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (705,271) fete.",
+        "solution": "șapte sute cinci de mii două sute șaptezeci și una de"
+    },
+    {
+        "en": "There are 22 dogs here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (22) câini aici.",
+        "solution": "douăzeci și doi de"
+    },
+    {
+        "en": "There are 4 apples here.",
+        "ro": "Sunt <span class='blank'></span> (4) mere aici.",
+        "solution": "patru"
+    },
+    {
+        "en": "We see 26 pencils in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (26) creioane în curte.",
+        "solution": "douăzeci și șase de"
+    },
+    {
+        "en": "I have 16,515,514 euros.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (16,515,514) euro.",
+        "solution": "șaisprezece milioane cinci sute cincisprezece de mii cinci sute paisprezece"
+    },
+    {
+        "en": "There are 622,448 movies here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (622,448) filme aici.",
+        "solution": "șase sute douăzeci și două de mii patru sute patruzeci și opt de"
+    },
+    {
+        "en": "We see 5 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> (5) astronauți.",
+        "solution": "cinci"
+    },
+    {
+        "en": "She has 25,491,417 euros.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (25,491,417) euro.",
+        "solution": "douăzeci și cinci de milioane patru sute nouăzeci și una de mii patru sute șaptesprezece"
+    },
+    {
+        "en": "I have 46,585 cats.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (46,585) pisici.",
+        "solution": "patruzeci și șase de mii cinci sute optzeci și cinci de"
+    },
+    {
+        "en": "There are 261 dogs here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (261) câini aici.",
+        "solution": "două sute șaizeci și unu de"
+    },
+    {
+        "en": "I have 246 stars.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (246) stele.",
+        "solution": "două sute patruzeci și șase de"
+    },
+    {
+        "en": "She has 17 years old.",
+        "ro": "Ea are <span class='blank'></span> (17) ani.",
+        "solution": "șaptesprezece"
+    },
+    {
+        "en": "She has 346,201 years old.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (346,201) ani.",
+        "solution": "trei sute patruzeci și șase de mii două sute unu"
+    },
+    {
+        "en": "They have 5 books.",
+        "ro": "Ei au <span class='blank'></span> (5) cărți.",
+        "solution": "cinci"
+    },
+    {
+        "en": "She has 152 girls.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (152) fete.",
+        "solution": "o sută cincizeci și două de"
+    },
+    {
+        "en": "We have 7 stars.",
+        "ro": "Noi avem <span class='blank'></span> (7) stele.",
+        "solution": "șapte"
+    },
+    {
+        "en": "There are 793,802 books here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (793,802) cărți aici.",
+        "solution": "șapte sute nouăzeci și trei de mii opt sute două"
+    },
+    {
+        "en": "We see 18 girls in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (18) fete în curte.",
+        "solution": "optsprezece"
+    },
+    {
+        "en": "They have 620 dogs.",
+        "ro": "Ele au <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (620) câini.",
+        "solution": "șase sute douăzeci de"
+    },
+    {
+        "en": "There are 29,243,674 euros here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (29,243,674) euro aici.",
+        "solution": "douăzeci și nouă de milioane două sute patruzeci și trei de mii șase sute șaptezeci și patru de"
+    },
+    {
+        "en": "There are 49,875,631 stars here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (49,875,631) stele aici.",
+        "solution": "patruzeci și nouă de milioane opt sute șaptezeci și cinci de mii șase sute treizeci și una de"
+    },
+    {
+        "en": "We see 66 books in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (66) cărți în curte.",
+        "solution": "șaizeci și șase de"
+    },
+    {
+        "en": "There are 10,267,139 stars here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (10,267,139) stele aici.",
+        "solution": "zece milioane două sute șaizeci și șapte de mii o sută treizeci și nouă de"
+    },
+    {
+        "en": "We see 46 books in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (46) cărți în curte.",
+        "solution": "patruzeci și șase de"
+    },
+    {
+        "en": "I have 891 stars.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (891) stele.",
+        "solution": "opt sute nouăzeci și una de"
+    },
+    {
+        "en": "The city has 36,598,143 inhabitants.",
+        "ro": "Orașul are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (36,598,143) locuitori.",
+        "solution": "treizeci și șase de milioane cinci sute nouăzeci și opt de mii o sută patruzeci și trei de"
+    },
+    {
+        "en": "We see 50 girls in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> (50) fete în curte.",
+        "solution": "cincizeci de"
+    },
+    {
+        "en": "They have 4 cats.",
+        "ro": "Ele au <span class='blank'></span> (4) pisici.",
+        "solution": "patru"
+    },
+    {
+        "en": "We see 12 books in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (12) cărți în curte.",
+        "solution": "douăsprezece"
+    },
+    {
+        "en": "He has 12 movies.",
+        "ro": "El are <span class='blank'></span> (12) filme.",
+        "solution": "douăsprezece"
+    },
+    {
+        "en": "We see 7 boys in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (7) băieți în curte.",
+        "solution": "șapte"
+    },
+    {
+        "en": "We see 60 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> (60) astronauți.",
+        "solution": "șaizeci de"
+    },
+    {
+        "en": "I have 303,235 movies.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (303,235) filme.",
+        "solution": "trei sute trei de mii două sute treizeci și cinci de"
+    },
+    {
+        "en": "There are 45 apples here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (45) mere aici.",
+        "solution": "patruzeci și cinci de"
+    },
+    {
+        "en": "We have 16 dogs.",
+        "ro": "Noi avem <span class='blank'></span> (16) câini.",
+        "solution": "șaisprezece"
+    },
+    {
+        "en": "There are 212 boys here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (212) băieți aici.",
+        "solution": "două sute doisprezece"
+    },
+    {
+        "en": "I have 18 movies.",
+        "ro": "Eu am <span class='blank'></span> (18) filme.",
+        "solution": "optsprezece"
+    },
+    {
+        "en": "He has 55 movies.",
+        "ro": "El are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (55) filme.",
+        "solution": "cincizeci și cinci de"
+    },
+    {
+        "en": "They have 506,841 years.",
+        "ro": "Ei au <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (506,841) ani.",
+        "solution": "cinci sute șase de mii opt sute patruzeci și unu de"
+    },
+    {
+        "en": "We see 1 movie in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (1) film în curte.",
+        "solution": "un"
+    },
+    {
+        "en": "There are 4 apples here.",
+        "ro": "Sunt <span class='blank'></span> (4) mere aici.",
+        "solution": "patru"
+    },
+    {
+        "en": "We see 34,995 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (34,995) astronauți.",
+        "solution": "treizeci și patru de mii nouă sute nouăzeci și cinci de"
+    },
+    {
+        "en": "We see 75 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (75) astronauți.",
+        "solution": "șaptezeci și cinci de"
+    },
+    {
+        "en": "We see 8 cats in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (8) pisici în curte.",
+        "solution": "opt"
+    },
+    {
+        "en": "They have 18 cities.",
+        "ro": "Ele au <span class='blank'></span> (18) orașe.",
+        "solution": "optsprezece"
+    },
+    {
+        "en": "We have 327,855 apples.",
+        "ro": "Noi avem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (327,855) mere.",
+        "solution": "trei sute douăzeci și șapte de mii opt sute cincizeci și cinci de"
+    },
+    {
+        "en": "We see 521 stars in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (521) stele în curte.",
+        "solution": "cinci sute douăzeci și una de"
+    },
+    {
+        "en": "There are 706 apples here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (706) mere aici.",
+        "solution": "șapte sute șase"
+    },
+    {
+        "en": "There are 726 pencils here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (726) creioane aici.",
+        "solution": "șapte sute douăzeci și șase de"
+    },
+    {
+        "en": "There are 14 dogs here.",
+        "ro": "Sunt <span class='blank'></span> (14) câini aici.",
+        "solution": "paisprezece"
+    },
+    {
+        "en": "She has 312,664 girls.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (312,664) fete.",
+        "solution": "trei sute douăsprezece de mii șase sute șaizeci și patru de"
+    },
+    {
+        "en": "We see 2 movies in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> (2) filme în curte.",
+        "solution": "două"
+    },
+    {
+        "en": "You all have 11 years.",
+        "ro": "Voi aveți <span class='blank'></span> (11) ani.",
+        "solution": "unsprezece"
+    },
+    {
+        "en": "She has 58 years old.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (58) ani.",
+        "solution": "cincizeci și opt de"
+    },
+    {
+        "en": "We see 90 astronauts.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> (90) astronauți.",
+        "solution": "nouăzeci de"
+    },
+    {
+        "en": "There are 78 movies here.",
+        "ro": "Sunt <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (78) filme aici.",
+        "solution": "șaptezeci și opt de"
+    },
+    {
+        "en": "They have 580 cities.",
+        "ro": "Ei au <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (580) orașe.",
+        "solution": "cinci sute optzeci de"
+    },
+    {
+        "en": "You all have 694,386 years.",
+        "ro": "Voi aveți <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (694,386) ani.",
+        "solution": "șase sute nouăzeci și patru de mii trei sute optzeci și șase de"
+    },
+    {
+        "en": "She has 7 books.",
+        "ro": "Ea are <span class='blank'></span> (7) cărți.",
+        "solution": "șapte"
+    },
+    {
+        "en": "I have 512 dogs.",
+        "ro": "Eu am <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (512) câini.",
+        "solution": "cinci sute doisprezece"
+    },
+    {
+        "en": "The city has 30,708,801 inhabitants.",
+        "ro": "Orașul are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (30,708,801) locuitori.",
+        "solution": "treizeci de milioane șapte sute opt de mii opt sute unu"
+    },
+    {
+        "en": "We see 337 cities in the yard.",
+        "ro": "Noi vedem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (337) orașe în curte.",
+        "solution": "trei sute treizeci și șapte de"
+    },
+    {
+        "en": "We have 42,987,461 pages.",
+        "ro": "Noi avem <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (42,987,461) pagini.",
+        "solution": "patruzeci și două de milioane nouă sute optzeci și șapte de mii patru sute șaizeci și una de"
+    },
+    {
+        "en": "She has 795,557 years old.",
+        "ro": "Ea are <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> <span class='blank'></span> (795,557) ani.",
+        "solution": "șapte sute nouăzeci și cinci de mii cinci sute cincizeci și șapte de"
+    },
+    {
+        "en": "They have 7 years.",
+        "ro": "Ele au <span class='blank'></span> (7) ani.",
+        "solution": "șapte"
+    }
+]

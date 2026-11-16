@@ -4,10 +4,14 @@ Workflow type: `single-stream`
 
 ## Current Stage
 
-First account bootstrap; local validation and external handoff.
+Architecture & requirements overview accepted (v1.3); Cut 1 local validation complete, live DB/OAuth/SMTP acceptance and Phase-1 edge PoC next.
 
 ## Current State
 
+- Live PostgreSQL connectivity verified via `/usr/bin/psql` (`17.6`, `sslMode=disable`); `ai_learning` schema is not yet applied (awaiting human acceptance command).
+- Google Cloud CLI (`593.0.0`) installed persistently under `/opt/xtras/gcloud` (linked in `/opt/xtras/bin`); `gh` CLI (`2.104.0`) linked at `/opt/xtras/bin/gh`.
+- Project Elements Overview suite finalized (`Accepted v1.3 — 2026-11-16`) in `engineering-docs/project-elements-overview.md` and `engineering-docs/overview/*` (including `edge-and-sync-contracts.md` and Graphviz `.dot`/`.svg` diagram), integrating Fable `subscription-account-activation`, physical club / disconnected on-site server support, `AiAsTutor` Romanian prototype patterns (`CurriculumSeries`), three Goldfish audit passes, and an independent Claude Fable (`--model fable`) peer review.
+- Implementation & child-LLM gating rules added to `WORKFLOW-LOCAL.md`.
 - Owner requirements and console decisions are recorded. The owner supplied
   `git@github.com:ccozianu/ai-learning-bootstrap.git`; it had no refs on inspection.
   This is the canonical remote. SMTP service details remain pending.
@@ -39,10 +43,9 @@ First account bootstrap; local validation and external handoff.
 
 ## Planned Next Step
 
-Enter this project through DevCapsule, have the owner apply reviewed SQL and
-configure Google/SMTP/database settings locally, and complete live sign-in
-acceptance. The parent sample-projects branch owns submodule registration and
-its integration into DevCapsule main.
+1. Enter this project through DevCapsule, have the owner apply reviewed Cut 1 SQL and configure Google/SMTP/database settings locally to complete live sign-in acceptance (or proceed directly to the Phase-1 edge/IAP/GCIP + Fastify PoC under `test-learning.mycodespace.ai`).
+2. Follow the Cut 1 → Phase 1 migration checklist in [tech-choices.md](engineering-docs/overview/tech-choices.md) when starting Phase 1 implementation.
+The parent sample-projects branch owns submodule registration and its integration into DevCapsule main.
 
 ## Open Threads
 

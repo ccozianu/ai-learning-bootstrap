@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Verbs: A Fun Adventure!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-main: #2d3436;
+            --subj-color: #0984e3;
+            --aux-past-color: #00b894;
+            --part-past-color: #d63031;
+            --aux-fut-color: #e17055;
+            --inf-color: #6c5ce7;
+            --present-verb-color: #e84393;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            width: 100%;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 90%;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #2d3436;
+            border-bottom: 4px dashed #ffeaa7;
+            display: inline-block;
+            margin-top: 0;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .emoji {
+            font-size: 2.5rem;
+            vertical-align: middle;
+        }
+
+        /* Mapping highlight styles */
+        .match {
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 2px;
+            transition: transform 0.2s;
+        }
+        
+        .match:hover {
+            transform: scale(1.1);
+        }
+
+        .subj { background-color: rgba(9, 132, 227, 0.2); color: var(--subj-color); }
+        .aux-past { background-color: rgba(0, 184, 148, 0.2); color: var(--aux-past-color); }
+        .part-past { background-color: rgba(214, 48, 49, 0.2); color: var(--part-past-color); }
+        .aux-fut { background-color: rgba(225, 112, 85, 0.2); color: var(--aux-fut-color); }
+        .inf { background-color: rgba(108, 92, 231, 0.2); color: var(--inf-color); }
+        .pres { background-color: rgba(232, 67, 147, 0.2); color: var(--present-verb-color); }
+
+        .translation-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f2f6;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            border-left: 6px solid #7bed9f;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #a4b0be;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .translation-box {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        .tip-box {
+            background-color: #fff3cd;
+            border-left: 6px solid #ffecb5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            header {
+                background: transparent;
+                box-shadow: none;
+                border-bottom: 2px solid #ccc;
+                padding: 1rem 0;
+                margin-bottom: 1.5rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            header p {
+                color: #555 !important;
+            }
+
+            .card {
+                background: transparent;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                backdrop-filter: none;
+                page-break-inside: avoid;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .translation-box {
+                background: transparent;
+                border: 1px solid #ddd;
+                /* Inherits the border-left color from original CSS */
+            }
+
+            .tip-box {
+                background: transparent;
+                border: 1px solid #ddd;
+                /* Inherits the border-left color from original CSS */
+            }
+
+            /* Replacing background colors with outline borders for ink-saving highlights */
+            .match {
+                background-color: transparent !important;
+                border: 1.5px solid currentColor;
+                border-radius: 6px;
+            }
+
+            .match:hover {
+                transform: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🚀 Magic Words: Romanian Verbs!</h1>
+        <p style="color: white; font-size: 1.5rem; font-weight: bold; margin-top: 10px;">Let's learn how to DO things!</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Introduction -->
+        <div class="card">
+            <h2>Welcome, explorer! <span class="emoji">🗺️</span></h2>
+            <p>Today we are going to learn about <strong>Verbs</strong>. Verbs are action words! They tell us what someone is doing. Like <em>jumping</em>, <em>reading</em>, or <em>playing</em>.</p>
+            
+            <p>Before we start, let's quickly remember our heroes (the Pronouns) who do the actions:</p>
+            <div class="tip-box">
+                <strong><span class="match subj">Eu</span></strong> = I &nbsp; | &nbsp;
+                <strong><span class="match subj">Tu</span></strong> = You &nbsp; | &nbsp;
+                <strong><span class="match subj">El/Ea</span></strong> = He/She <br>
+                <strong><span class="match subj">Noi</span></strong> = We &nbsp; | &nbsp;
+                <strong><span class="match subj">Voi</span></strong> = You all &nbsp; | &nbsp;
+                <strong><span class="match subj">Ei/Ele</span></strong> = They
+            </div>
+        </div>
+
+        <!-- The Infinitive -->
+        <div class="card">
+            <h2>The Name of the Verb <span class="emoji">🏷️</span></h2>
+            <p>Just like you have a name, verbs have a name too! This "name" is called the <strong>Infinitive</strong>.</p>
+            <p>In English, the infinitive usually has "to" in front of it (like <em>to read</em> or <em>to do</em>). In Romanian, it has the letter "a" in front of it!</p>
+            
+            <div class="grid-2">
+                <div class="translation-box" style="border-color: #ff7f50;">
+                    <div>a face</div>
+                    <div class="arrow">➔</div>
+                    <div>to do</div>
+                </div>
+                <div class="translation-box" style="border-color: #1e90ff;">
+                    <div>a citi</div>
+                    <div class="arrow">➔</div>
+                    <div>to read</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Present Tense -->
+        <div class="card">
+            <h2>1. Present Tense: Happening NOW! <span class="emoji">⚡</span></h2>
+            <p>When we do something right now, the verb changes slightly depending on WHO is doing it.</p>
+            <p>Let's look at the verb <strong>a face</strong> (to do):</p>
+            
+            <div class="translation-box">
+                <div><span class="match subj">Eu</span> <span class="match pres">fac</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">I</span> <span class="match pres">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Tu</span> <span class="match pres">faci</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You</span> <span class="match pres">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">El/Ea</span> <span class="match pres">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">He/She</span> <span class="match pres">does</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Noi</span> <span class="match pres">facem</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">We</span> <span class="match pres">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Voi</span> <span class="match pres">faceți</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You all</span> <span class="match pres">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Ei/Ele</span> <span class="match pres">fac</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">They</span> <span class="match pres">do</span></div>
+            </div>
+        </div>
+
+        <!-- Past Tense -->
+        <div class="card">
+            <h2>2. Past Tense: Already Done! <span class="emoji">⏪</span></h2>
+            <p>To talk about the past in Romanian, it's just like saying "I have done" in English! We use a little helper verb (auxiliary) plus the "done" form of our main verb.</p>
+            <p>The helper verb is a form of "a avea" (to have), and the "done" form of <em>a face</em> is <strong>făcut</strong> (done).</p>
+            <p>Watch how the colors match perfectly!</p>
+
+            <div class="translation-box">
+                <div><span class="match subj">Eu</span> <span class="match aux-past">am</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">I</span> <span class="match aux-past">have</span> <span class="match part-past">done</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Tu</span> <span class="match aux-past">ai</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You</span> <span class="match aux-past">have</span> <span class="match part-past">done</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">El/Ea</span> <span class="match aux-past">a</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">He/She</span> <span class="match aux-past">has</span> <span class="match part-past">done</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Noi</span> <span class="match aux-past">am</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">We</span> <span class="match aux-past">have</span> <span class="match part-past">done</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Voi</span> <span class="match aux-past">ați</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You all</span> <span class="match aux-past">have</span> <span class="match part-past">done</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Ei/Ele</span> <span class="match aux-past">au</span> <span class="match part-past">făcut</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">They</span> <span class="match aux-past">have</span> <span class="match part-past">done</span></div>
+            </div>
+        </div>
+
+        <!-- Future Tense -->
+        <div class="card">
+            <h2>3. Future Tense: What Will Be! <span class="emoji">🚀</span></h2>
+            <p>When we talk about the future, we need another helper word. In English, we use "will". In Romanian, we use forms of "a voi" (will).</p>
+            <p>After the helper word, we just use the name of the verb (the Infinitive, but without the "a"). So for <em>a face</em>, we just use <strong>face</strong>.</p>
+            
+            <div class="translation-box">
+                <div><span class="match subj">Eu</span> <span class="match aux-fut">voi</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">I</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Tu</span> <span class="match aux-fut">vei</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">El/Ea</span> <span class="match aux-fut">va</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">He/She</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Noi</span> <span class="match aux-fut">vom</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">We</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Voi</span> <span class="match aux-fut">veți</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">You all</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match subj">Ei/Ele</span> <span class="match aux-fut">vor</span> <span class="match inf">face</span></div>
+                <div class="arrow">➔</div>
+                <div><span class="match subj">They</span> <span class="match aux-fut">will</span> <span class="match inf">do</span></div>
+            </div>
+
+            <div class="tip-box" style="margin-top: 2rem;">
+                <span class="emoji">💡</span> <strong>Bonus Tip:</strong> You can use this for ANY verb in the future! <br><br>
+                To read (a citi): <span class="match subj">Eu</span> <span class="match aux-fut">voi</span> <span class="match inf">citi</span> (I will read) <br>
+                To be (a fi): <span class="match subj">Ea</span> <span class="match aux-fut">va</span> <span class="match inf">fi</span> (She will be)
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
