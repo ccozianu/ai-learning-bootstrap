@@ -114,7 +114,22 @@ You can preview the sign-in UI without credentials with `npx vite --host
 | `POST /api/auth/password/confirm` | `{challengeId, code, remember}` |
 | `POST /api/auth/logout` | End current session |
 | `POST /api/auth/forget-browsers` | Revoke all sessions and trusted browsers |
-| `POST /graphql` | Query `{ me { id email username signInTypes lastSignInType } }` |
+| `POST /graphql` | Query `{ me { id email username roles accountStatus } }` |
+| `POST /api/auth/dev-token` | Dev-only (`DEV_CONSOLE_AUTH=true`): exchange console OTT |
+| `GET /api/ready` | Database readiness (`SELECT 1`) |
+| `GET/POST/DELETE /api/parent/*` | `PARENT` role: register kids, GDPR consent/erase, approve curricula |
+| `GET/POST /api/learn/*` | `KID` role: approved Romanian chapters, interactive exercises, mastery |
+
+### Prototype Quick Start (Romanian 3-Chapter Prototype)
+
+With `POSTGRES_*` set in your capsule terminal:
+
+```sh
+npm run db:apply -- --confirm-prototype-schema
+npm run dev
+```
+
+`npm run dev` sets `DEV_CONSOLE_AUTH=true` and `DEV_PARENT_EMAIL=ccozianu@gmail.com` by default in non-production, seeds the 3 Romanian `AiAsTutor` chapters (`Verb/FirstChapter`, `Verb/SecondChapter`, `Numerals/FirstChapter`) plus `ccozianu@gmail.com`, and prints a one-time parent sign-in URL (`/?ott=...`) plus 6-digit kid 2FA codes to the server console when SMTP is unset. (`DEV_CONSOLE_AUTH=true` is strictly forbidden when `NODE_ENV=production`.)
 
 Both APIs enforce the same session and approval policy. Auth orchestration is
 REST; GraphQL exposes the first domain query. GraphiQL and arbitrary user lookup

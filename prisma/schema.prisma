@@ -1,72 +1,326 @@
 generator client {
   provider = "prisma-client"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
+
 datasource db {
   provider = "postgresql"
-  schemas = ["ai_learning"]
+  schemas  = ["ai_learning"]
 }
+
 enum SignInType {
   GOOGLE
   PASSWORD
+  DEV_TOKEN
+  IAP_SUPERVISOR
+  IAP_STUDENT
+  CLUB_OFFLINE
+
   @@schema("ai_learning")
 }
+
+enum Role {
+  ADMIN
+  PARENT
+  TEACHER
+  KID
+
+  @@schema("ai_learning")
+}
+
+enum AccountStatus {
+  PENDING_PARENT_CONSENT
+  ACTIVE
+  CONSENT_WITHDRAWN
+  SUSPENDED
+  ANONYMIZED
+
+  @@schema("ai_learning")
+}
+
 model User {
-  authVersion Int @default(0)
-  id String @id @default(uuid()) @db.Uuid
-  email String @unique
-  googleSubject String @unique
-  username String? @unique
-  passwordHash String?
-  signInTypes SignInType[] @default([GOOGLE])
-  lastSignInType SignInType @default(GOOGLE)
-  active Boolean @default(true)
-  passwordFailures Int @default(0)
-  lockedUntil DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sessions Session[]
-  challenges Challenge[]
-  devices TrustedDevice[]
+  authVersion            Int                        @default(0)
+  id                     String                     @id @default(uuid()) @db.Uuid
+  email                  String?                    @unique
+  googleSubject          String?                    @unique
+  username               String?                    @unique
+  displayName            String?
+  roles                  Role[]                     @default([PARENT])
+  accountStatus          AccountStatus              @default(ACTIVE)
+  guardianUserId         String?                    @db.Uuid
+  guardian               User?                      @relation("GuardianChildren", fields: [guardianUserId], references: [id], onDelete: Restrict)
+  children               User[]                     @relation("GuardianChildren")
+  birthYear              Int?
+  birthYearAttestedAt    DateTime?
+  gdprConsentGrantedAt   DateTime?
+  gdprConsentWithdrawnAt DateTime?
+  gdprConsentVersion     String?
+  passwordHash           String?
+  signInTypes            SignInType[]               @default([])
+  lastSignInType         SignInType?
+  passwordFailures       Int                        @default(0)
+  lockedUntil            DateTime?
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+  sessions               Session[]
+  challenges             Challenge[]
+  devices                TrustedDevice[]
+  devTokens              DevLoginToken[]
+  approvalsGranted       ParentCurriculumApproval[] @relation("ParentApprovals")
+  approvalsForKid        ParentCurriculumApproval[] @relation("KidApprovals")
+  attempts               ExerciseAttempt[]
+  knowledgeStates        StudentKnowledgeState[]
+
+  @@index([guardianUserId])
   @@map("users")
   @@schema("ai_learning")
 }
+
 model Session {
-  authVersion Int @default(0)
-  signInType SignInType
-  tokenHash String @id
-  userId String @db.Uuid
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  authVersion Int        @default(0)
+  signInType  SignInType
+  tokenHash   String     @id
+  userId      String     @db.Uuid
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  createdAt   DateTime   @default(now())
+
   @@index([userId])
   @@index([expiresAt])
   @@map("sessions")
   @@schema("ai_learning")
 }
+
 model Challenge {
-  authVersion Int @default(0)
-  id String @id @default(uuid()) @db.Uuid
-  userId String @db.Uuid
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  codeHash String
-  attempts Int @default(0)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  authVersion Int      @default(0)
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeHash    String
+  attempts    Int      @default(0)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
   @@index([userId])
   @@index([expiresAt])
   @@map("challenges")
   @@schema("ai_learning")
 }
+
 model TrustedDevice {
-  authVersion Int @default(0)
-  tokenHash String @id
-  userId String @db.Uuid
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  authVersion Int      @default(0)
+  tokenHash   String   @id
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
   @@index([userId])
   @@index([expiresAt])
   @@map("trusted_devices")
+  @@schema("ai_learning")
+}
+
+model DevLoginToken {
+  id         String    @id @default(uuid()) @db.Uuid
+  tokenHash  String    @unique
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("dev_login_tokens")
+  @@schema("ai_learning")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid()) @db.Uuid
+  eventType    String
+  actorUserId  String?  @db.Uuid
+  targetUserId String?  @db.Uuid
+  detail       String
+  createdAt    DateTime @default(now())
+
+  @@index([actorUserId])
+  @@index([targetUserId])
+  @@index([createdAt])
+  @@map("audit_logs")
+  @@schema("ai_learning")
+}
+
+model KnowledgeNode {
+  id                  String                  @id
+  tagLanguage         String                  @default("en")
+  title               String
+  description         String
+  descriptionLanguage String                  @default("en")
+  prerequisites       KnowledgeDependency[]   @relation("DependentNode")
+  dependents          KnowledgeDependency[]   @relation("PrerequisiteNode")
+  series              CurriculumSeries[]
+  lessons             Lesson[]
+  exercises           Exercise[]
+  studentStates       StudentKnowledgeState[]
+
+  @@map("knowledge_nodes")
+  @@schema("ai_learning")
+}
+
+model KnowledgeDependency {
+  prerequisiteNodeId String
+  dependentNodeId    String
+  provenance         String        @default("HUMAN_VERIFIED")
+  reviewStatus       String        @default("APPROVED")
+  prerequisite       KnowledgeNode @relation("PrerequisiteNode", fields: [prerequisiteNodeId], references: [id], onDelete: Cascade)
+  dependent          KnowledgeNode @relation("DependentNode", fields: [dependentNodeId], references: [id], onDelete: Cascade)
+
+  @@id([prerequisiteNodeId, dependentNodeId])
+  @@map("knowledge_dependencies")
+  @@schema("ai_learning")
+}
+
+model Curriculum {
+  id          String              @id
+  title       String
+  description String
+  language    String              @default("ro")
+  ageBand     String              @default("7-11")
+  sourceUrl   String?
+  license     String              @default("CC-BY-4.0")
+  attribution String
+  versions    CurriculumVersion[]
+
+  @@map("curricula")
+  @@schema("ai_learning")
+}
+
+model CurriculumVersion {
+  id           String                     @id
+  curriculumId String
+  curriculum   Curriculum                 @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+  version      String
+  title        String
+  contentHash  String
+  status       String                     @default("PUBLISHED")
+  createdAt    DateTime                   @default(now())
+  series       CurriculumSeries[]
+  approvals    ParentCurriculumApproval[]
+
+  @@index([curriculumId])
+  @@map("curriculum_versions")
+  @@schema("ai_learning")
+}
+
+model CurriculumSeries {
+  id                     String            @id
+  curriculumVersionId    String
+  curriculumVersion      CurriculumVersion @relation(fields: [curriculumVersionId], references: [id], onDelete: Cascade)
+  orderIndex             Int
+  slug                   String
+  title                  String
+  subtitle               String
+  description            String
+  lessonPresenterKey     String
+  exercisePresenterKey   String
+  exerciseGeneratorKey   String
+  exerciseEvaluatorKey   String
+  knowledgeNodeId        String
+  knowledgeNode          KnowledgeNode     @relation(fields: [knowledgeNodeId], references: [id])
+  lessons                Lesson[]
+
+  @@index([curriculumVersionId])
+  @@map("curriculum_series")
+  @@schema("ai_learning")
+}
+
+model Lesson {
+  id              String            @id
+  seriesId        String
+  series          CurriculumSeries  @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  orderIndex      Int
+  slug            String
+  title           String
+  kind            String
+  contentJson     Json
+  knowledgeNodeId String
+  knowledgeNode   KnowledgeNode     @relation(fields: [knowledgeNodeId], references: [id])
+  exercises       Exercise[]
+  attempts        ExerciseAttempt[]
+
+  @@index([seriesId])
+  @@map("lessons")
+  @@schema("ai_learning")
+}
+
+model Exercise {
+  id               String        @id
+  lessonId         String
+  lesson           Lesson        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  orderIndex       Int
+  exerciseType     String
+  promptEn         String
+  promptRoTemplate String
+  metaJson         Json
+  knowledgeNodeId  String
+  knowledgeNode    KnowledgeNode @relation(fields: [knowledgeNodeId], references: [id])
+  provenance       String        @default("PROCEDURAL_SPEC")
+
+  @@index([lessonId])
+  @@map("exercises")
+  @@schema("ai_learning")
+}
+
+model ParentCurriculumApproval {
+  id                  String            @id @default(uuid()) @db.Uuid
+  parentUserId        String            @db.Uuid
+  parent              User              @relation("ParentApprovals", fields: [parentUserId], references: [id], onDelete: Cascade)
+  kidUserId           String            @db.Uuid
+  kid                 User              @relation("KidApprovals", fields: [kidUserId], references: [id], onDelete: Cascade)
+  curriculumVersionId String
+  curriculumVersion   CurriculumVersion @relation(fields: [curriculumVersionId], references: [id], onDelete: Cascade)
+  approvedAt          DateTime          @default(now())
+  revokedAt           DateTime?
+
+  @@unique([kidUserId, curriculumVersionId])
+  @@index([parentUserId])
+  @@map("parent_curriculum_approvals")
+  @@schema("ai_learning")
+}
+
+model ExerciseAttempt {
+  id              String   @id @default(uuid()) @db.Uuid
+  clientEventId   String   @unique
+  studentUserId   String   @db.Uuid
+  student         User     @relation(fields: [studentUserId], references: [id], onDelete: Cascade)
+  exerciseId      String
+  lessonId        String
+  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  knowledgeNodeId String
+  submittedAnswer Json
+  isCorrect       Boolean
+  feedback        String
+  createdAt       DateTime @default(now())
+
+  @@index([studentUserId, lessonId])
+  @@index([studentUserId, knowledgeNodeId])
+  @@map("exercise_attempts")
+  @@schema("ai_learning")
+}
+
+model StudentKnowledgeState {
+  studentUserId   String        @db.Uuid
+  student         User          @relation(fields: [studentUserId], references: [id], onDelete: Cascade)
+  knowledgeNodeId String
+  knowledgeNode   KnowledgeNode @relation(fields: [knowledgeNodeId], references: [id], onDelete: Cascade)
+  attemptsCount   Int           @default(0)
+  correctCount    Int           @default(0)
+  mastered        Boolean       @default(false)
+  masteredAt      DateTime?
+  updatedAt       DateTime      @updatedAt
+
+  @@id([studentUserId, knowledgeNodeId])
+  @@map("student_knowledge_states")
   @@schema("ai_learning")
 }

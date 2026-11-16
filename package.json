@@ -7,16 +7,17 @@
     "node": ">=22.12 <23"
   },
   "scripts": {
-    "dev": "concurrently -k \"tsx watch src/server.ts\" \"vite --host 127.0.0.1\"",
+    "dev": "DEV_CONSOLE_AUTH=${DEV_CONSOLE_AUTH:-true} DEV_PARENT_EMAIL=${DEV_PARENT_EMAIL:-ccozianu@gmail.com} concurrently -k \"tsx watch src/server.ts\" \"vite --host 127.0.0.1\"",
     "build": "npm run generate && tsc --noEmit && vite build",
     "start": "tsx src/server.ts",
     "generate": "prisma generate",
     "db:sql": "tsx scripts/schema-sql.ts",
     "db:apply": "tsx scripts/db-apply.ts",
+    "db:seed": "tsx scripts/seed-prototype.ts",
     "check": "npm run build && npm test",
     "test": "vitest run --root . tests",
     "test:ui": "playwright test",
-    "format": "prettier --write \"src/*.ts\" web scripts tests e2e \"*.ts\" .vscode package.json tsconfig.json"
+    "format": "prettier --write \"src/**/*.ts\" web scripts tests e2e \"*.ts\" .vscode package.json tsconfig.json"
   },
   "dependencies": {
     "@fastify/cookie": "11.1.3",
