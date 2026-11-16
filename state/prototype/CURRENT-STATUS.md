@@ -8,19 +8,24 @@ Definition read: WORKFLOW.md@59add46a2495, WORKFLOW-LOCAL.md@b97d6e1365e1
 - **Branch Prefix:** `ws-prototype/` (current: `ws-prototype/romanian-lessons`)
 - **Target / Integration Branch:** `main`
 - **Delivery Method:** `pull-request`
-- **Current Task:** Inspect existing Cut 1 codebase (`prisma/`, `src/`, `web/`, `scripts/`) and `Accepted v1.3` specs + `AiAsTutor` chapter content to design the `prototype` database schema, backend APIs, UI, and PostgreSQL setup.
-- **Next Resumable Task:** Create new database/schema cleanly per owner authorization, design & implement `prototype` backend/frontend/seed for all 3 Romanian chapters, run checks + `claude --model fable` pair review, and prepare PR to `main`.
+- **Current Task:** Completed full prototype implementation, Claude Fable pair-review remediation, live PostgreSQL schema/seed & E2E verification, Vitest (`27/27`), and Playwright desktop/mobile UI checks (`8/8`); preparing PR to `main`.
+- **Next Resumable Task:** Deliver `ws-prototype/romanian-lessons` via PR to `main`; address any owner review comments before running the `WORKFLOW.md` finishing commit (`archive/` move + `CURRENT-STATUS.md` cleanup) prior to merge.
 
-## Owner Decisions Confirmed (`2026-11-16`)
+## Validation & Review Evidence (`2026-11-16`)
 
-1. **Lessons scope:** Include **all three** Romanian `AiAsTutor` chapters (`Verb/FirstChapter`, `Verb/SecondChapter`, `Numerals/FirstChapter`).
-2. **Local dev auth / 2FA:** Print a one-time login token for `ccozianu@gmail.com` to the server console on startup AND print 6-digit parent-2FA codes to the server console when SMTP is not configured.
-3. **Core prototype workflow:** Parent onboarding via console one-time token (`ccozianu@gmail.com`), kid account registration/management, parent review/approval of `CurriculumVersion` chapters, child-isolated learning portal (`CurriculumSeries` lessons, interactive deterministic exercises + `@media print` worksheets), and `KnowledgeNode`/`KnowledgeDependency` mastery progression.
-4. **Database setup:** Owner authorized creating a dedicated PostgreSQL database/schema and dropping/replacing the existing empty one using the supplied environment credentials (respecting Credential Boundary: never print credentials or connection strings).
+- **Database Schema & Seeding (Live PostgreSQL 17.6):**
+  - Generated frozen snapshot [0001_initial.prisma](../../../../prisma/snapshots/0001_initial.prisma) and offline diff migration [0002_prototype/migration.sql](../../../../prisma/migrations/0002_prototype/migration.sql); updated [scripts/db-apply.ts](../../../../scripts/db-apply.ts) to support both fresh and `0001 -> 0002` upgrade paths.
+  - Applied cleanly (`--confirm-prototype-schema --reset-schema`); seeded 6 `KnowledgeNode`s, 4 `KnowledgeDependency` edges, 3 `CurriculumSeries` chapters, 9 `Lesson`s, 57 `Exercise`s, and `ccozianu@gmail.com` parent account.
+- **Claude Fable (`--model fable`) Independent Pair Review & Fixes:**
+  - Closed HIGH/MEDIUM/LOW findings: added `PRONOUN_CHECKPOINT_EXERCISES` (`ex-ch1-pron-1..4`) so the verb mastery DAG progresses cleanly; hard-forbade `DEV_CONSOLE_AUTH=true` in `NODE_ENV=production` and disabled default-on outside explicit `DEV_CONSOLE_AUTH=true`; made `POST /api/learn/attempts` transactional with `P2002` race-safe replay + distinct solved-exercise anti-gaming; prevented parents lifting `SUSPENDED` status; folded Romanian cedilla `ş/ţ` to `ș/ț`; hashed `CurriculumVersion` content deterministically; checked guardian allowlist dynamically for kids; bound generated exercises to `PRACTICE_SHEET` lessons; printed MCQ options; preserved `approvedAt` on revocation; and guarded React StrictMode OTT exchange.
+- **Checks Executed After Final Edits:**
+  - `npm run check`: `prisma generate`, `tsc --noEmit`, `vite build`, and `vitest` **27/27 passed** (`tests/auth.test.ts` + `tests/prototype.test.ts`).
+  - `npm run test:ui` (Playwright Chromium 1243 desktop & mobile): **8/8 passed** (`e2e/account.spec.ts` + `e2e/prototype.spec.ts`).
+  - Live PostgreSQL + Fastify E2E verification script: OTT exchange, kid registration, parent approval, guardian-routed 2FA, Ch 1–3 deterministic grading & KG state update, `/api/ready`, and GDPR erasure verified cleanly.
 
 ## Open Threads
 
-- None (all initial scope questions settled; follow Design & Planning Gate and coding-agent child-LLM rules in `WORKFLOW-LOCAL.md`).
+- None blocking PR creation. Finishing commit (moving this directory to `engineering-docs/archive/2026-11-16-prototype/` and removing the row from root `CURRENT-STATUS.md`) waits until the PR is merge-ready per `WORKFLOW.md`.
 
 ## Document Index
 
