@@ -8,5 +8,6 @@ Authoritative workstream list on `main` (live published state is on the `coordin
 |---|---|---|---|---|---|---|
 | `project-management` | 2026-11-16 | active; permanent coordination | `ws-project-management/` (first: `ws-project-management/coordination`) | `main` / `pull-request` | Publish initial state to `coordination`; confirm `prototype` scope and open `prototype` workstream | [CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-project-management/CURRENT-STATUS.md) |
 | `maintenance` | 2026-11-16 | active; permanent maintenance | `ws-maintenance/` | `main` / `pull-request` | Queue empty (`engineering-docs/bugs/` has no open defects owned by `maintenance`) | [CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-maintenance/CURRENT-STATUS.md) |
+| `prototype` | 2026-11-16 | active | `ws-prototype/romanian-lessons` | `main` / `pull-request` | Build Romanian 3-chapter prototype + `ccozianu@gmail.com` startup OTT parent/kid flow | [CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-prototype/CURRENT-STATUS.md) |
 
 See [index.md](index.md) for permanent project, workflow, architecture, and requirement documents.
