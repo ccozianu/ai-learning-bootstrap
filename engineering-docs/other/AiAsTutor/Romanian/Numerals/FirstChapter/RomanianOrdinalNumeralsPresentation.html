@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Ordinal Numerals: Order & Rank!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            
+            /* Color system for grammar mapping */
+            --m-art-color: #0984e3; /* al */
+            --m-end-color: #00b894; /* lea */
+            --f-art-color: #e84393; /* a */
+            --f-end-color: #6c5ce7; /* a / ea */
+            --cardinal-color: #636e72;
+            --irregular-color: #d63031;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #1abc9c 0%, #3498db 100%);
+            width: 100%;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            padding-bottom: 5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255,255,255,0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            border-bottom: 4px dashed #81ecec;
+            display: inline-block;
+            margin-top: 0;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #2d3436;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .emoji {
+            font-size: 2.6rem;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        /* Grammar Highlight Labels */
+        .match {
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 2px;
+            transition: transform 0.2s;
+        }
+        
+        .match:hover {
+            transform: scale(1.08);
+        }
+
+        .m-art { background-color: rgba(9, 132, 227, 0.15); color: var(--m-art-color); }
+        .m-end { background-color: rgba(0, 184, 148, 0.15); color: var(--m-end-color); }
+        .f-art { background-color: rgba(232, 67, 147, 0.15); color: var(--f-art-color); }
+        .f-end { background-color: rgba(108, 92, 231, 0.15); color: var(--f-end-color); }
+        .cardinal { background-color: rgba(99, 110, 114, 0.1); color: var(--cardinal-color); }
+        .irregular { background-color: rgba(214, 48, 49, 0.15); color: var(--irregular-color); }
+
+        /* Tables and Visual Elements */
+        .formula-box {
+            background: #f8fafc;
+            border-left: 6px solid #1abc9c;
+            padding: 1.5rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1.5rem 0;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        .numeral-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .numeral-item {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .numeral-badge {
+            background: #81ecec;
+            color: #00b894;
+            font-size: 1.6rem;
+            font-weight: 900;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .rom-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 0.5rem;
+        }
+
+        .gender-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            font-weight: 700;
+        }
+
+        /* Print Media Queries */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            header {
+                background: none;
+                color: black;
+                box-shadow: none;
+                border: none;
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+            h1 {
+                color: black;
+                text-shadow: none;
+                font-size: 2.5rem;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+            }
+            .match {
+                border: 1px solid #ccc;
+                background-color: transparent;
+            }
+            .numeral-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><span class="emoji">🥇</span> Romanian Ordinal Numerals</h1>
+        <p style="color: white; font-size: 1.5rem; margin-top: 10px; font-weight: 700;">Who is First, Second, or Third?</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2><span class="emoji">👑</span> The Exception: Number 1</h2>
+            <p>Just like in English ("one" vs. "first"), the Romanian word for <b>1st</b> is completely irregular. You don't use the word "unu". Instead, you learn a special word for it!</p>
+            
+            <div class="numeral-grid">
+                <div class="numeral-item" style="border-color: #74b9ff;">
+                    <div class="numeral-badge" style="background: #74b9ff; color: #fff;">1st</div>
+                    <div class="rom-text"><span class="match irregular">primul</span></div>
+                    <div class="gender-label">Masculine / Neuter</div>
+                    <p style="font-size: 1rem; color: #636e72;">e.g., <i>primul băiat</i> (the first boy)</p>
+                </div>
+                <div class="numeral-item" style="border-color: #fab1a0;">
+                    <div class="numeral-badge" style="background: #fab1a0; color: #fff;">1st</div>
+                    <div class="rom-text"><span class="match irregular">prima</span></div>
+                    <div class="gender-label">Feminine</div>
+                    <p style="font-size: 1rem; color: #636e72;">e.g., <i>prima fată</i> (the first girl)</p>
+                </div>
+            </div>
+            <p><i>Note: There is also an older form <b>întâiul / întâia</b>, but <b>primul / prima</b> is much more common in everyday speech.</i></p>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🥪</span> The "Sandwich" Formula (2 and up)</h2>
+            <p>For all other numbers, we create ordinal numbers by placing the cardinal number (which you already know!) into a <b>grammar sandwich</b>. We put an article before it, and an ending after it.</p>
+
+            <h3>Masculine & Neuter Nouns</h3>
+            <div class="formula-box">
+                <span class="match m-art">al</span> + <span class="match cardinal">[cardinal number]</span> + <span class="match m-end">lea</span>
+            </div>
+            <p>Example for 2: <span class="match m-art">al</span> <span class="match cardinal">doi</span><span class="match m-end">lea</span> (the 2nd)</p>
+
+            <h3>Feminine Nouns</h3>
+            <div class="formula-box">
+                <span class="match f-art">a</span> + <span class="match cardinal">[cardinal number]</span> + <span class="match f-end">a</span> (or <span class="match f-end">ea</span>)
+            </div>
+            <p>Example for 2: <span class="match f-art">a</span> <span class="match cardinal">doua</span> (the 2nd) <i>*Note we use "două" without the little hat on the 'ă'.</i></p>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">📊</span> The Top 10 Leaderboard</h2>
+            <p>Let's see the formulas in action for numbers 2 through 10.</p>
+
+            <div class="numeral-grid">
+                <!-- 2nd -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">2nd</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">doi</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">dou</span><span class="match f-end">a</span></div>
+                    <div class="gender-label">Feminine</div>
+                </div>
+
+                <!-- 3rd -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">3rd</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">trei</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">trei</span><span class="match f-end">a</span></div>
+                    <div class="gender-label">Feminine</div>
+                </div>
+
+                <!-- 4th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">4th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">patru</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">patr</span><span class="match f-end">a</span></div>
+                    <div class="gender-label">Feminine <i>(drops 'u')</i></div>
+                </div>
+
+                <!-- 5th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">5th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">cinci</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">cinc</span><span class="match f-end">ea</span></div>
+                    <div class="gender-label">Feminine <i>(uses 'ea')</i></div>
+                </div>
+
+                <!-- 6th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">6th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">șase</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">șas</span><span class="match f-end">ea</span></div>
+                    <div class="gender-label">Feminine <i>(uses 'ea')</i></div>
+                </div>
+
+                <!-- 7th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">7th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">șapte</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">șapt</span><span class="match f-end">ea</span></div>
+                    <div class="gender-label">Feminine <i>(uses 'ea')</i></div>
+                </div>
+
+                <!-- 8th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">8th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">optu</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine <i>(adds 'u')</i></div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">opt</span><span class="match f-end">a</span></div>
+                    <div class="gender-label">Feminine</div>
+                </div>
+
+                <!-- 9th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">9th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">nouă</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">nou</span><span class="match f-end">a</span></div>
+                    <div class="gender-label">Feminine <i>(drops 'ă')</i></div>
+                </div>
+
+                <!-- 10th -->
+                <div class="numeral-item">
+                    <div class="numeral-badge">10th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">zece</span><span class="match m-end">lea</span></div>
+                    <div class="gender-label">Masculine</div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">zec</span><span class="match f-end">ea</span></div>
+                    <div class="gender-label">Feminine <i>(uses 'ea')</i></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🚀</span> Beyond 10: Easy Peasy!</h2>
+            <p>Once you know the sandwich rule and your cardinal numbers, bigger ordinal numbers are very easy to build! The endings are just attached to the very last word of the number.</p>
+
+            <div class="numeral-grid">
+                <div class="numeral-item">
+                    <div class="numeral-badge" style="width:auto; padding: 0 15px;">11th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">unsprezece</span><span class="match m-end">lea</span></div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">unsprezece</span><span class="match f-end">a</span></div>
+                </div>
+
+                <div class="numeral-item">
+                    <div class="numeral-badge" style="width:auto; padding: 0 15px;">20th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">douăzeci</span><span class="match m-end">lea</span></div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">douăzec</span><span class="match f-end">ea</span></div>
+                </div>
+                
+                <div class="numeral-item">
+                    <div class="numeral-badge" style="width:auto; padding: 0 15px;">21st</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">douăzeci și unu</span><span class="match m-end">lea</span></div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">douăzeci și un</span><span class="match f-end">a</span></div>
+                </div>
+                
+                <div class="numeral-item">
+                    <div class="numeral-badge" style="width:auto; padding: 0 15px;">100th</div>
+                    <div class="rom-text"><span class="match m-art">al</span> <span class="match cardinal">o sută</span><span class="match m-end">lea</span></div>
+                    <div class="rom-text" style="margin-top: 10px;"><span class="match f-art">a</span> <span class="match cardinal">o sut</span><span class="match f-end">a</span></div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; text-align: center; font-size: 1.4rem; font-weight: 700; color: #1abc9c;">🎉 You've mastered Ordinal Numbers! 🎉</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

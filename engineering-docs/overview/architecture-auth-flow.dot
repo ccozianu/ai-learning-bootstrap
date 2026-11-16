@@ -1,0 +1,220 @@
+digraph AiLearningArchitecture {
+  graph [
+    rankdir=TB
+    fontname="Helvetica,Arial,sans-serif"
+    pad="0.30"
+    nodesep="0.40"
+    ranksep="0.55"
+    compound=true
+    bgcolor="#ffffff"
+    label="AI Learning — Edge Activation, Gated Application & On-Site Club Architecture (Accepted v1.3)\nProd: learning.mycodespace.ai | Staging: test-learning.mycodespace.ai"
+    labelloc=t
+    fontsize=16
+  ];
+
+  node [
+    shape=box
+    style="rounded,filled"
+    fontname="Helvetica,Arial,sans-serif"
+    fontsize=11
+    margin="0.16,0.10"
+    color="#475569"
+    fillcolor="#f8fafc"
+  ];
+
+  edge [
+    fontname="Helvetica,Arial,sans-serif"
+    fontsize=9.5
+    color="#475569"
+  ];
+
+  subgraph cluster_users {
+    label="Users (Clients)"
+    style="rounded,filled"
+    color="#94a3b8"
+    fillcolor="#f1f5f9"
+
+    prospective_adult [
+      label="Prospective Adult\n(Parent / Teacher)\nGoogle Sign-In (D-1, Workspace OK)"
+      fillcolor="#e2e8f0"
+    ];
+    approved_adult [
+      label="Approved Adult\n(Admin / Parent / Teacher)\nGoogle SSO Only in IAP Prod (Multi-Role)"
+      fillcolor="#dbeafe"
+      color="#1d4ed8"
+    ];
+    kid_user [
+      label="Underage Kid (No Gmail)\nusername [a-z0-9_]{3,32} + 12..128ch pw\nPENDING_PARENT_CONSENT -> ACTIVE"
+      fillcolor="#dcfce7"
+      color="#15803d"
+    ];
+  }
+
+  subgraph cluster_edge {
+    label="Part 1: Edge, Activation & Auth Gate (GCP LB Frontend mTLS + Cloud Armor + IAP + GCIP)"
+    style="rounded,filled"
+    color="#d97706"
+    fillcolor="#fffbeb"
+
+    lb_armor [
+      label="HTTPS Load Balancer (Frontend mTLS allow-missing) + Cloud Armor\nInjects LB-overwritten X-Client-Cert-* headers | WAF + per-IP throttling"
+      fillcolor="#fef3c7"
+      color="#b45309"
+    ];
+
+    open_static [
+      label="Public Static Site\nopen.learning.mycodespace.ai /*\n(Bucket + CDN; top-level nav to /api/onboarding/session)"
+    ];
+
+    signin_ui [
+      label="Sign-In UI (auth.learning.mycodespace.ai)\nCloud Run NGINX (FirebaseUI + gcip-iap)\n• Google SSO (adults)\n• deterministic <user>@students.learning.mycodespace.ai (kids)"
+    ];
+
+    gcip [
+      label="Identity Platform (GCIP, Email Enumeration Protection ON)\n• applicants (Google, 30d stale purge)\n• supervisors (Google, pre-created on Admin approval)\n• students (single global tenant; ACTIVE only; Argon2 batchCreate/updateUser)"
+    ];
+
+    iap_open [
+      label="IAP Gate (open.* /api/*)\nTenant: applicants | aud: open_backend"
+      fillcolor="#fde68a"
+      color="#b45309"
+    ];
+
+    iap_app [
+      label="IAP Gate (app.* & <club>.* e.g. galati-ro.*)\nTenants: supervisors + students | aud: app_backend\nInjects signed x-goog-iap-jwt-assertion"
+      fillcolor="#fde68a"
+      color="#b45309"
+    ];
+
+    sync_mtls [
+      label="Club Sync Ingress (sync.learning.mycodespace.ai)\nFrontend mTLS X-Client-Cert-* (No browser IAP, no Origin CSRF)"
+      fillcolor="#fde68a"
+      color="#b45309"
+    ];
+  }
+
+  subgraph cluster_app {
+    label="Part 2: Single Source of Truth — Cloud Run Application & Domain Layer (TypeScript + Node)"
+    style="rounded,filled"
+    color="#0f766e"
+    fillcolor="#f0fdfa"
+
+    onboarding_api [
+      label="Onboarding API (Cloud Run, aud=open_backend)\nTenant=applicants only | Rate-limited per Google sub\nGET session | POST / GET OnboardingRequest"
+      fillcolor="#ccfbf1"
+      color="#0f766e"
+    ];
+
+    app_spa [
+      label="Authenticated App SPA (React + Vite)\nServed behind IAP (Fastify / NGINX)\nCurriculumSeries | pyret-embed (11-15)"
+      fillcolor="#ccfbf1"
+      color="#0f766e"
+    ];
+
+    fastify_api [
+      label="Fastify + Mercurius GraphQL (Cloud Run, Single Source of Truth)\n• Route auth classes (1..5): IAP JWT + __Host-ai-session (/api/auth/iap/exchange)\n• Parent-routed 2FA (Challenge + Nodemailer) & TrustedDevice\n• Attested ClubDevice (X-Client-Cert-* + auth_time <5m) 2FA exemption\n• Fail-closed SYSTEM ContentScopeCheck | Isolated Cloud Run pyret-npm worker\n• Kid LLM access BLOCKED (coding-agent & TOS rule)"
+      fillcolor="#ccfbf1"
+      color="#0f766e"
+    ];
+
+    postgres [
+      label="PostgreSQL (ai_learning schema via Prisma)\n• Users (roles[], PHC passwordHash, birthYear, GDPR <16 consent, ErasureTombstone)\n• OnboardingRequest, Challenge, TrustedDevice, AuditLog (PII-free)\n• Locations, Rooms, ClubDevices (cert SHA256), TeacherClearances, Courses, LiveClassSessions, Attendance\n• ParentCurriculumApprovals, CurriculumVersion, CurriculumSeries, Exercises\n• KnowledgeNode (lang tag) + KnowledgeDependency DAG + Mastery + PyretWorkspaceState\n• Subscriptions, LlmUsageLedger, LlmEndpointConfig (Secret refs)"
+      fillcolor="#e0f2fe"
+      color="#0369a1"
+    ];
+  }
+
+  subgraph cluster_club {
+    label="Part 3: Physical Club & Disconnected Support (On-Site i7 / 128 GB Server, No Moodle/Authentik)"
+    style="rounded,filled"
+    color="#be123c"
+    fillcolor="#fff1f2"
+
+    club_cache [
+      label="Local Club Cache & Auth Bridge (https://club.<slug>.local)\n• Delegated Location Ed25519 signing keypair (public key in cloud JWKS)\n• Cleared kid + teacher offline PHC hashes (24-72h TTL) + ErasureTombstones\n• CurriculumVersion snapshots + clientEventId outbox sync"
+      fillcolor="#ffe4e6"
+      color="#be123c"
+    ];
+    club_runtimes [
+      label="Club Runtimes & Devices\n• 12 Laptops + 15 Tablets (2 Rooms, device client certs, ephemeral profiles)\n• Local pyret-embed / sandboxed pyret-npm\n• DevCapsule / code-server (15-18, reverse-proxy JWT auth)\n• Optional Hedy (7-11)"
+      fillcolor="#ffe4e6"
+      color="#be123c"
+    ];
+  }
+
+  subgraph cluster_llm {
+    label="Adult-Only AI Authoring & Compliance Boundary"
+    style="rounded,filled"
+    color="#7c3aed"
+    fillcolor="#f5f3ff"
+
+    llm_adapter [
+      label="LLM Resource Abstraction: (question, context) -> answer\n• Adult-only Cloud APIs (Gemini/Vertex prohibited by policy for <18 / student work)\n• Phase-2+ security-gated student tutor/proof-eval ONLY via self-hosted vLLM or Anthropic minors path\n• Local teacher-laptop CLI via on-site club server / adult bridge (never inbound cloud->laptop TCP)\nZero kid PII | Metered per Subscription | Runtime SSRF guards | Adult Review & Fail-Closed SYSTEM Scope Gate"
+      fillcolor="#ede9fe"
+      color="#6d28d9"
+    ];
+  }
+
+  # Client -> Edge
+  prospective_adult -> lb_armor [label="browse open.* / nav D-1"];
+  approved_adult -> lb_armor [label="Google SSO"];
+  kid_user -> lb_armor [label="username + password\n(device cert at club)"];
+
+  # Edge routing
+  lb_armor -> open_static [label="open.* /*"];
+  lb_armor -> iap_open [label="open.* /api/*"];
+  lb_armor -> signin_ui [label="auth.*"];
+  lb_armor -> iap_app [label="app.* & <club>.*\n(+ X-Client-Cert-*)"];
+  club_cache -> lb_armor [label="mTLS sync.learning.mycodespace.ai"];
+  lb_armor -> sync_mtls [label="sync.* /api/club/sync/*\n(+ X-Client-Cert-*)"];
+
+  # Identity flows
+  signin_ui -> gcip [label="Google SSO or\n<user>@students.learning.mycodespace.ai"];
+  gcip -> iap_open [label="applicants session"];
+  gcip -> iap_app [label="supervisors / students session"];
+
+  # IAP & Sync -> Compute
+  iap_open -> onboarding_api [label="verified applicant JWT"];
+  iap_app -> app_spa [label="valid session"];
+  iap_app -> fastify_api [label="x-goog-iap-jwt-assertion\n-> /api/auth/iap/exchange"];
+  sync_mtls -> fastify_api [label="LB-verified mTLS /api/club/sync/*"];
+  app_spa -> fastify_api [label="REST + GraphQL\n(__Host-ai-session + IAP)"];
+
+  # Single Source of Truth & One-Way Sync
+  onboarding_api -> postgres [label="write OnboardingRequest"];
+  fastify_api -> postgres [label="Prisma / pg (Single Source of Truth)"];
+  fastify_api -> gcip [
+    style=dashed
+    color="#b45309"
+    label="One-way sync outbox:\nsupervisors pre-create, ACTIVE kid batchCreate/update, suspensions/erasures"
+  ];
+
+  # App <-> Club Disconnected Cache & Runtimes
+  fastify_api -> club_cache [
+    style=dashed
+    color="#be123c"
+    label="Sync pull: roster, PHC hashes (24-72h TTL),\nErasureTombstones & CurriculumVersions"
+  ];
+  club_cache -> fastify_api [
+    style=dashed
+    color="#be123c"
+    label="Outbox push (clientEventId):\nattempts, attendance, LiveClass, conflict-safe Pyret, offline LLM usage"
+  ];
+  club_cache -> club_runtimes [label="Mint local Ed25519 JWTs / offline auth\n& serve local lessons"];
+  kid_user -> club_runtimes [
+    style=dotted
+    color="#15803d"
+    label="At physical club\n(offline club.*.local)"
+  ];
+
+  # Adult-only LLM
+  fastify_api -> llm_adapter [
+    label="Adults only (ADMIN/TEACHER/PARENT)\nQuota-checked & SSRF-guarded; KID blocked"
+    color="#6d28d9"
+  ];
+  club_cache -> llm_adapter [
+    style=dotted
+    color="#6d28d9"
+    label="On-site vLLM / teacher-laptop CLI (outbox-metered)"
+  ];
+}

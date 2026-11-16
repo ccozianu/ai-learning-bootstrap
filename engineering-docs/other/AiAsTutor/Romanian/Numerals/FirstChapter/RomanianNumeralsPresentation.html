@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Numerals: A Counting Adventure!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff5eb 0%, #e0f2fe 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #2d3436;
+            
+            /* Color system for grammar mapping */
+            --unit-color: #d63031;
+            --teen-color: #6c5ce7;
+            --ten-color: #0984e3;
+            --hund-color: #00b894;
+            --thou-color: #e17055;
+            --mill-color: #fdcb6e;
+            --de-color: #d63031;
+            --si-color: #e84393;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #ff9f43 0%, #ff6b6b 100%);
+            width: 100%;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            padding-bottom: 5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255,255,255,0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            border-bottom: 4px dashed #ffbe76;
+            display: inline-block;
+            margin-top: 0;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #2d3436;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .emoji {
+            font-size: 2.6rem;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        /* Grammar Highlight Labels */
+        .match {
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 2px;
+            transition: transform 0.2s;
+        }
+        
+        .match:hover {
+            transform: scale(1.08);
+        }
+
+        .unit { background-color: rgba(214, 48, 49, 0.15); color: var(--unit-color); }
+        .teen { background-color: rgba(108, 92, 231, 0.15); color: var(--teen-color); }
+        .ten { background-color: rgba(9, 132, 227, 0.15); color: var(--ten-color); }
+        .hund { background-color: rgba(0, 184, 148, 0.15); color: var(--hund-color); }
+        .thou { background-color: rgba(225, 112, 85, 0.15); color: var(--thou-color); }
+        .mill { background-color: rgba(253, 203, 110, 0.2); color: var(--mill-color); text-shadow: 1px 1px 0 rgba(0,0,0,0.05); }
+        .de { background-color: rgba(214, 48, 49, 0.2); color: var(--de-color); text-decoration: underline; }
+        .si { background-color: rgba(232, 67, 147, 0.15); color: var(--si-color); }
+
+        /* Tables and Visual Elements */
+        .numeral-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .numeral-item {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .numeral-badge {
+            background: #ffeaa7;
+            color: #d63031;
+            font-size: 1.6rem;
+            font-weight: 900;
+            padding: 5px 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .numeral-ro {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .numeral-en {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        .infobox {
+            background: #e0f2fe;
+            border-left: 6px solid #0284c7;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            font-size: 1.15rem;
+        }
+
+        .infobox-title {
+            font-weight: bold;
+            color: #0369a1;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .split-card-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .vs-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.2rem;
+        }
+
+        .vs-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 4px;
+        }
+
+        .translation-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f2f6;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            border-left: 5px solid #00b894;
+        }
+
+        .arrow {
+            font-size: 1.3rem;
+            color: #b2bec3;
+            padding: 0 8px;
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            header {
+                background: transparent;
+                box-shadow: none;
+                border-bottom: 3px solid #333;
+                padding: 1rem 0;
+                margin-bottom: 2rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                padding-bottom: 0;
+            }
+
+            .card {
+                background: transparent;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                backdrop-filter: none;
+                page-break-inside: avoid;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .numeral-item {
+                background: transparent;
+                border: 1px solid #ccc;
+                box-shadow: none;
+            }
+
+            .numeral-badge {
+                background: transparent;
+                border: 1.5px solid #333;
+                color: black;
+            }
+
+            .translation-box, .vs-box, .infobox {
+                background: transparent;
+                border: 1px solid #ccc;
+            }
+
+            .match {
+                background-color: transparent !important;
+                border: 1.5px solid currentColor;
+                border-radius: 6px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .split-card-2 {
+                grid-template-columns: 1fr;
+            }
+            .translation-box {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🚀 Space Mission: Romanian Numerals!</h1>
+        <p style="color: white; font-size: 1.5rem; font-weight: bold; margin-top: 10px;">Master numbers in Romanian from 0 to Millions!</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Introduction & Gender Split -->
+        <div class="card">
+            <h2><span class="emoji">🦖</span> 1. The Building Blocks (0-10)</h2>
+            <p>Welcome, space cadet! To explore the universe, we first need to learn how to count to ten. Let's look at the basic building blocks:</p>
+            
+            <div class="numeral-grid">
+                <div class="numeral-item"><div class="numeral-badge">0</div><div class="numeral-ro">zero</div><div class="numeral-en">zero</div></div>
+                <div class="numeral-item"><div class="numeral-badge">1</div><div class="numeral-ro">unu / una</div><div class="numeral-en">one</div></div>
+                <div class="numeral-item"><div class="numeral-badge">2</div><div class="numeral-ro">doi / două</div><div class="numeral-en">two</div></div>
+                <div class="numeral-item"><div class="numeral-badge">3</div><div class="numeral-ro">trei</div><div class="numeral-en">three</div></div>
+                <div class="numeral-item"><div class="numeral-badge">4</div><div class="numeral-ro">patru</div><div class="numeral-en">four</div></div>
+                <div class="numeral-item"><div class="numeral-badge">5</div><div class="numeral-ro">cinci</div><div class="numeral-en">five</div></div>
+                <div class="numeral-item"><div class="numeral-badge">6</div><div class="numeral-ro">șase</div><div class="numeral-en">six</div></div>
+                <div class="numeral-item"><div class="numeral-badge">7</div><div class="numeral-ro">șapte</div><div class="numeral-en">seven</div></div>
+                <div class="numeral-item"><div class="numeral-badge">8</div><div class="numeral-ro">opt</div><div class="numeral-en">eight</div></div>
+                <div class="numeral-item"><div class="numeral-badge">9</div><div class="numeral-ro">nouă</div><div class="numeral-en">nine</div></div>
+                <div class="numeral-item"><div class="numeral-badge">10</div><div class="numeral-ro">zece</div><div class="numeral-en">ten</div></div>
+            </div>
+
+            <div class="infobox" style="background: #fff3cd; border-color: #ffc107;">
+                <div class="infobox-title" style="color: #856404;"><span class="emoji" style="font-size: 1.5rem;">⚠️</span> The Gender Split for 1 and 2!</div>
+                <p style="margin: 0.5rem 0 0 0;">When counting objects, numbers **1** and **2** change depending on if the noun is **boy (masculine)** or **girl (feminine/neuter)**!</p>
+                <div class="split-card-2">
+                    <div class="vs-box">
+                        <div class="vs-title" style="color: var(--ten-color);">Boy Nouns (Masculine)</div>
+                        <p>We use **un** (1) and **doi** (2):</p>
+                        <ul>
+                            <li><span class="match unit">un</span> an (1 year)</li>
+                            <li><span class="match unit">doi</span> câini (2 dogs)</li>
+                            <li><span class="match unit">doi</span> băieți (2 boys)</li>
+                        </ul>
+                    </div>
+                    <div class="vs-box">
+                        <div class="vs-title" style="color: var(--si-color);">Girl & Plural Copycat Nouns</div>
+                        <p>We use **o** (1) and **două** (2):</p>
+                        <ul>
+                            <li><span class="match unit">o</span> fată (1 girl)</li>
+                            <li><span class="match unit">două</span> pisici (2 cats)</li>
+                            <li><span class="match unit">două</span> mere (2 apples - Plural Neuter)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teens -->
+        <div class="card">
+            <h2><span class="emoji">🍕</span> 2. The Teen Adventure (11-19)</h2>
+            <p>Forming teen numbers is like a puzzle! We use a math equation: **Unit + spre + zece** (which literally means *"Unit towards ten"*!).</p>
+            <p>Let's look at the formula in action:</p>
+
+            <div class="translation-box">
+                <div><span class="match unit">trei</span><span class="match teen">spre</span><span class="match ten">zece</span></div>
+                <div class="arrow">➔</div>
+                <div>thirteen (3 + towards + 10)</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">opt</span><span class="match teen">spre</span><span class="match ten">zece</span></div>
+                <div class="arrow">➔</div>
+                <div>eighteen (8 + towards + 10)</div>
+            </div>
+
+            <h3>⚠️ The Secret Teen Mutations:</h3>
+            <p>A few numbers change slightly when they join the teens group. Watch out for these sneaky words:</p>
+            <ul>
+                <li><strong>11</strong>: <span class="match unit">un</span><span class="match teen">spre</span><span class="match ten">zece</span> (uses *un* instead of *unu*)</li>
+                <li><strong>12 (Boys)</strong>: <span class="match unit">doi</span><span class="match teen">spre</span><span class="match ten">zece</span> / <strong>12 (Girls/Neuter)</strong>: <span class="match unit">două</span><span class="match teen">spre</span><span class="match ten">zece</span></li>
+                <li><strong>14</strong>: <span class="match unit">pai</span><span class="match teen">spre</span><span class="match ten">zece</span> (changes *patru* to *pai*)</li>
+                <li><strong>16</strong>: <span class="match unit">șai</span><span class="match teen">spre</span><span class="match ten">zece</span> (changes *șase* to *șai*)</li>
+            </ul>
+        </div>
+
+        <!-- Tens -->
+        <div class="card">
+            <h2><span class="emoji">🎈</span> 3. Climbing the Tens (20-99)</h2>
+            <p>Tens are super easy! We just use the plural form of ten, which is <strong>zeci</strong>. The formula is: **Unit + zeci**!</p>
+            
+            <div class="translation-box">
+                <div><span class="match unit">trei</span><span class="match ten">zeci</span></div>
+                <div class="arrow">➔</div>
+                <div>thirty (3 tens)</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">cinci</span><span class="match ten">zeci</span></div>
+                <div class="arrow">➔</div>
+                <div>fifty (5 tens)</div>
+            </div>
+
+            <p><strong>Note:</strong> For 20, we always use the feminine/neuter *două*: <strong><span class="match unit">două</span><span class="match ten">zeci</span></strong> (twenty).</p>
+
+            <h3>How about compound numbers? (like 25, 42, 87)</h3>
+            <p>In Romanian, we connect the tens and units using the word <strong>și</strong> (and). The formula is: **Ten + și + Unit**!</p>
+            
+            <div class="translation-box">
+                <div><span class="match unit">două</span><span class="match ten">zeci</span> <span class="match si">și</span> <span class="match unit">cinci</span></div>
+                <div class="arrow">➔</div>
+                <div>twenty-five (twenty and five)</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">patru</span><span class="match ten">zeci</span> <span class="match si">și</span> <span class="match unit">doi</span> / <span class="match unit">două</span></div>
+                <div class="arrow">➔</div>
+                <div>forty-two (forty and two)</div>
+            </div>
+        </div>
+
+        <!-- Hundreds -->
+        <div class="card">
+            <h2><span class="emoji">🌳</span> 4. The Hundreds Club (100-999)</h2>
+            <p>One hundred is a feminine noun in Romanian: <strong>o sută</strong> (a hundred). When we have more than one hundred, we use the plural form <strong>sute</strong>!</p>
+            
+            <div class="translation-box">
+                <div><span class="match hund">o sută</span></div>
+                <div class="arrow">➔</div>
+                <div>one hundred</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">două</span> <span class="match hund">sute</span></div>
+                <div class="arrow">➔</div>
+                <div>two hundred</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">cinci</span> <span class="match hund">sute</span></div>
+                <div class="arrow">➔</div>
+                <div>five hundred</div>
+            </div>
+
+            <p>To write big numbers, we just string them together: <strong>Hundreds + Tens + și + Unit</strong>!</p>
+            <div class="translation-box">
+                <div><span class="match hund">o sută</span> <span class="match unit">două</span><span class="match ten">zeci</span> <span class="match si">și</span> <span class="match unit">cinci</span></div>
+                <div class="arrow">➔</div>
+                <div>125 (one hundred twenty and five)</div>
+            </div>
+        </div>
+
+        <!-- Thousands & Magic DE Rule -->
+        <div class="card">
+            <h2><span class="emoji">⭐</span> 5. Thousands & the Magic "DE" Rule!</h2>
+            <p>One thousand is <strong>o mie</strong>. Multiple thousands are called <strong>mii</strong>. They work just like hundreds:</p>
+            <div class="translation-box">
+                <div><span class="match thou">o mie</span></div>
+                <div class="arrow">➔</div>
+                <div>one thousand</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">două</span> <span class="match thou">mii</span></div>
+                <div class="arrow">➔</div>
+                <div>two thousand</div>
+            </div>
+
+            <div class="infobox" style="background: #fee2e2; border-color: #ef4444;">
+                <div class="infobox-title" style="color: #991b1b;"><span class="emoji" style="font-size: 1.5rem;">👑</span> The Magic "DE" Rule (Super Important!)</div>
+                <p>When we count items using numbers in Romanian, a special rule changes how we connect the number to the noun:</p>
+                <ul>
+                    <li>If the number ends in <strong>1 to 19</strong>: We connect the number **directly** to the noun. No helper needed!</li>
+                    <li>If the number ends in **20 or more**: We **must** put the magic helper word <strong>de</strong> between the number and the noun!</li>
+                </ul>
+
+                <div class="split-card-2">
+                    <div class="vs-box" style="border-color: #fca5a5;">
+                        <div class="vs-title" style="color: #b91c1c;">No "de" (ends in 1-19)</div>
+                        <ul>
+                            <li><strong>5</strong> mere <br>➔ <span class="match unit">cinci</span> mere</li>
+                            <li><strong>15</strong> mii de oameni <br>➔ <span class="match unit">cincisprezece</span> mii de oameni</li>
+                            <li><strong>1,012</strong> cărți <br>➔ o mie <span class="match unit">doisprezece</span> cărți</li>
+                        </ul>
+                    </div>
+                    <div class="vs-box" style="border-color: #fca5a5;">
+                        <div class="vs-title" style="color: #b91c1c;">With "de" (ends in 20+)</div>
+                        <ul>
+                            <li><strong>20</strong> <span class="match de">de</span> mere <br>➔ <span class="match unit">două</span><span class="match ten">zeci</span> <span class="match de">de</span> mere</li>
+                            <li><strong>100</strong> <span class="match de">de</span> cărți <br>➔ <span class="match hund">o sută</span> <span class="match de">de</span> cărți</li>
+                            <li><strong>2,000</strong> <span class="match de">de</span> oameni <br>➔ două mii <span class="match de">de</span> oameni <small>(2,000 ends in "mii", which is a noun, so we need "de")</small></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Millions -->
+        <div class="card">
+            <h2><span class="emoji">🌌</span> 6. Reaching the Millions! (1,000,000+)</h2>
+            <p>Wow, we have traveled so far! Now we have reached the giant stars: the Millions!</p>
+            <ul>
+                <li><strong>1,000,000</strong>: <span class="match mill">un milion</span> (neuter singular)</li>
+                <li><strong>2,000,000</strong>: <span class="match unit">două</span> <span class="match mill">milioane</span> (plural)</li>
+                <li><strong>5,000,000</strong>: <span class="match unit">cinci</span> <span class="match mill">milioane</span> (plural)</li>
+            </ul>
+
+            <p>Millions follow the exact same **"de" rule** when modifying nouns, because "milion" is a noun too!</p>
+            
+            <div class="translation-box">
+                <div><span class="match unit">două</span> <span class="match mill">milioane</span> <span class="match de">de</span> stele</div>
+                <div class="arrow">➔</div>
+                <div>two million stars (2 < 20, so no "de" inside the number, but we need "de" before "stele")</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">două</span><span class="match ten">zeci</span> <span class="match de">de</span> <span class="match mill">milioane</span> <span class="match de">de</span> stele</div>
+                <div class="arrow">➔</div>
+                <div>twenty million stars (20 >= 20, so we need "de" after "douăzeci", and "de" after "milioane")</div>
+            </div>
+        </div>
+
+        <!-- Copycat Nouns -->
+        <div class="card">
+            <h2><span class="emoji">🐱</span> 7. The Copycat Nouns (Neuters)</h2>
+            <p>In Romanian, there is a special class of nouns called **Neuter Nouns**. We call them the **Copycat Nouns**!</p>
+            <ul>
+                <li>When there is **only one** (Singular), they copy **boys**!</li>
+                <li>When there are **two or more** (Plural), they copy **girls**!</li>
+            </ul>
+
+            <p>Let's look at the apple (un măr / două mere):</p>
+            <div class="translation-box">
+                <div><span class="match unit">un</span> măr</div>
+                <div class="arrow">➔</div>
+                <div>one apple (copies masculine "un")</div>
+            </div>
+            <div class="translation-box">
+                <div><span class="match unit">două</span> mere</div>
+                <div class="arrow">➔</div>
+                <div>two apples (copies feminine "două")</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

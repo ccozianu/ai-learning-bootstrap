@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Verbs: The 4 Verb Kingdoms!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            --border-color: #dfe6e9;
+
+            /* Conjugation Colors */
+            --g1-color: #ff7675;
+            /* Coral */
+            --g1-bg: rgba(255, 118, 117, 0.15);
+            --g2-color: #00b894;
+            /* Emerald */
+            --g2-bg: rgba(0, 184, 148, 0.15);
+            --g3-color: #0984e3;
+            /* Blue */
+            --g3-bg: rgba(9, 132, 227, 0.15);
+            --g4-color: #6c5ce7;
+            /* Purple */
+            --g4-bg: rgba(108, 92, 231, 0.15);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            width: 100%;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2d3436;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        h1 span {
+            color: #6c5ce7;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 0;
+            border-bottom: 3px dashed #dfe6e9;
+            padding-bottom: 8px;
+            display: inline-block;
+            color: #2d3436;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+
+        .highlight-box {
+            background: #f1f2f6;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border-left: 5px solid #6c5ce7;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* Ending badges */
+        .ending-badge {
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            display: inline-block;
+        }
+
+        .ending-a {
+            background-color: var(--g1-bg);
+            color: var(--g1-color);
+        }
+
+        .ending-ea {
+            background-color: var(--g2-bg);
+            color: var(--g2-color);
+        }
+
+        .ending-e {
+            background-color: var(--g3-bg);
+            color: var(--g3-color);
+        }
+
+        .ending-i {
+            background-color: var(--g4-bg);
+            color: var(--g4-color);
+        }
+
+        /* Step explanation columns */
+        .steps-container {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step-card {
+            flex: 1;
+            background: #f9f9fb;
+            border: 2px solid #dfe6e9;
+            border-radius: 15px;
+            padding: 1.2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-num {
+            background: #6c5ce7;
+            color: white;
+            font-weight: 900;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+        }
+
+        .step-card strong {
+            display: block;
+            margin-top: 0.8rem;
+            font-size: 1.2rem;
+            color: #2d3436;
+        }
+
+        /* The 4 Kingdoms Grid */
+        .kingdoms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .kingdom-card {
+            border-radius: 20px;
+            padding: 1.8rem;
+            border: 3px solid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kingdom-card.k-1 {
+            border-color: var(--g1-color);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .kingdom-card.k-2 {
+            border-color: var(--g2-color);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .kingdom-card.k-3 {
+            border-color: var(--g3-color);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .kingdom-card.k-4 {
+            border-color: var(--g4-color);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .kingdom-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .k-1 .kingdom-title {
+            color: var(--g1-color);
+        }
+
+        .k-2 .kingdom-title {
+            color: var(--g2-color);
+        }
+
+        .k-3 .kingdom-title {
+            color: var(--g3-color);
+        }
+
+        .k-4 .kingdom-title {
+            color: var(--g4-color);
+        }
+
+        .kingdom-desc {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: #636e72;
+            margin-bottom: 1rem;
+        }
+
+        .verb-pill-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .verb-pill-example {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px solid;
+        }
+
+        .k-1 .verb-pill-example {
+            border-color: var(--g1-color);
+            background: var(--g1-bg);
+            color: #2d3436;
+        }
+
+        .k-2 .verb-pill-example {
+            border-color: var(--g2-color);
+            background: var(--g2-bg);
+            color: #2d3436;
+        }
+
+        .k-3 .verb-pill-example {
+            border-color: var(--g3-color);
+            background: var(--g3-bg);
+            color: #2d3436;
+        }
+
+        .k-4 .verb-pill-example {
+            border-color: var(--g4-color);
+            background: var(--g4-bg);
+            color: #2d3436;
+        }
+
+        .verb-pill-example span.en {
+            font-weight: normal;
+            font-size: 0.9rem;
+            color: #636e72;
+        }
+
+        /* Exception Alert Box */
+        .exception-alert {
+            background-color: #ffeaa7;
+            border-left: 6px solid #fdcb6e;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-size: 1.05rem;
+        }
+
+        /* --- Interactive Sorting Game Styles --- */
+        .game-section {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f2f6 100%);
+            border: 3px solid #6c5ce7;
+        }
+
+        .game-intro {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .game-bin {
+            border: 3px dashed #b2bec3;
+            border-radius: 15px;
+            min-height: 180px;
+            padding: 10px;
+            background: white;
+            text-align: center;
+            transition: background-color 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-bin.active-target {
+            border-color: #6c5ce7;
+            background-color: #f1f0ff;
+        }
+
+        .bin-title {
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            width: 90%;
+        }
+
+        .bin-1 {
+            background-color: var(--g1-bg);
+            color: var(--g1-color);
+        }
+
+        .bin-2 {
+            background-color: var(--g2-bg);
+            color: var(--g2-color);
+        }
+
+        .bin-3 {
+            background-color: var(--g3-bg);
+            color: var(--g3-color);
+        }
+
+        .bin-4 {
+            background-color: var(--g4-bg);
+            color: var(--g4-color);
+        }
+
+        .verb-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid #dfe6e9;
+            margin-bottom: 2rem;
+            min-height: 80px;
+        }
+
+        .game-verb-card {
+            background: #fff;
+            border: 2px solid #b2bec3;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-verb-card:hover {
+            transform: scale(1.05);
+            border-color: #6c5ce7;
+            box-shadow: 0 6px 12px rgba(108, 92, 231, 0.15);
+        }
+
+        .game-verb-card.selected {
+            border-color: #6c5ce7;
+            background-color: #efedff;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+            transform: scale(1.05);
+        }
+
+        .game-verb-card span.en-hint {
+            font-size: 0.85rem;
+            font-weight: normal;
+            color: #636e72;
+        }
+
+        .game-verb-card.correct-placed {
+            cursor: default;
+            transform: none !important;
+            box-shadow: none !important;
+            margin: 4px;
+        }
+
+        .bin-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        /* Progress meter */
+        .progress-container {
+            width: 100%;
+            background-color: #dfe6e9;
+            border-radius: 10px;
+            height: 20px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #5f27cd, #6c5ce7);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #2d3436;
+            line-height: 20px;
+        }
+
+        .shake {
+            animation: shakeAnim 0.4s ease-in-out;
+        }
+
+        @keyframes shakeAnim {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-8px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(8px);
+            }
+        }
+
+        /* Feedback Popups */
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #2d3436;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast-msg.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Success Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+
+        .victory-card {
+            text-align: center;
+            display: none;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .reset-btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #5f27cd;
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            header {
+                background: none;
+                box-shadow: none;
+                border-bottom: 2px solid #ccc;
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                padding-bottom: 0;
+            }
+
+            .card {
+                background: transparent;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                backdrop-filter: none;
+                page-break-inside: avoid;
+                padding: 1.2rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .steps-container {
+                gap: 5mm;
+            }
+
+            .step-card {
+                border: 1px solid #aaa;
+                background: transparent;
+            }
+
+            .step-num {
+                background: black;
+                color: white;
+                border: 1px solid black;
+            }
+
+            .highlight-box,
+            .exception-alert {
+                background: transparent;
+                border: 1px solid #ccc;
+                border-left: 5px solid black;
+            }
+
+            .ending-badge {
+                border: 1px solid black !important;
+                background: transparent !important;
+                color: black !important;
+            }
+
+            .kingdoms-grid {
+                grid-template-columns: 1fr;
+                gap: 5mm;
+            }
+
+            .kingdom-card {
+                border: 2px solid black !important;
+                background: white !important;
+                page-break-inside: avoid;
+                padding: 10px;
+            }
+
+            .kingdom-title {
+                color: black !important;
+                border-bottom: 1px solid black;
+                padding-bottom: 5px;
+            }
+
+            .kingdom-desc {
+                color: #555;
+            }
+
+            .verb-pill-example {
+                border: 1px solid #555 !important;
+                background: transparent !important;
+                color: black !important;
+            }
+
+            .verb-pill-example span.en {
+                color: #555;
+            }
+
+            /* Hide the game from the printed version */
+            .game-section,
+            .toast-msg,
+            #confetti-canvas {
+                display: none !important;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .steps-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .step-card {
+                padding-top: 1.5rem;
+            }
+
+            .kingdoms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🏰 The 4 Verb Kingdoms of <span>Romanian</span></h1>
+        <p style="color: #636e72; font-size: 1.3rem; font-weight: bold; margin-top: 10px; margin-bottom: 0;">Sort,
+            learn, and conquer the ending families!</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Card 1: Intro -->
+        <div class="card">
+            <h2>Welcome to the Kingdom Map! <span class="emoji">🗺️</span></h2>
+            <p>In our first chapter, we met <strong>16 powerful verbs</strong> (our action words) and learned how they
+                change to talk about the Present, Past, and Future. But did you know that verbs are also sorted into
+                <strong>four distinct families</strong>?</p>
+            <p>In Romanian grammar, these families are called <strong>Conjugations</strong> (Conjugări). They help us
+                know exactly how a verb behaves when we change it! We classify them into 4 groups based on how their
+                <strong>Infinitive name</strong> ends.</p>
+        </div>
+
+        <!-- Card 2: How to Identify -->
+        <div class="card">
+            <h2>How to find a Verb's Family <span class="emoji">🔍</span></h2>
+            <p>Finding a verb's family is as easy as 1-2-3! Just follow these simple steps:</p>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <strong>Find the Name</strong>
+                    <p>Start with the full name of the verb (the Infinitive). e.g., <em>a pleca</em></p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <strong>Drop the "a" from the front of the infinitive verb</strong>
+                    <p>Remove the little helper word <em>a</em> from the front. e.g., <em>pleca</em></p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <strong>Check the End!</strong>
+                    <p>Look at the very last letter(s). e.g., <em>plec<strong>a</strong></em> ends in <span
+                            class="ending-badge ending-a">-a</span></p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <span class="emoji">💡</span> depending on whether the name ends in <strong>-a</strong>,
+                <strong>-ea</strong>, <strong>-e</strong>, or <strong>-i/-î</strong>, the verb belongs to family 1, 2,
+                3, or 4!
+            </div>
+        </div>
+
+        <!-- Card 3: The 4 Kingdoms -->
+        <div class="card">
+            <h2>The 4 Ending Castles <span class="emoji">🏰</span></h2>
+            <p>Here are the four kingdoms, filled with the 16 verbs we have already studied:</p>
+
+            <div class="kingdoms-grid">
+
+                <!-- Kingdom I -->
+                <div class="kingdom-card k-1">
+                    <div class="kingdom-title">
+                        <span>1st Kingdom: The "-a" Family</span>
+                        <span class="ending-badge ending-a">-a</span>
+                    </div>
+                    <div class="kingdom-desc">These are friendly, common verbs. Most new words in Romanian join this
+                        family!</div>
+                    <div class="verb-pill-grid">
+                        <div class="verb-pill-example">a pleca <span class="en">(to leave)</span></div>
+                        <div class="verb-pill-example">a mânca <span class="en">(to eat)</span></div>
+                    </div>
+                </div>
+
+                <!-- Kingdom II -->
+                <div class="kingdom-card k-2">
+                    <div class="kingdom-title">
+                        <span>2nd Kingdom: The "-ea" Family</span>
+                        <span class="ending-badge ending-ea">-ea</span>
+                    </div>
+                    <div class="kingdom-desc">A small, exclusive club of helper verbs. They are super important!</div>
+                    <div class="verb-pill-grid">
+                        <div class="verb-pill-example">a avea <span class="en">(to have)</span></div>
+                        <div class="verb-pill-example">a vrea <span class="en">(to want)</span></div>
+                        <div class="verb-pill-example">a putea <span class="en">(to be able to)</span></div>
+                        <div class="verb-pill-example">a vedea <span class="en">(to see)</span></div>
+                        <div class="verb-pill-example">a bea <span class="en">(to drink)</span></div>
+                    </div>
+                </div>
+
+                <!-- Kingdom III -->
+                <div class="kingdom-card k-3">
+                    <div class="kingdom-title">
+                        <span>3rd Kingdom: The "-e" Family</span>
+                        <span class="ending-badge ending-e">-e</span>
+                    </div>
+                    <div class="kingdom-desc">These have short, punchy endings and are very fun to speak.</div>
+                    <div class="verb-pill-grid">
+                        <div class="verb-pill-example">a merge <span class="en">(to go)</span></div>
+                        <div class="verb-pill-example">a face <span class="en">(to do)</span></div>
+                        <div class="verb-pill-example">a scrie <span class="en">(to write)</span></div>
+                    </div>
+                </div>
+
+                <!-- Kingdom IV -->
+                <div class="kingdom-card k-4">
+                    <div class="kingdom-title">
+                        <span>4th Kingdom: The "-i" Family</span>
+                        <span class="ending-badge ending-i">-i / -î</span>
+                    </div>
+                    <div class="kingdom-desc">Action-packed verbs. In the present tense, many love to add "-esc"!</div>
+                    <div class="verb-pill-grid">
+                        <div class="verb-pill-example">a fi <span class="en">(to be)</span></div>
+                        <div class="verb-pill-example">a fugi <span class="en">(to run)</span></div>
+                        <div class="verb-pill-example">a vorbi <span class="en">(to speak)</span></div>
+                        <div class="verb-pill-example">a citi <span class="en">(to read)</span></div>
+                        <div class="verb-pill-example">a veni <span class="en">(to come)</span></div>
+                        <div class="verb-pill-example">a ști <span class="en">(to know)</span></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Card 4: Interactive Game -->
+        <div class="card game-section" id="game-card">
+            <div class="game-intro">
+                <h2>Interactive Game: Kingdom Sorting Challenge! <span class="emoji">🎮</span></h2>
+                <p>Can you place all 16 verbs into their correct kingdoms? Click a verb to select it, then click on the
+                    correct conjugation bin to place it!</p>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-container">
+                <div class="progress-text" id="progress-lbl">0 / 16 Verbs Sorted</div>
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <!-- Verb Pool -->
+            <div class="verb-pool" id="verb-pool">
+                <!-- Javascript will populate this -->
+            </div>
+
+            <!-- Bins / Kingdoms -->
+            <div class="game-container">
+
+                <div class="game-bin" data-conjugation="1">
+                    <div class="bin-title bin-1">Kingdom I (-a)</div>
+                    <div class="bin-items" id="bin-1"></div>
+                </div>
+
+                <div class="game-bin" data-conjugation="2">
+                    <div class="bin-title bin-2">Kingdom II (-ea)</div>
+                    <div class="bin-items" id="bin-2"></div>
+                </div>
+
+                <div class="game-bin" data-conjugation="3">
+                    <div class="bin-title bin-3">Kingdom III (-e)</div>
+                    <div class="bin-items" id="bin-3"></div>
+                </div>
+
+                <div class="game-bin" data-conjugation="4">
+                    <div class="bin-title bin-4">Kingdom IV (-i)</div>
+                    <div class="bin-items" id="bin-4"></div>
+                </div>
+
+            </div>
+
+            <!-- Victory Card -->
+            <div class="victory-card" id="victory-card">
+                <h2 style="color: #6c5ce7; border-color: #6c5ce7; margin-top: 1.5rem;">🎉 Spectacular! <span
+                        class="emoji">🏆</span></h2>
+                <p style="font-size: 1.3rem; font-weight: bold;">You have correctly sorted all 16 verbs into their
+                    ending kingdoms! You are a Romanian Verb Master! 🌟</p>
+                <button class="reset-btn" onclick="resetGame()">Play Again</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Feedback popups -->
+    <div class="toast-msg" id="toast-msg">Correct! 🌟</div>
+
+    <!-- Victory Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        // Verbs data
+        const verbsData = [
+            { ro: "a pleca", en: "to leave", group: 1 },
+            { ro: "a mânca", en: "to eat", group: 1 },
+            { ro: "a bea", en: "to drink", group: 2 },
+            { ro: "a avea", en: "to have", group: 2 },
+            { ro: "a vrea", en: "to want", group: 2 },
+            { ro: "a putea", en: "to be able to", group: 2 },
+            { ro: "a vedea", en: "to see", group: 2 },
+            { ro: "a merge", en: "to go", group: 3 },
+            { ro: "a face", en: "to do", group: 3 },
+            { ro: "a scrie", en: "to write", group: 3 },
+            { ro: "a fi", en: "to be", group: 4 },
+            { ro: "a fugi", en: "to run", group: 4 },
+            { ro: "a vorbi", en: "to speak", group: 4 },
+            { ro: "a citi", en: "to read", group: 4 },
+            { ro: "a veni", en: "to come", group: 4 },
+            { ro: "a ști", en: "to know", group: 4 }
+        ];
+
+        let selectedVerbElement = null;
+        let selectedVerbData = null;
+        let sortedCount = 0;
+        let confettiActive = false;
+
+        // Initialize Game
+        function initGame() {
+            sortedCount = 0;
+            selectedVerbElement = null;
+            selectedVerbData = null;
+            confettiActive = false;
+
+            // Clear bins
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`bin-${i}`).innerHTML = '';
+            }
+
+            // Hide victory card and show grid bins / pool
+            document.getElementById('victory-card').style.display = 'none';
+            document.getElementById('verb-pool').style.display = 'flex';
+            document.querySelector('.game-container').style.display = 'grid';
+
+            // Generate pool cards shuffled
+            const pool = document.getElementById('verb-pool');
+            pool.innerHTML = '';
+
+            const shuffledVerbs = [...verbsData].sort(() => Math.random() - 0.5);
+            shuffledVerbs.forEach(verb => {
+                const card = document.createElement('div');
+                card.className = 'game-verb-card';
+                card.setAttribute('data-ro', verb.ro);
+                card.innerHTML = `
+                    <span>${verb.ro}</span>
+                    <span class="en-hint">${verb.en}</span>
+                `;
+                card.onclick = (e) => selectVerb(card, verb);
+                pool.appendChild(card);
+            });
+
+            updateProgress();
+        }
+
+        // Handle selection
+        function selectVerb(element, verb) {
+            if (element.classList.contains('correct-placed')) return;
+
+            // Remove selected from any other
+            if (selectedVerbElement) {
+                selectedVerbElement.classList.remove('selected');
+            }
+
+            selectedVerbElement = element;
+            selectedVerbData = verb;
+            element.classList.add('selected');
+
+            // Highlight possible target bins temporarily
+            document.querySelectorAll('.game-bin').forEach(bin => {
+                bin.classList.add('active-target');
+            });
+        }
+
+        // Bins click listeners
+        document.querySelectorAll('.game-bin').forEach(bin => {
+            bin.addEventListener('click', () => {
+                if (!selectedVerbElement || !selectedVerbData) return;
+
+                const targetConjugation = parseInt(bin.getAttribute('data-conjugation'));
+
+                // Clear active target borders
+                document.querySelectorAll('.game-bin').forEach(b => {
+                    b.classList.remove('active-target');
+                });
+
+                if (selectedVerbData.group === targetConjugation) {
+                    // Correct answer!
+                    placeVerbInBin(bin, selectedVerbElement, selectedVerbData);
+                } else {
+                    // Wrong answer!
+                    triggerWrongFeedback(bin, selectedVerbElement);
+                }
+            });
+        });
+
+        function placeVerbInBin(binElement, element, verb) {
+            element.classList.remove('selected');
+            element.classList.add('correct-placed');
+
+            // Add custom background depending on which conjugation it was placed in
+            element.style.background = getComputedStyle(document.documentElement).getPropertyValue(`--g${verb.group}-bg`);
+            element.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue(`--g${verb.group}-color`);
+
+            const binItems = binElement.querySelector('.bin-items');
+            binItems.appendChild(element);
+
+            // Clear click handler
+            element.onclick = null;
+
+            // Toast popup
+            showToast("Correct! 🌟", "#2ecc71");
+
+            sortedCount++;
+            updateProgress();
+
+            selectedVerbElement = null;
+            selectedVerbData = null;
+
+            if (sortedCount === verbsData.length) {
+                triggerVictory();
+            }
+        }
+
+        function triggerWrongFeedback(binElement, element) {
+            element.classList.remove('selected');
+            element.classList.add('shake');
+
+            // Highlight bin temporarily
+            binElement.style.borderColor = '#d63031';
+            binElement.style.backgroundColor = 'rgba(214, 48, 49, 0.1)';
+
+            showToast("Try again! ❌ Look closely at the ending.", "#d63031");
+
+            setTimeout(() => {
+                element.classList.remove('shake');
+                binElement.style.borderColor = '';
+                binElement.style.backgroundColor = '';
+            }, 500);
+
+            selectedVerbElement = null;
+            selectedVerbData = null;
+        }
+
+        function updateProgress() {
+            const percent = (sortedCount / verbsData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-lbl').innerText = `${sortedCount} / ${verbsData.length} Verbs Sorted`;
+        }
+
+        function showToast(msg, color) {
+            const toast = document.getElementById('toast-msg');
+            toast.innerText = msg;
+            toast.style.background = color;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1500);
+        }
+
+        // Confetti generator
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function triggerVictory() {
+            document.getElementById('verb-pool').style.display = 'none';
+            document.querySelector('.game-container').style.display = 'none';
+            document.getElementById('victory-card').style.display = 'block';
+
+            document.getElementById('confetti-canvas').style.display = 'block';
+            confettiActive = true;
+            resizeCanvas();
+            createConfetti();
+            animateConfetti();
+        }
+
+        function createConfetti() {
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * canvas.height,
+                    color: `hsl(${Math.random() * 360}, 90%, 60%)`,
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function animateConfetti() {
+            if (!confettiActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((p, idx) => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.x += Math.sin(p.tiltAngle);
+                p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                ctx.stroke();
+
+                if (p.y > canvas.height) {
+                    particles[idx] = {
+                        x: Math.random() * canvas.width,
+                        y: -20,
+                        r: p.r,
+                        d: p.d,
+                        color: p.color,
+                        tilt: p.tilt,
+                        tiltAngleIncremental: p.tiltAngleIncremental,
+                        tiltAngle: p.tiltAngle
+                    };
+                }
+            });
+
+            requestAnimationFrame(animateConfetti);
+        }
+
+        function resetGame() {
+            confettiActive = false;
+            document.getElementById('confetti-canvas').style.display = 'none';
+            initGame();
+        }
+
+        // Run on load
+        window.onload = initGame;
+    </script>
+</body>
+
+</html>

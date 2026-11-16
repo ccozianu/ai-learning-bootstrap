@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Verbs: Useful Action Words!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            --subj-color: #0984e3;
+            --border-color: #dfe6e9;
+            --highlight: #00b894;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #fdcb6e 0%, #e17055 100%);
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .verbs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .verb-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 3px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .verb-card:hover {
+            transform: translateY(-5px);
+            border-color: #fdcb6e;
+        }
+
+        /* Condensed Header */
+        .verb-header-condensed {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #b2bec3;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-left {
+            text-align: left;
+        }
+
+        .header-left h3 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #d63031;
+        }
+
+        .header-left .label {
+            font-size: 0.9rem;
+            color: #636e72;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .header-left .eng-trans {
+            font-size: 1.1rem;
+            color: #636e72;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            text-align: right;
+            background: #f1f2f6;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .header-right .label {
+            font-size: 0.8rem;
+            color: #636e72;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: block;
+        }
+
+        .header-right strong {
+            color: #0984e3;
+            font-size: 1.2rem;
+        }
+
+        .conjugation h4 {
+            margin: 0 0 10px 0;
+            color: #2d3436;
+            text-align: center;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .conjugation ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, auto);
+            grid-auto-flow: column;
+            gap: 10px;
+        }
+
+        .conjugation li {
+            background: #fff;
+            border: 2px solid #dfe6e9;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .subj {
+            color: var(--subj-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 55px;
+            margin-right: 5px;
+        }
+
+        .verb-word {
+            color: #e84393;
+            font-weight: bold;
+        }
+
+        /* Example section at the bottom */
+        .verb-example {
+            margin-top: 1rem;
+            background: #e8f4fd;
+            padding: 10px;
+            border-radius: 10px;
+            border-left: 4px solid #0984e3;
+            text-align: center;
+        }
+
+        .ro-example {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .ro-example .highlight-verb {
+            color: #e84393;
+        }
+
+        .en-example {
+            font-size: 1.1rem;
+            color: #636e72;
+            margin-top: 4px;
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            header {
+                background: none;
+                box-shadow: none;
+                border-bottom: 2px solid #ccc;
+                padding: 0 0 1rem 0;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                padding-bottom: 0;
+            }
+
+            .verbs-grid {
+                /* Force 2 side-by-side columns on landscape A4 */
+                grid-template-columns: 1fr 1fr;
+                gap: 8mm;
+            }
+
+            .verb-card {
+                background: white;
+                border: 2px solid #333; /* Clean outline */
+                box-shadow: none;
+                page-break-inside: avoid;
+                margin-bottom: 0;
+                padding: 1rem;
+            }
+
+            .verb-card:hover {
+                transform: none;
+                border-color: #333;
+            }
+
+            .verb-header-condensed {
+                border-bottom: 2px solid #ccc;
+            }
+
+            .header-right {
+                background: transparent;
+                border: 1px solid #ccc;
+            }
+
+            .verb-example {
+                background: transparent;
+                border: 1px solid #ccc;
+                border-left: 4px solid #333;
+            }
+
+            .conjugation li {
+                border: 1px solid #ccc;
+            }
+
+            /* Black & White optimized text colors for print economy */
+            .header-left h3 { color: black; }
+            .header-right strong { color: black; }
+            .subj { color: black; }
+            .verb-word, .highlight-verb { color: black; font-weight: bold; }
+            .ro-example { color: black; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌟 Most Useful Romanian Verbs!</h1>
+    </header>
+
+    <div class="container">
+        <div class="verbs-grid">
+
+            <!-- 1. A FI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a fi</h3>
+                        <div class="eng-trans">(to be)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>fost</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">sunt</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">ești</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">este</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">suntem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">sunteți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">sunt</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">sunt</span> fericit.</div>
+                    <div class="en-example">I am happy.</div>
+                </div>
+            </div>
+
+            <!-- 2. A AVEA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a avea</h3>
+                        <div class="eng-trans">(to have)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>avut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">am</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">ai</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">are</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">avem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">aveți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">au</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">am</span> un câine.</div>
+                    <div class="en-example">I have a dog.</div>
+                </div>
+            </div>
+
+            <!-- 3. A VREA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a vrea</h3>
+                        <div class="eng-trans">(to want)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>vrut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">vreau</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">vrei</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">vrea</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">vrem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">vreți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">vor</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">vreau</span> apă.</div>
+                    <div class="en-example">I want water.</div>
+                </div>
+            </div>
+
+            <!-- 4. A MERGE -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a merge</h3>
+                        <div class="eng-trans">(to go)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>mers</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">merg</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">mergi</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">merge</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">mergem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">mergeți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">merg</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">merg</span> la școală.</div>
+                    <div class="en-example">I go to school.</div>
+                </div>
+            </div>
+
+            <!-- 5. A PLECA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a pleca</h3>
+                        <div class="eng-trans">(to leave)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>plecat</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">plec</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">pleci</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">pleacă</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">plecăm</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">plecați</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">pleacă</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">plec</span> acasă.</div>
+                    <div class="en-example">I leave for home.</div>
+                </div>
+            </div>
+
+            <!-- 6. A FACE -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a face</h3>
+                        <div class="eng-trans">(to do / make)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>făcut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">fac</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">faci</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">face</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">facem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">faceți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">fac</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">fac</span> o prăjitură.</div>
+                    <div class="en-example">I make a cake.</div>
+                </div>
+            </div>
+
+            <!-- 7. A FUGI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a fugi</h3>
+                        <div class="eng-trans">(to run)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>fugit</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">fug</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">fugi</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">fuge</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">fugim</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">fugiți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">fug</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">El <span class="highlight-verb">fuge</span> repede.</div>
+                    <div class="en-example">He runs fast.</div>
+                </div>
+            </div>
+
+            <!-- 8. A PUTEA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a putea</h3>
+                        <div class="eng-trans">(to be able to / can)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>putut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">pot</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">poți</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">poate</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">putem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">puteți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">pot</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">pot</span> citi.</div>
+                    <div class="en-example">I can read.</div>
+                </div>
+            </div>
+
+            <!-- 9. A VORBI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a vorbi</h3>
+                        <div class="eng-trans">(to speak)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>vorbit</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">vorbesc</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">vorbești</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">vorbește</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">vorbim</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">vorbiți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">vorbesc</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Noi <span class="highlight-verb">vorbim</span> engleză.</div>
+                    <div class="en-example">We speak English.</div>
+                </div>
+            </div>
+
+            <!-- 10. A SCRIE -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a scrie</h3>
+                        <div class="eng-trans">(to write)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>scris</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">scriu</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">scrii</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">scrie</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">scriem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">scrieți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">scriu</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">scriu</span> o carte.</div>
+                    <div class="en-example">I write a book.</div>
+                </div>
+            </div>
+
+            <!-- 11. A CITI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a citi</h3>
+                        <div class="eng-trans">(to read)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>citit</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">citesc</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">citești</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">citește</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">citim</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">citiți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">citesc</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Tu <span class="highlight-verb">citești</span> o poveste.</div>
+                    <div class="en-example">You read a story.</div>
+                </div>
+            </div>
+
+            <!-- 12. A MÂNCA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a mânca</h3>
+                        <div class="eng-trans">(to eat)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>mâncat</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">mănânc</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">mănânci</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">mănâncă</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">mâncăm</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">mâncați</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">mănâncă</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">mănânc</span> un măr.</div>
+                    <div class="en-example">I eat an apple.</div>
+                </div>
+            </div>
+
+            <!-- 13. A BEA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a bea</h3>
+                        <div class="eng-trans">(to drink)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>băut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">beau</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">bei</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">bea</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">bem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">beți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">beau</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">El <span class="highlight-verb">bea</span> lapte.</div>
+                    <div class="en-example">He drinks milk.</div>
+                </div>
+            </div>
+
+            <!-- 14. A VENI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a veni</h3>
+                        <div class="eng-trans">(to come)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>venit</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">vin</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">vii</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">vine</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">venim</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">veniți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">vin</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Noi <span class="highlight-verb">venim</span> mâine.</div>
+                    <div class="en-example">We come tomorrow.</div>
+                </div>
+            </div>
+
+            <!-- 15. A ȘTI -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a ști</h3>
+                        <div class="eng-trans">(to know)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>știut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">știu</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">știi</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">știe</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">știm</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">știți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">știu</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">știu</span> răspunsul.</div>
+                    <div class="en-example">I know the answer.</div>
+                </div>
+            </div>
+
+            <!-- 16. A VEDEA -->
+            <div class="verb-card">
+                <div class="verb-header-condensed">
+                    <div class="header-left">
+                        <h3><span class="label">Infinitive:</span> a vedea</h3>
+                        <div class="eng-trans">(to see)</div>
+                    </div>
+                    <div class="header-right">
+                        <span class="label">Participle</span> <strong>văzut</strong>
+                    </div>
+                </div>
+                <div class="conjugation">
+                    <h4>Present Tense</h4>
+                    <ul>
+                        <li><span class="subj">Eu</span> <span class="verb-word">văd</span></li>
+                        <li><span class="subj">Tu</span> <span class="verb-word">vezi</span></li>
+                        <li><span class="subj">El/Ea</span> <span class="verb-word">vede</span></li>
+                        <li><span class="subj">Noi</span> <span class="verb-word">vedem</span></li>
+                        <li><span class="subj">Voi</span> <span class="verb-word">vedeți</span></li>
+                        <li><span class="subj">Ei/Ele</span> <span class="verb-word">văd</span></li>
+                    </ul>
+                </div>
+                <div class="verb-example">
+                    <div class="ro-example">Eu <span class="highlight-verb">văd</span> o pasăre.</div>
+                    <div class="en-example">I see a bird.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

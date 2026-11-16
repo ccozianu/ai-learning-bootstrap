@@ -23,7 +23,9 @@ Run all commands at this repository's root.
 
 - Install: `npm ci`.
 - Gate: `npm run check` (Prisma generation, strict TypeScript, frontend build,
-  authentication tests with mocked persistence).
+  authentication tests with mocked persistence). Future GCP/IAP/GCIP edge tests
+  must use deterministic offline JWT/tenant test doubles (never provision live
+  cloud projects or local DB containers during automated checks).
 - UI integration: `npm run test:ui`; Chromium required (`npx playwright install
   chromium` if absent; or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to an installed
   Chromium executable and install ffmpeg with `npx playwright install ffmpeg`). Recorded desktop and mobile tests use a Vite process and
@@ -53,6 +55,22 @@ in their own capsule terminal. `.env.example` contains names and placeholders
 only; `.env` is not automatically loaded. Local scripts consume credentials
 without shell interpolation and suppress raw service errors. Do not apply a
 schema or send live email without a user-directed acceptance step.
+
+## Design & Planning Gate
+
+- **Overview alignment required before implementation:** Feature implementation
+  must not begin without consulting and conforming to the accepted
+  [Project Elements Overview](engineering-docs/project-elements-overview.md) and
+  its sub-documents (`engineering-docs/overview/`). Update those documents
+  whenever core requirements, schema boundaries, or architectural constraints
+  change.
+- **Coding-agent child-LLM rule:** Coding agents authoring this project must
+  **not** generate code that exposes LLM endpoints directly to child accounts
+  (nor route child text/prompts to commercial `<18`-banned APIs such as
+  Gemini/Vertex, even in batch mode). Any future student-facing AI feature
+  (`tutor`, Design Recipe `pair-programmer`, or `FREE_FORM_PROOF` evaluation
+  via self-hosted `vLLM` or Anthropic's minors-compliant API) requires explicit
+  owner direction and a formal security review first.
 
 ## Bootstrap Exception
 

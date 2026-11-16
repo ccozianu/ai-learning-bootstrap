@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romanian Verbs: Time to Practice! (Part 2)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3436;
+            --border-color: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .ex-number {
+            background: #a18cd1;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .ex-content {
+            flex-grow: 1;
+        }
+
+        .en-sentence {
+            font-size: 1.1rem;
+            color: #636e72;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .ro-sentence {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 50px;
+            border-bottom: 2px solid #0984e3;
+            margin: 0 5px;
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            @page {
+                size: A4 portrait; /* Usually worksheets are portrait, but A4 works */
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+            }
+
+            header {
+                background: none;
+                box-shadow: none;
+                border-bottom: 2px solid #ccc;
+                padding: 0 0 1rem 0;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                color: black;
+                text-shadow: none;
+            }
+
+            .container {
+                max-width: 100%;
+                width: 100%;
+                padding-bottom: 0;
+            }
+
+            .exercises-grid {
+                grid-template-columns: 1fr 1fr; /* 2 columns for print */
+                gap: 5mm;
+            }
+
+            .exercise-card {
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-inside: avoid;
+                padding: 10px;
+                margin-bottom: 0;
+            }
+
+            .ex-number {
+                background: transparent;
+                color: black;
+                border: 2px solid black;
+            }
+
+            .en-sentence { color: #555; }
+            .ro-sentence { color: black; }
+            .blank { border-bottom: 1px solid black; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>✏️ Fill in the Blanks! (Part 2)</h1>
+        <p style="color: white; font-size: 1.2rem; font-weight: bold; margin-top: 10px;">Translate into Romanian using the correct verb forms.</p>
+    </header>
+
+    <div class="container">
+        <div class="exercises-grid">
+
+            <div class="exercise-card">
+                <div class="ex-number">101</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has drunk juice.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> suc.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">102</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We are happy.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> fericit.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">103</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will know math.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> matematică.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">104</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will do a cake.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> o prăjitură.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">105</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will read a book.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> o carte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">106</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She writes a letter.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> o scrisoare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">107</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I was at home.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> acasă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">108</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will want an apple.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> un măr.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">109</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have run hard.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> <span class='blank'></span> tare.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">110</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He can read.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> citi.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">111</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I know well.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">112</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He will know math.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> matematică.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">113</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will read well.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">114</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has known math.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> matematică.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">115</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will speak a lot.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> mult.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">116</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has seen the sky.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> cerul.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">117</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We have wanted water.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> apă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">118</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all read a story.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> o poveste.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">119</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She will leave tomorrow.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> mâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">120</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has left home.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> acasă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">121</div>
+                <div class="ex-content">
+                    <div class="en-sentence">She has had an idea.</div>
+                    <div class="ro-sentence">Ea <span class='blank'></span> <span class='blank'></span> o idee.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">122</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They are absent at school.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> absent la școală.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">123</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We have eaten pizza.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> pizza.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">124</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They could come.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> veni.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">125</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have come here.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> aici.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">126</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will leave tomorrow.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> mâine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">127</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You are absent at school.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> absent la școală.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">128</div>
+                <div class="ex-content">
+                    <div class="en-sentence">He has known the answer.</div>
+                    <div class="ro-sentence">El <span class='blank'></span> <span class='blank'></span> răspunsul.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">129</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all have drunk milk.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> lapte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">130</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You all have read well.</div>
+                    <div class="ro-sentence">Voi <span class='blank'></span> <span class='blank'></span> bine.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">131</div>
+                <div class="ex-content">
+                    <div class="en-sentence">We have come here.</div>
+                    <div class="ro-sentence">Noi <span class='blank'></span> <span class='blank'></span> aici.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">132</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I am happy.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> fericit.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">133</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I want water.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> apă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">134</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I run in the yard.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> în curte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">135</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They will leave home.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> acasă.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">136</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They have run far away.</div>
+                    <div class="ro-sentence">Ele <span class='blank'></span> <span class='blank'></span> departe.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">137</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You have done the homework.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> temele.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">138</div>
+                <div class="ex-content">
+                    <div class="en-sentence">I will go fast.</div>
+                    <div class="ro-sentence">Eu <span class='blank'></span> <span class='blank'></span> repede.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">139</div>
+                <div class="ex-content">
+                    <div class="en-sentence">They drink milk.</div>
+                    <div class="ro-sentence">Ei <span class='blank'></span> lapte.</div>
+                </div>
+            </div>
+            <div class="exercise-card">
+                <div class="ex-number">140</div>
+                <div class="ex-content">
+                    <div class="en-sentence">You will be able to help.</div>
+                    <div class="ro-sentence">Tu <span class='blank'></span> <span class='blank'></span> ajuta.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
