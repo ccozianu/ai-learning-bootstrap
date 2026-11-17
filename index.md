@@ -16,6 +16,7 @@
 
 - [engineering-docs/wip/2026-11-16-project-management/CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-project-management/CURRENT-STATUS.md)
 - [engineering-docs/wip/2026-11-16-maintenance/CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-maintenance/CURRENT-STATUS.md)
+- [engineering-docs/wip/2026-11-16-prototype/CURRENT-STATUS.md](engineering-docs/wip/2026-11-16-prototype/CURRENT-STATUS.md)
 
 ## Engineering records
 

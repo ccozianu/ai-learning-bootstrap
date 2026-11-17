@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+  schemas = ["ai_learning"]
+}
+enum SignInType {
+  GOOGLE
+  PASSWORD
+  @@schema("ai_learning")
+}
+model User {
+  authVersion Int @default(0)
+  id String @id @default(uuid()) @db.Uuid
+  email String @unique
+  googleSubject String @unique
+  username String? @unique
+  passwordHash String?
+  signInTypes SignInType[] @default([GOOGLE])
+  lastSignInType SignInType @default(GOOGLE)
+  active Boolean @default(true)
+  passwordFailures Int @default(0)
+  lockedUntil DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sessions Session[]
+  challenges Challenge[]
+  devices TrustedDevice[]
+  @@map("users")
+  @@schema("ai_learning")
+}
+model Session {
+  authVersion Int @default(0)
+  signInType SignInType
+  tokenHash String @id
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+  @@schema("ai_learning")
+}
+model Challenge {
+  authVersion Int @default(0)
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeHash String
+  attempts Int @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("challenges")
+  @@schema("ai_learning")
+}
+model TrustedDevice {
+  authVersion Int @default(0)
+  tokenHash String @id
+  userId String @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("trusted_devices")
+  @@schema("ai_learning")
+}

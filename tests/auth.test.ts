@@ -31,6 +31,19 @@ const db = {
     updateMany: vi.fn(),
   },
   trustedDevice: { findUnique: vi.fn(), create: vi.fn(), deleteMany: vi.fn() },
+  devLoginToken: {
+    findUnique: vi.fn(),
+    updateMany: vi.fn(),
+    create: vi.fn(),
+    deleteMany: vi.fn(),
+  },
+  auditLog: { create: vi.fn() },
+  impersonationSession: {
+    findUnique: vi.fn(),
+    create: vi.fn(),
+    deleteMany: vi.fn(),
+    updateMany: vi.fn(),
+  },
   $transaction: vi.fn(),
 };
 const mail = vi.fn();
@@ -61,9 +74,17 @@ beforeEach(async () => {
     authVersion: 0,
     id: "ce54b865-d596-47b9-9cb4-921e9be50889",
     email: "approved@gmail.com",
-    username: "approved",
     googleSubject: "google-123",
-    active: true,
+    username: "approved",
+    displayName: null,
+    roles: ["PARENT"],
+    accountStatus: "ACTIVE",
+    guardianUserId: null,
+    birthYear: null,
+    birthYearAttestedAt: null,
+    gdprConsentGrantedAt: null,
+    gdprConsentWithdrawnAt: null,
+    gdprConsentVersion: null,
     passwordHash: await hash("a good long password"),
     signInTypes: ["GOOGLE", "PASSWORD"],
     lastSignInType: "GOOGLE",
@@ -186,7 +207,7 @@ it("rejects wrong passwords and disabled accounts", async () => {
       })
     ).statusCode,
   ).toBe(401);
-  user.active = false;
+  user.accountStatus = "SUSPENDED";
   expect(
     (
       await post("/api/auth/password", {
@@ -379,7 +400,14 @@ it("validates verified Gmail, nonce and allowlist on the Google callback", async
   });
   expect(r.headers.location).toBe("/");
   expect(db.user.create).toHaveBeenCalledWith({
-    data: { googleSubject: "google-123", email: user.email },
+    data: {
+      googleSubject: "google-123",
+      email: user.email,
+      roles: ["PARENT"],
+      accountStatus: "ACTIVE",
+      signInTypes: ["GOOGLE"],
+      lastSignInType: "GOOGLE",
+    },
   });
   expect(db.session.create).toHaveBeenCalled();
   vi.restoreAllMocks();
