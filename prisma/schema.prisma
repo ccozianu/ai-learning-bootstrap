@@ -70,6 +70,12 @@ model User {
   approvalsForKid        ParentCurriculumApproval[] @relation("KidApprovals")
   attempts               ExerciseAttempt[]
   knowledgeStates        StudentKnowledgeState[]
+  impersonationsAsParent ImpersonationSession[]     @relation("ImpersonationParent")
+  impersonationsAsKid    ImpersonationSession[]     @relation("ImpersonationKid")
+  previewAttemptsAsParent ParentPreviewAttempt[]    @relation("PreviewParent")
+  previewAttemptsAsKid    ParentPreviewAttempt[]    @relation("PreviewKid")
+  previewStatesAsParent  ParentPreviewKnowledgeState[] @relation("PreviewStateParent")
+  previewStatesAsKid     ParentPreviewKnowledgeState[] @relation("PreviewStateKid")
 
   @@index([guardianUserId])
   @@map("users")
@@ -163,6 +169,7 @@ model KnowledgeNode {
   lessons             Lesson[]
   exercises           Exercise[]
   studentStates       StudentKnowledgeState[]
+  previewStates       ParentPreviewKnowledgeState[]
 
   @@map("knowledge_nodes")
   @@schema("ai_learning")
@@ -248,6 +255,7 @@ model Lesson {
   knowledgeNode   KnowledgeNode     @relation(fields: [knowledgeNodeId], references: [id])
   exercises       Exercise[]
   attempts        ExerciseAttempt[]
+  previewAttempts ParentPreviewAttempt[]
 
   @@index([seriesId])
   @@map("lessons")
@@ -322,5 +330,65 @@ model StudentKnowledgeState {
 
   @@id([studentUserId, knowledgeNodeId])
   @@map("student_knowledge_states")
+  @@schema("ai_learning")
+}
+
+model ImpersonationSession {
+  id                String   @id @default(uuid()) @db.Uuid
+  launchCodeHash    String?  @unique
+  tokenHash         String?  @unique
+  parentUserId      String   @db.Uuid
+  parent            User     @relation("ImpersonationParent", fields: [parentUserId], references: [id], onDelete: Cascade)
+  parentAuthVersion Int
+  kidUserId         String   @db.Uuid
+  kid               User     @relation("ImpersonationKid", fields: [kidUserId], references: [id], onDelete: Cascade)
+  kidAuthVersion    Int
+  expiresAt         DateTime
+  createdAt         DateTime @default(now())
+
+  @@index([parentUserId])
+  @@index([kidUserId])
+  @@index([expiresAt])
+  @@map("impersonation_sessions")
+  @@schema("ai_learning")
+}
+
+model ParentPreviewAttempt {
+  id              String   @id @default(uuid()) @db.Uuid
+  clientEventId   String   @unique
+  parentUserId    String   @db.Uuid
+  parent          User     @relation("PreviewParent", fields: [parentUserId], references: [id], onDelete: Cascade)
+  kidUserId       String   @db.Uuid
+  kid             User     @relation("PreviewKid", fields: [kidUserId], references: [id], onDelete: Cascade)
+  exerciseId      String
+  lessonId        String
+  lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  knowledgeNodeId String
+  submittedAnswer Json
+  isCorrect       Boolean
+  feedback        String
+  createdAt       DateTime @default(now())
+
+  @@index([parentUserId, kidUserId, lessonId])
+  @@index([parentUserId, kidUserId, knowledgeNodeId])
+  @@map("parent_preview_attempts")
+  @@schema("ai_learning")
+}
+
+model ParentPreviewKnowledgeState {
+  parentUserId    String        @db.Uuid
+  parent          User          @relation("PreviewStateParent", fields: [parentUserId], references: [id], onDelete: Cascade)
+  kidUserId       String        @db.Uuid
+  kid             User          @relation("PreviewStateKid", fields: [kidUserId], references: [id], onDelete: Cascade)
+  knowledgeNodeId String
+  knowledgeNode   KnowledgeNode @relation(fields: [knowledgeNodeId], references: [id], onDelete: Cascade)
+  attemptsCount   Int           @default(0)
+  correctCount    Int           @default(0)
+  mastered        Boolean       @default(false)
+  masteredAt      DateTime?
+  updatedAt       DateTime      @updatedAt
+
+  @@id([parentUserId, kidUserId, knowledgeNodeId])
+  @@map("parent_preview_knowledge_states")
   @@schema("ai_learning")
 }

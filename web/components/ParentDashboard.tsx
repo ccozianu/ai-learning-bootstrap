@@ -3,17 +3,20 @@ import { api, type ParentDashboardData, type User } from "../client";
 
 export function ParentDashboard({
   user,
+  initialNotice = "",
   onLogout,
   onRefreshUser,
 }: {
   user: User;
+  initialNotice?: string;
   onLogout: (forget?: boolean) => Promise<void>;
   onRefreshUser: () => Promise<void>;
 }) {
   const [dashboard, setDashboard] = useState<ParentDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
-  const [notice, setNotice] = useState("");
+  const [notice, setNotice] = useState(initialNotice);
+  const [blockedLaunchUrl, setBlockedLaunchUrl] = useState<string | null>(null);
   const [resetKidId, setResetKidId] = useState<string | null>(null);
   const [showAdultPasswordForm, setShowAdultPasswordForm] = useState(false);
 
@@ -33,9 +36,14 @@ export function ParentDashboard({
     void load();
   }, []);
 
+  useEffect(() => {
+    if (initialNotice) setNotice(initialNotice);
+  }, [initialNotice]);
+
   async function runAction(action: () => Promise<void>) {
     setBusy(true);
     setNotice("");
+    setBlockedLaunchUrl(null);
     try {
       await action();
     } catch (err) {
@@ -107,9 +115,22 @@ export function ParentDashboard({
         </div>
       </header>
 
-      {notice && (
+      {(notice || blockedLaunchUrl) && (
         <div role="status" className="notice workspace-notice">
           {notice}
+          {blockedLaunchUrl && (
+            <>
+              {" "}
+              <a
+                href={blockedLaunchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setBlockedLaunchUrl(null)}
+              >
+                Open impersonation preview tab
+              </a>
+            </>
+          )}
         </div>
       )}
 
@@ -348,6 +369,38 @@ export function ParentDashboard({
                     </div>
 
                     <div className="kid-actions">
+                      {kid.accountStatus === "ACTIVE" && (
+                        <button
+                          type="button"
+                          disabled={busy}
+                          onClick={() => {
+                            const popup = window.open("", "_blank");
+                            if (popup) popup.opener = null;
+                            void runAction(async () => {
+                              try {
+                                const res = await api<{ launchUrl: string }>(
+                                  `/parent/kids/${kid.id}/impersonate`,
+                                  {},
+                                );
+                                if (popup) {
+                                  popup.location.replace(res.launchUrl);
+                                } else {
+                                  setBlockedLaunchUrl(res.launchUrl);
+                                  setNotice(
+                                    "Browser blocked the automatic popup tab.",
+                                  );
+                                }
+                              } catch (err) {
+                                popup?.close();
+                                throw err;
+                              }
+                            });
+                          }}
+                        >
+                          Impersonate in New Tab
+                        </button>
+                      )}
+
                       {kid.accountStatus !== "SUSPENDED" && (
                         <button
                           type="button"

@@ -26,7 +26,13 @@ const result = spawnSync(
 if (
   result.status !== 0 ||
   !result.stdout.includes('CREATE TABLE "ai_learning"."curriculum_series"') ||
-  !result.stdout.includes('CREATE TABLE "ai_learning"."knowledge_nodes"')
+  !result.stdout.includes('CREATE TABLE "ai_learning"."knowledge_nodes"') ||
+  !result.stdout.includes(
+    'CREATE TABLE "ai_learning"."impersonation_sessions"',
+  ) ||
+  !result.stdout.includes(
+    'CREATE TABLE "ai_learning"."parent_preview_attempts"',
+  )
 ) {
   console.error(
     "SQL migration diff failed. No database connection was attempted.",

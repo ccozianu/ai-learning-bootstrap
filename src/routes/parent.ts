@@ -4,6 +4,7 @@ import { z } from "zod";
 import { type AuthContext, Denied } from "../auth-helpers.js";
 import { computeKnowledgeGraph } from "../curriculum/evaluator.js";
 import type { PrismaClient } from "../generated/prisma/client.js";
+import { digest, token } from "../security.js";
 
 const createKidSchema = z
   .object({
@@ -226,6 +227,9 @@ export function registerParentRoutes(
         await tx.session.deleteMany({ where: { userId: kid.id } });
         await tx.trustedDevice.deleteMany({ where: { userId: kid.id } });
         await tx.challenge.deleteMany({ where: { userId: kid.id } });
+        await tx.impersonationSession.deleteMany({
+          where: { kidUserId: kid.id },
+        });
       }
       await tx.auditLog.create({
         data: {
@@ -277,6 +281,9 @@ export function registerParentRoutes(
       await tx.session.deleteMany({ where: { userId: kid.id } });
       await tx.trustedDevice.deleteMany({ where: { userId: kid.id } });
       await tx.challenge.deleteMany({ where: { userId: kid.id } });
+      await tx.impersonationSession.deleteMany({
+        where: { kidUserId: kid.id },
+      });
       await tx.auditLog.create({
         data: {
           eventType: "KID_PASSWORD_RESET",
@@ -312,6 +319,15 @@ export function registerParentRoutes(
       await tx.session.deleteMany({ where: { userId: kid.id } });
       await tx.trustedDevice.deleteMany({ where: { userId: kid.id } });
       await tx.challenge.deleteMany({ where: { userId: kid.id } });
+      await tx.impersonationSession.deleteMany({
+        where: { kidUserId: kid.id },
+      });
+      await tx.parentPreviewAttempt.deleteMany({
+        where: { kidUserId: kid.id },
+      });
+      await tx.parentPreviewKnowledgeState.deleteMany({
+        where: { kidUserId: kid.id },
+      });
       await tx.exerciseAttempt.updateMany({
         where: { studentUserId: kid.id },
         data: { submittedAnswer: {} },
@@ -384,5 +400,60 @@ export function registerParentRoutes(
     });
 
     return { ok: true };
+  });
+
+  app.post("/api/parent/kids/:kidId/impersonate", async (req) => {
+    const parent = await auth.requireRole(req, "PARENT");
+    const { kidId } = z.object({ kidId: z.string().uuid() }).parse(req.params);
+    const kid = await assertOwnKid(db, parent.id, kidId);
+
+    if (kid.accountStatus !== "ACTIVE") {
+      throw new Denied(
+        400,
+        kid.accountStatus === "PENDING_PARENT_CONSENT" ||
+          kid.accountStatus === "CONSENT_WITHDRAWN"
+          ? "Grant GDPR consent before impersonating this student."
+          : "This student account cannot be impersonated.",
+      );
+    }
+
+    const launchCode = token();
+    const now = new Date();
+    await db.$transaction([
+      db.impersonationSession.deleteMany({
+        where: {
+          parentUserId: parent.id,
+          OR: [
+            { expiresAt: { lt: now } },
+            {
+              tokenHash: null,
+              createdAt: { lt: new Date(now.getTime() - 120_000) },
+            },
+          ],
+        },
+      }),
+      db.impersonationSession.create({
+        data: {
+          launchCodeHash: digest(launchCode),
+          parentUserId: parent.id,
+          parentAuthVersion: parent.authVersion,
+          kidUserId: kid.id,
+          kidAuthVersion: kid.authVersion,
+          expiresAt: new Date(now.getTime() + 2 * 60 * 60 * 1000),
+        },
+      }),
+      db.auditLog.create({
+        data: {
+          eventType: "IMPERSONATION_STARTED",
+          actorUserId: parent.id,
+          targetUserId: kid.id,
+          detail: "Parent launched isolated kid impersonation preview tab.",
+        },
+      }),
+    ]);
+
+    return {
+      launchUrl: `/#impersonate=${launchCode}`,
+    };
   });
 }

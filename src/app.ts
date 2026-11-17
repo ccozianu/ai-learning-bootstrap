@@ -14,6 +14,7 @@ import {
   createAuthContext,
   DAY,
   Denied,
+  extractImpersonationToken,
   publicUser,
 } from "./auth-helpers.js";
 import type { Config } from "./config.js";
@@ -48,6 +49,10 @@ const confirmationBody = z.object({
 
 const devTokenBody = z.object({
   token: z.string().min(16).max(256),
+});
+
+const impersonateExchangeBody = z.object({
+  code: z.string().min(16).max(256),
 });
 
 export async function buildApp(
@@ -130,7 +135,98 @@ export async function buildApp(
     return { status: "ready" };
   });
 
-  app.get("/api/me", async (req) => publicUser(await auth.current(req)));
+  app.get("/api/me", async (req) => {
+    const { actor, impersonation } = await auth.resolveEffectiveIdentity(req);
+    if (!impersonation) return publicUser(actor);
+    return {
+      ...publicUser(impersonation.kidUser),
+      impersonation: {
+        active: true,
+        parentEmail: impersonation.parentUser.email,
+        kidId: impersonation.kidUser.id,
+        kidDisplayName: impersonation.kidUser.displayName,
+        kidUsername: impersonation.kidUser.username,
+      },
+    };
+  });
+
+  app.post(
+    "/api/auth/impersonate/exchange",
+    { config: authLimit },
+    async (req) => {
+      const parent = await auth.requireRole(req, "PARENT");
+      const { code } = impersonateExchangeBody.parse(req.body);
+      const launchHash = digest(code.trim());
+      const tabToken = token();
+      const tabHash = digest(tabToken);
+      const now = new Date();
+      const twoMinutesAgo = new Date(now.getTime() - 120_000);
+
+      const imp = await db.$transaction(async (tx) => {
+        const claimed = await tx.impersonationSession.updateMany({
+          where: {
+            launchCodeHash: launchHash,
+            tokenHash: null,
+            parentUserId: parent.id,
+            expiresAt: { gt: now },
+            createdAt: { gt: twoMinutesAgo },
+          },
+          data: {
+            launchCodeHash: null,
+            tokenHash: tabHash,
+          },
+        });
+        if (!claimed.count) {
+          throw new Denied(401, "Impersonation link is invalid or expired.");
+        }
+        return tx.impersonationSession.findUnique({
+          where: { tokenHash: tabHash },
+          include: { kid: true },
+        });
+      });
+
+      if (
+        !imp ||
+        imp.parentAuthVersion !== parent.authVersion ||
+        imp.kidAuthVersion !== imp.kid.authVersion ||
+        imp.kid.guardianUserId !== parent.id ||
+        !(await auth.permitted(imp.kid))
+      ) {
+        throw new Denied(401, "Impersonation session is no longer valid.");
+      }
+
+      return {
+        tabToken,
+        kidDisplayName: imp.kid.displayName,
+      };
+    },
+  );
+
+  app.post("/api/auth/impersonate/exit", async (req) => {
+    const parent = await auth.current(req);
+    const impToken = extractImpersonationToken(req);
+    if (impToken) {
+      const deleted = await db.impersonationSession.findUnique({
+        where: { tokenHash: digest(impToken) },
+      });
+      if (deleted && deleted.parentUserId === parent.id) {
+        await db.$transaction([
+          db.impersonationSession.deleteMany({
+            where: { id: deleted.id },
+          }),
+          db.auditLog.create({
+            data: {
+              eventType: "IMPERSONATION_ENDED",
+              actorUserId: parent.id,
+              targetUserId: deleted.kidUserId,
+              detail: "Parent exited kid impersonation preview tab.",
+            },
+          }),
+        ]);
+      }
+    }
+    return { ok: true };
+  });
 
   app.post("/api/auth/dev-token", { config: authLimit }, async (req, reply) => {
     if (!cfg.devConsoleAuth) {
@@ -271,6 +367,12 @@ export async function buildApp(
     "/api/auth/password/setup",
     { config: authLimit },
     async (req, reply) => {
+      if (extractImpersonationToken(req)) {
+        throw new Denied(
+          403,
+          "Password setup cannot be invoked from an impersonated tab.",
+        );
+      }
       const user = await auth.current(req);
       if (user.roles.includes("KID")) {
         throw new Denied(403, "Only a parent can change a student password.");
@@ -499,6 +601,12 @@ export async function buildApp(
   );
 
   app.post("/api/auth/logout", async (req, reply) => {
+    if (extractImpersonationToken(req)) {
+      throw new Denied(
+        403,
+        "Use Exit Impersonation instead of logging out from a preview tab.",
+      );
+    }
     const raw = req.cookies[sessionCookie];
     if (raw) await db.session.deleteMany({ where: { tokenHash: digest(raw) } });
     reply.clearCookie(sessionCookie, cookieOpts);
@@ -506,6 +614,12 @@ export async function buildApp(
   });
 
   app.post("/api/auth/forget-browsers", async (req, reply) => {
+    if (extractImpersonationToken(req)) {
+      throw new Denied(
+        403,
+        "Forget browsers cannot be invoked from an impersonated tab.",
+      );
+    }
     const user = await auth.current(req);
     await db.$transaction([
       db.user.update({
@@ -515,6 +629,7 @@ export async function buildApp(
       db.trustedDevice.deleteMany({ where: { userId: user.id } }),
       db.session.deleteMany({ where: { userId: user.id } }),
       db.challenge.deleteMany({ where: { userId: user.id } }),
+      db.impersonationSession.deleteMany({ where: { parentUserId: user.id } }),
     ]);
     reply
       .clearCookie(deviceCookie, cookieOpts)
@@ -530,8 +645,12 @@ export async function buildApp(
       "type User { id: ID!, email: String, username: String, displayName: String, roles: [String!]!, accountStatus: String!, signInTypes: [String!]!, lastSignInType: String } type Query { me: User! }",
     resolvers: {
       Query: {
-        me: async (_root, _args, context) =>
-          publicUser(await auth.current(context.reply.request)),
+        me: async (_root, _args, context) => {
+          const { actor } = await auth.resolveEffectiveIdentity(
+            context.reply.request,
+          );
+          return publicUser(actor);
+        },
       },
     },
     graphiql: false,

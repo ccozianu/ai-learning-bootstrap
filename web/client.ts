@@ -7,6 +7,39 @@ export interface User {
   accountStatus: string;
   signInTypes: string[];
   lastSignInType: string | null;
+  impersonation?: {
+    active: boolean;
+    parentEmail: string | null;
+    kidId: string;
+    kidDisplayName: string | null;
+    kidUsername: string | null;
+  } | null;
+}
+
+const IMPERSONATION_STORAGE_KEY = "ai-impersonation-token";
+
+export function getImpersonationToken(): string | null {
+  try {
+    return window.sessionStorage.getItem(IMPERSONATION_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setImpersonationToken(tok: string): void {
+  try {
+    window.sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, tok);
+  } catch {
+    // Ignore storage unavailability in restricted contexts.
+  }
+}
+
+export function clearImpersonationToken(): void {
+  try {
+    window.sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
+  } catch {
+    // Ignore storage unavailability.
+  }
 }
 
 export interface KnowledgeNodeView {
@@ -148,10 +181,18 @@ export async function api<T>(
   method?: "GET" | "POST" | "DELETE",
 ): Promise<T> {
   const actualMethod = method ?? (data === undefined ? "GET" : "POST");
+  const headers: Record<string, string> = {};
+  if (data !== undefined) {
+    headers["Content-Type"] = "application/json";
+  }
+  const impToken = getImpersonationToken();
+  if (impToken) {
+    headers["X-Impersonation-Token"] = impToken;
+  }
   const response = await fetch(`/api${path}`, {
     method: actualMethod,
     credentials: "same-origin",
-    headers: data === undefined ? {} : { "Content-Type": "application/json" },
+    headers,
     body: data === undefined ? undefined : JSON.stringify(data),
   });
   const rawText = await response.text();

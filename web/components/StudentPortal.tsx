@@ -17,9 +17,11 @@ interface AttemptFeedback {
 export function StudentPortal({
   user,
   onLogout,
+  onExitImpersonation,
 }: {
   user: User;
   onLogout: () => Promise<void>;
+  onExitImpersonation?: () => Promise<void>;
 }) {
   const [overview, setOverview] = useState<LearnOverviewData | null>(null);
   const [activeVersionId, setActiveVersionId] = useState<string>("");
@@ -199,6 +201,27 @@ export function StudentPortal({
     }
   }
 
+  async function resetPreviewProgress() {
+    setBusy(true);
+    setNotice("");
+    try {
+      await api("/learn/preview/reset", {});
+      setFeedbackByEx({});
+      setBlankAnswers({});
+      setSortAssignments({});
+      await loadOverview(true);
+      setNotice("Parent impersonation preview progress cleared.");
+    } catch (err) {
+      setNotice(
+        err instanceof Error
+          ? err.message
+          : "Could not reset preview progress.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const curriculum =
     overview?.curricula.find((c) => c.versionId === activeVersionId) ??
     overview?.curricula[0];
@@ -242,15 +265,67 @@ export function StudentPortal({
           >
             Print Worksheet
           </button>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => void onLogout()}
-          >
-            Switch Student / Sign Out
-          </button>
+          {onExitImpersonation ? (
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={busy}
+              onClick={() => void onExitImpersonation()}
+            >
+              Exit Impersonation
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => void onLogout()}
+            >
+              Switch Student / Sign Out
+            </button>
+          )}
         </div>
       </header>
+
+      {user.impersonation?.active && (
+        <div
+          role="region"
+          aria-label="Impersonation preview banner"
+          className="impersonation-banner no-print"
+        >
+          <div>
+            <strong>
+              Parent Impersonation Preview:{" "}
+              {user.impersonation.kidDisplayName ??
+                user.impersonation.kidUsername}
+            </strong>
+            <div className="small">
+              Signed in via {user.impersonation.parentEmail}. Answers and
+              mastery save to your separate parent preview sandbox without
+              modifying this student’s real progress.
+            </div>
+          </div>
+          <div className="impersonation-actions">
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={busy}
+              onClick={() => void resetPreviewProgress()}
+            >
+              Reset Preview Progress
+            </button>
+            {onExitImpersonation && (
+              <button
+                type="button"
+                className="btn-danger"
+                disabled={busy}
+                onClick={() => void onExitImpersonation()}
+              >
+                Exit Impersonation
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {notice && (
         <div role="status" className="notice workspace-notice no-print">

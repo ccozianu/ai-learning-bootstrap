@@ -10,6 +10,7 @@ import { approved, digest, normalizeEmail, token } from "./security.js";
 export const SESSION_COOKIE = "__Host-ai-session";
 export const OAUTH_COOKIE = "__Host-ai-oauth";
 export const DEVICE_COOKIE = "__Host-ai-device";
+export const IMPERSONATION_HEADER = "x-impersonation-token";
 export const DAY = 86_400_000;
 
 export class Denied extends Error {
@@ -48,10 +49,41 @@ export function publicUser(user: User) {
   };
 }
 
+export function extractImpersonationToken(
+  req: FastifyRequest,
+): string | undefined {
+  const raw = req.headers[IMPERSONATION_HEADER];
+  if (raw === undefined) return undefined;
+  if (typeof raw !== "string") {
+    throw new Denied(400, "Invalid impersonation header.");
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) return undefined;
+  if (trimmed.length > 256) {
+    throw new Denied(400, "Invalid impersonation token.");
+  }
+  return trimmed;
+}
+
+export type LearnActor =
+  | { mode: "STUDENT"; kid: User; previewParentId: null }
+  | { mode: "PARENT_IMPERSONATION"; kid: User; previewParentId: string };
+
+export interface EffectiveIdentity {
+  actor: User;
+  impersonation: {
+    sessionId: string;
+    parentUser: User;
+    kidUser: User;
+  } | null;
+}
+
 export interface AuthContext {
   current(req: FastifyRequest): Promise<User>;
+  resolveEffectiveIdentity(req: FastifyRequest): Promise<EffectiveIdentity>;
   requireRole(req: FastifyRequest, role: "PARENT" | "KID"): Promise<User>;
-  permitted(user: User): Promise<boolean>;
+  requireLearnActor(req: FastifyRequest): Promise<LearnActor>;
+  permitted(user: User, depth?: number): Promise<boolean>;
   issueSession(
     reply: FastifyReply,
     user: User,
@@ -107,15 +139,80 @@ export function createAuthContext(db: PrismaClient, cfg: Config): AuthContext {
     return session.user;
   }
 
+  async function resolveEffectiveIdentity(
+    req: FastifyRequest,
+  ): Promise<EffectiveIdentity> {
+    const cookieUser = await current(req);
+    const impToken = extractImpersonationToken(req);
+    if (!impToken) {
+      return { actor: cookieUser, impersonation: null };
+    }
+
+    if (
+      cookieUser.roles.includes("KID") ||
+      !cookieUser.roles.includes("PARENT")
+    ) {
+      throw new Denied(403, "Only active parents can impersonate a student.");
+    }
+
+    const imp = await db.impersonationSession.findUnique({
+      where: { tokenHash: digest(impToken) },
+      include: { kid: true },
+    });
+    if (
+      !imp ||
+      imp.expiresAt < new Date() ||
+      imp.parentUserId !== cookieUser.id ||
+      imp.parentAuthVersion !== cookieUser.authVersion ||
+      imp.kidAuthVersion !== imp.kid.authVersion ||
+      imp.kid.guardianUserId !== cookieUser.id ||
+      !imp.kid.roles.includes("KID") ||
+      !(await permitted(imp.kid))
+    ) {
+      throw new Denied(401, "Impersonation session expired or ended.");
+    }
+
+    return {
+      actor: imp.kid,
+      impersonation: {
+        sessionId: imp.id,
+        parentUser: cookieUser,
+        kidUser: imp.kid,
+      },
+    };
+  }
+
   async function requireRole(
     req: FastifyRequest,
     role: "PARENT" | "KID",
   ): Promise<User> {
+    const impToken = extractImpersonationToken(req);
+    if (role === "PARENT" && impToken) {
+      throw new Denied(
+        403,
+        "Parent endpoints cannot be called from an impersonated student tab.",
+      );
+    }
     const user = await current(req);
     if (!user.roles.includes(role)) {
       throw new Denied(403, "This workspace is restricted to another role.");
     }
     return user;
+  }
+
+  async function requireLearnActor(req: FastifyRequest): Promise<LearnActor> {
+    const { actor, impersonation } = await resolveEffectiveIdentity(req);
+    if (impersonation) {
+      return {
+        mode: "PARENT_IMPERSONATION",
+        kid: impersonation.kidUser,
+        previewParentId: impersonation.parentUser.id,
+      };
+    }
+    if (!actor.roles.includes("KID")) {
+      throw new Denied(403, "This workspace is restricted to students.");
+    }
+    return { mode: "STUDENT", kid: actor, previewParentId: null };
   }
 
   async function issueSession(
@@ -159,5 +256,12 @@ export function createAuthContext(db: PrismaClient, cfg: Config): AuthContext {
     reply.setCookie(sessionCookie, raw, { ...cookieOpts, maxAge: DAY / 1000 });
   }
 
-  return { current, requireRole, permitted, issueSession };
+  return {
+    current,
+    resolveEffectiveIdentity,
+    requireRole,
+    requireLearnActor,
+    permitted,
+    issueSession,
+  };
 }

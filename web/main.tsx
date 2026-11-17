@@ -1,11 +1,17 @@
 import React, { useEffect, useState, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
-import { api, type User } from "./client";
+import {
+  api,
+  clearImpersonationToken,
+  getImpersonationToken,
+  setImpersonationToken,
+  type User,
+} from "./client";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { StudentPortal } from "./components/StudentPortal";
 import "./style.css";
 
-let ottHandled = false;
+let launchHandled = false;
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,10 +27,22 @@ function App() {
   );
 
   const refresh = async () => {
+    const hadImpToken = Boolean(getImpersonationToken());
     try {
       setUser(await api<User>("/me"));
     } catch {
-      setUser(null);
+      if (hadImpToken) {
+        // Stale or expired tab token: clear it and retry /me as the browser session.
+        clearImpersonationToken();
+        try {
+          setUser(await api<User>("/me"));
+          setNotice("Impersonation preview ended or expired.");
+        } catch {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }
@@ -32,13 +50,46 @@ function App() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+    const hashParams = new URLSearchParams(
+      location.hash.startsWith("#") ? location.hash.slice(1) : location.hash,
+    );
     const ott = params.get("ott");
+    const impersonateCode =
+      hashParams.get("impersonate") ?? params.get("impersonate");
     history.replaceState(null, "", "/");
 
-    if (ott && !ottHandled) {
-      ottHandled = true;
+    if (impersonateCode && !launchHandled) {
+      launchHandled = true;
       void (async () => {
         try {
+          clearImpersonationToken();
+          const res = await api<{ tabToken: string }>(
+            "/auth/impersonate/exchange",
+            { code: impersonateCode },
+          );
+          setImpersonationToken(res.tabToken);
+          setNotice(
+            "Impersonation preview active in this tab (student progress untouched).",
+          );
+        } catch (error) {
+          clearImpersonationToken();
+          setNotice(
+            error instanceof Error
+              ? error.message
+              : "Impersonation session could not be started.",
+          );
+        } finally {
+          await refresh();
+        }
+      })();
+      return;
+    }
+
+    if (ott && !launchHandled) {
+      launchHandled = true;
+      void (async () => {
+        try {
+          clearImpersonationToken();
           await api("/auth/dev-token", { token: ott });
           setNotice("Signed in via one-time parent console token.");
         } catch (error) {
@@ -54,7 +105,7 @@ function App() {
       return;
     }
 
-    if (!ottHandled) {
+    if (!launchHandled) {
       void refresh();
     }
   }, []);
@@ -68,6 +119,7 @@ function App() {
     setBusy(true);
     setNotice("");
     try {
+      clearImpersonationToken();
       await action(data);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Please try again.");
@@ -80,6 +132,7 @@ function App() {
     setBusy(true);
     try {
       await api(forget ? "/auth/forget-browsers" : "/auth/logout", {});
+      clearImpersonationToken();
       setUser(null);
       setChallenge("");
       setNotice("Signed out.");
@@ -90,12 +143,39 @@ function App() {
     }
   }
 
+  async function exitImpersonation() {
+    setBusy(true);
+    try {
+      await api("/auth/impersonate/exit", {});
+    } catch {
+      // Clear tab token even if server session already expired.
+    } finally {
+      clearImpersonationToken();
+      setBusy(false);
+      window.close();
+      await refresh();
+    }
+  }
+
   if (!loading && user) {
-    if (user.roles.includes("KID")) {
-      return <StudentPortal user={user} onLogout={() => logout(false)} />;
+    if (user.impersonation?.active || user.roles.includes("KID")) {
+      return (
+        <StudentPortal
+          user={user}
+          onLogout={() => logout(false)}
+          onExitImpersonation={
+            user.impersonation?.active ? exitImpersonation : undefined
+          }
+        />
+      );
     }
     return (
-      <ParentDashboard user={user} onLogout={logout} onRefreshUser={refresh} />
+      <ParentDashboard
+        user={user}
+        initialNotice={notice}
+        onLogout={logout}
+        onRefreshUser={refresh}
+      />
     );
   }
 

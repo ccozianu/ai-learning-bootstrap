@@ -166,6 +166,24 @@ describe("Parent OTT, Kid Registration, Guardian 2FA & Learning Isolation", () =
       findUnique: vi.fn(),
       upsert: vi.fn(),
     },
+    impersonationSession: {
+      findUnique: vi.fn(),
+      create: vi.fn(),
+      deleteMany: vi.fn(),
+      updateMany: vi.fn(),
+    },
+    parentPreviewAttempt: {
+      findUnique: vi.fn(),
+      findMany: vi.fn(),
+      create: vi.fn(),
+      deleteMany: vi.fn(),
+    },
+    parentPreviewKnowledgeState: {
+      findMany: vi.fn(),
+      findUnique: vi.fn(),
+      upsert: vi.fn(),
+      deleteMany: vi.fn(),
+    },
     $transaction: vi.fn(),
   };
 
@@ -487,5 +505,274 @@ describe("Parent OTT, Kid Registration, Guardian 2FA & Learning Isolation", () =
       if (prevDev === undefined) delete process.env.DEV_CONSOLE_AUTH;
       else process.env.DEV_CONSOLE_AUTH = prevDev;
     }
+  });
+
+  it("supports isolated parent kid-impersonation with separate preview persistence", async () => {
+    db.session.findUnique.mockResolvedValue({
+      authVersion: 0,
+      user: parent,
+      expiresAt: new Date(Date.now() + 60000),
+      createdAt: new Date(),
+    });
+
+    // 1. Refuse impersonation if kid lacks active GDPR consent
+    db.user.findUnique.mockResolvedValueOnce({
+      ...kid,
+      accountStatus: "PENDING_PARENT_CONSENT",
+    });
+    const blockedStart = await app.inject({
+      method: "POST",
+      url: `/api/parent/kids/${kid.id}/impersonate`,
+      headers: { origin: cfg.origin },
+      cookies: { "ai-session": "parent-sess" },
+      payload: {},
+    });
+    expect(blockedStart.statusCode).toBe(400);
+
+    // 2. Start impersonation for ACTIVE kid -> returns launchUrl
+    db.user.findUnique.mockResolvedValueOnce(kid);
+    const startRes = await app.inject({
+      method: "POST",
+      url: `/api/parent/kids/${kid.id}/impersonate`,
+      headers: { origin: cfg.origin },
+      cookies: { "ai-session": "parent-sess" },
+      payload: {},
+    });
+    expect(startRes.statusCode).toBe(200);
+    const launchUrl = startRes.json().launchUrl as string;
+    expect(launchUrl.startsWith("/#impersonate=")).toBe(true);
+    const launchCode = launchUrl.split("=")[1]!;
+
+    // 3. Exchange single-use launch code for tabToken
+    db.impersonationSession.updateMany
+      .mockResolvedValueOnce({ count: 1 })
+      .mockResolvedValueOnce({ count: 0 });
+    db.impersonationSession.findUnique.mockResolvedValue({
+      id: "55555555-5555-4555-8555-555555555555",
+      parentUserId: parent.id,
+      parentAuthVersion: 0,
+      kidUserId: kid.id,
+      kidAuthVersion: 0,
+      expiresAt: new Date(Date.now() + 60000),
+      kid,
+    });
+    db.user.findUnique.mockResolvedValue(parent);
+
+    const exRes = await app.inject({
+      method: "POST",
+      url: "/api/auth/impersonate/exchange",
+      headers: { origin: cfg.origin },
+      cookies: { "ai-session": "parent-sess" },
+      payload: { code: launchCode },
+    });
+    expect(exRes.statusCode).toBe(200);
+    const tabToken = exRes.json().tabToken as string;
+    expect(tabToken.length).toBeGreaterThan(16);
+
+    // Launch code replay is rejected
+    const replayEx = await app.inject({
+      method: "POST",
+      url: "/api/auth/impersonate/exchange",
+      headers: { origin: cfg.origin },
+      cookies: { "ai-session": "parent-sess" },
+      payload: { code: launchCode },
+    });
+    expect(replayEx.statusCode).toBe(401);
+
+    // 4. Tab 1 (no header) still sees PARENT; Tab 2 (with header) sees KID preview & cannot hit /api/parent/*
+    const meTab1 = await app.inject({
+      method: "GET",
+      url: "/api/me",
+      cookies: { "ai-session": "parent-sess" },
+    });
+    expect(meTab1.json().roles).toEqual(["PARENT"]);
+    expect(meTab1.json().impersonation).toBeUndefined();
+
+    const meTab2 = await app.inject({
+      method: "GET",
+      url: "/api/me",
+      headers: { "x-impersonation-token": tabToken },
+      cookies: { "ai-session": "parent-sess" },
+    });
+    expect(meTab2.json().username).toBe("matei_ro");
+    expect(meTab2.json().impersonation.active).toBe(true);
+
+    const parentApiBlocked = await app.inject({
+      method: "GET",
+      url: "/api/parent/dashboard",
+      headers: { "x-impersonation-token": tabToken },
+      cookies: { "ai-session": "parent-sess" },
+    });
+    expect(parentApiBlocked.statusCode).toBe(403);
+
+    // 5. Solving an exercise while impersonating writes ONLY to parentPreview* tables
+    db.lesson.findUnique.mockResolvedValue({
+      id: "ro-v1-practice",
+      seriesId: "ro-verbs-ch1",
+      kind: "PRACTICE_SHEET",
+      knowledgeNodeId: "ro_verb_tenses_core",
+      series: { curriculumVersionId: "romanian-fundamentals@1.0.0" },
+    });
+    db.parentCurriculumApproval.findUnique.mockResolvedValue({
+      kidUserId: kid.id,
+      curriculumVersionId: "romanian-fundamentals@1.0.0",
+      revokedAt: null,
+    });
+    db.parentPreviewAttempt.findMany.mockResolvedValue([
+      { exerciseId: "ex-1" },
+    ]);
+    db.parentPreviewKnowledgeState.findUnique.mockResolvedValue(null);
+    db.parentPreviewKnowledgeState.upsert.mockResolvedValue({
+      parentUserId: parent.id,
+      kidUserId: kid.id,
+      knowledgeNodeId: "ro_verb_tenses_core",
+      attemptsCount: 1,
+      correctCount: 1,
+      mastered: false,
+    });
+
+    const sampleEx = generatePracticeExercises("ro-verbs-ch1", 0, 12)[0]!;
+    const attemptRes = await app.inject({
+      method: "POST",
+      url: "/api/learn/attempts",
+      headers: { origin: cfg.origin, "x-impersonation-token": tabToken },
+      cookies: { "ai-session": "parent-sess" },
+      payload: {
+        clientEventId: "66666666-6666-4666-8666-666666666666",
+        lessonId: "ro-v1-practice",
+        exerciseId: sampleEx.id,
+        answer: sampleEx.acceptedBlanks,
+      },
+    });
+    expect(attemptRes.statusCode).toBe(200);
+    expect(attemptRes.json().previewMode).toBe(true);
+    expect(db.parentPreviewAttempt.create).toHaveBeenCalled();
+    expect(db.exerciseAttempt.create).not.toHaveBeenCalled();
+    expect(db.studentKnowledgeState.upsert).not.toHaveBeenCalled();
+
+    // 6. Reset preview clears only preview tables & exit deletes impersonation row
+    const resetRes = await app.inject({
+      method: "POST",
+      url: "/api/learn/preview/reset",
+      headers: { origin: cfg.origin, "x-impersonation-token": tabToken },
+      cookies: { "ai-session": "parent-sess" },
+      payload: {},
+    });
+    expect(resetRes.statusCode).toBe(200);
+    expect(db.parentPreviewAttempt.deleteMany).toHaveBeenCalled();
+    expect(db.parentPreviewKnowledgeState.deleteMany).toHaveBeenCalled();
+
+    const exitRes = await app.inject({
+      method: "POST",
+      url: "/api/auth/impersonate/exit",
+      headers: { origin: cfg.origin, "x-impersonation-token": tabToken },
+      cookies: { "ai-session": "parent-sess" },
+      payload: {},
+    });
+    expect(exitRes.statusCode).toBe(200);
+    expect(db.impersonationSession.deleteMany).toHaveBeenCalled();
+
+    // 7. M2 + L5 guards: auth mutation routes reject X-Impersonation-Token, and invalidation branches fail closed
+    for (const authPath of [
+      "/api/auth/password/setup",
+      "/api/auth/logout",
+      "/api/auth/forget-browsers",
+    ]) {
+      const blockedAuth = await app.inject({
+        method: "POST",
+        url: authPath,
+        headers: { origin: cfg.origin, "x-impersonation-token": tabToken },
+        cookies: { "ai-session": "parent-sess" },
+        payload: { username: "parent_u", password: "long parent password" },
+      });
+      expect(blockedAuth.statusCode).toBe(403);
+    }
+
+    // Expired impersonation session -> 401
+    db.impersonationSession.findUnique.mockResolvedValueOnce({
+      id: "55555555-5555-4555-8555-555555555555",
+      parentUserId: parent.id,
+      parentAuthVersion: 0,
+      kidUserId: kid.id,
+      kidAuthVersion: 0,
+      expiresAt: new Date(Date.now() - 1000),
+      kid,
+    });
+    expect(
+      (
+        await app.inject({
+          method: "GET",
+          url: "/api/me",
+          headers: { "x-impersonation-token": tabToken },
+          cookies: { "ai-session": "parent-sess" },
+        })
+      ).statusCode,
+    ).toBe(401);
+
+    // Parent authVersion bumped -> 401
+    db.session.findUnique.mockResolvedValueOnce({
+      authVersion: 1,
+      user: { ...parent, authVersion: 1 },
+      expiresAt: new Date(Date.now() + 60000),
+      createdAt: new Date(),
+    });
+    db.impersonationSession.findUnique.mockResolvedValueOnce({
+      id: "55555555-5555-4555-8555-555555555555",
+      parentUserId: parent.id,
+      parentAuthVersion: 0,
+      kidUserId: kid.id,
+      kidAuthVersion: 0,
+      expiresAt: new Date(Date.now() + 60000),
+      kid,
+    });
+    expect(
+      (
+        await app.inject({
+          method: "GET",
+          url: "/api/me",
+          headers: { "x-impersonation-token": tabToken },
+          cookies: { "ai-session": "parent-sess" },
+        })
+      ).statusCode,
+    ).toBe(401);
+
+    // Kid authVersion bumped or consent withdrawn -> 401
+    db.impersonationSession.findUnique.mockResolvedValueOnce({
+      id: "55555555-5555-4555-8555-555555555555",
+      parentUserId: parent.id,
+      parentAuthVersion: 0,
+      kidUserId: kid.id,
+      kidAuthVersion: 0,
+      expiresAt: new Date(Date.now() + 60000),
+      kid: { ...kid, accountStatus: "CONSENT_WITHDRAWN" },
+    });
+    expect(
+      (
+        await app.inject({
+          method: "GET",
+          url: "/api/me",
+          headers: { "x-impersonation-token": tabToken },
+          cookies: { "ai-session": "parent-sess" },
+        })
+      ).statusCode,
+    ).toBe(401);
+
+    // Real KID cookie sending X-Impersonation-Token -> 403
+    db.session.findUnique.mockResolvedValueOnce({
+      authVersion: 0,
+      user: kid,
+      expiresAt: new Date(Date.now() + 60000),
+      createdAt: new Date(),
+    });
+    expect(
+      (
+        await app.inject({
+          method: "GET",
+          url: "/api/me",
+          headers: { "x-impersonation-token": tabToken },
+          cookies: { "ai-session": "kid-sess" },
+        })
+      ).statusCode,
+    ).toBe(403);
   });
 });

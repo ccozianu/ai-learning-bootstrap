@@ -38,6 +38,12 @@ const db = {
     deleteMany: vi.fn(),
   },
   auditLog: { create: vi.fn() },
+  impersonationSession: {
+    findUnique: vi.fn(),
+    create: vi.fn(),
+    deleteMany: vi.fn(),
+    updateMany: vi.fn(),
+  },
   $transaction: vi.fn(),
 };
 const mail = vi.fn();

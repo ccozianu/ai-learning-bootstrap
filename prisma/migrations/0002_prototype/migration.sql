@@ -196,6 +196,52 @@ CREATE TABLE "ai_learning"."student_knowledge_states" (
     CONSTRAINT "student_knowledge_states_pkey" PRIMARY KEY ("studentUserId","knowledgeNodeId")
 );
 
+-- CreateTable
+CREATE TABLE "ai_learning"."impersonation_sessions" (
+    "id" UUID NOT NULL,
+    "launchCodeHash" TEXT,
+    "tokenHash" TEXT,
+    "parentUserId" UUID NOT NULL,
+    "parentAuthVersion" INTEGER NOT NULL,
+    "kidUserId" UUID NOT NULL,
+    "kidAuthVersion" INTEGER NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "impersonation_sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ai_learning"."parent_preview_attempts" (
+    "id" UUID NOT NULL,
+    "clientEventId" TEXT NOT NULL,
+    "parentUserId" UUID NOT NULL,
+    "kidUserId" UUID NOT NULL,
+    "exerciseId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "knowledgeNodeId" TEXT NOT NULL,
+    "submittedAnswer" JSONB NOT NULL,
+    "isCorrect" BOOLEAN NOT NULL,
+    "feedback" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "parent_preview_attempts_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ai_learning"."parent_preview_knowledge_states" (
+    "parentUserId" UUID NOT NULL,
+    "kidUserId" UUID NOT NULL,
+    "knowledgeNodeId" TEXT NOT NULL,
+    "attemptsCount" INTEGER NOT NULL DEFAULT 0,
+    "correctCount" INTEGER NOT NULL DEFAULT 0,
+    "mastered" BOOLEAN NOT NULL DEFAULT false,
+    "masteredAt" TIMESTAMP(3),
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "parent_preview_knowledge_states_pkey" PRIMARY KEY ("parentUserId","kidUserId","knowledgeNodeId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "dev_login_tokens_tokenHash_key" ON "ai_learning"."dev_login_tokens"("tokenHash");
 
@@ -240,6 +286,30 @@ CREATE INDEX "exercise_attempts_studentUserId_lessonId_idx" ON "ai_learning"."ex
 
 -- CreateIndex
 CREATE INDEX "exercise_attempts_studentUserId_knowledgeNodeId_idx" ON "ai_learning"."exercise_attempts"("studentUserId", "knowledgeNodeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "impersonation_sessions_launchCodeHash_key" ON "ai_learning"."impersonation_sessions"("launchCodeHash");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "impersonation_sessions_tokenHash_key" ON "ai_learning"."impersonation_sessions"("tokenHash");
+
+-- CreateIndex
+CREATE INDEX "impersonation_sessions_parentUserId_idx" ON "ai_learning"."impersonation_sessions"("parentUserId");
+
+-- CreateIndex
+CREATE INDEX "impersonation_sessions_kidUserId_idx" ON "ai_learning"."impersonation_sessions"("kidUserId");
+
+-- CreateIndex
+CREATE INDEX "impersonation_sessions_expiresAt_idx" ON "ai_learning"."impersonation_sessions"("expiresAt");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "parent_preview_attempts_clientEventId_key" ON "ai_learning"."parent_preview_attempts"("clientEventId");
+
+-- CreateIndex
+CREATE INDEX "parent_preview_attempts_parentUserId_kidUserId_lessonId_idx" ON "ai_learning"."parent_preview_attempts"("parentUserId", "kidUserId", "lessonId");
+
+-- CreateIndex
+CREATE INDEX "parent_preview_attempts_parentUserId_kidUserId_knowledgeNod_idx" ON "ai_learning"."parent_preview_attempts"("parentUserId", "kidUserId", "knowledgeNodeId");
 
 -- CreateIndex
 CREATE INDEX "users_guardianUserId_idx" ON "ai_learning"."users"("guardianUserId");
@@ -297,4 +367,28 @@ ALTER TABLE "ai_learning"."student_knowledge_states" ADD CONSTRAINT "student_kno
 
 -- AddForeignKey
 ALTER TABLE "ai_learning"."student_knowledge_states" ADD CONSTRAINT "student_knowledge_states_knowledgeNodeId_fkey" FOREIGN KEY ("knowledgeNodeId") REFERENCES "ai_learning"."knowledge_nodes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."impersonation_sessions" ADD CONSTRAINT "impersonation_sessions_parentUserId_fkey" FOREIGN KEY ("parentUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."impersonation_sessions" ADD CONSTRAINT "impersonation_sessions_kidUserId_fkey" FOREIGN KEY ("kidUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_attempts" ADD CONSTRAINT "parent_preview_attempts_parentUserId_fkey" FOREIGN KEY ("parentUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_attempts" ADD CONSTRAINT "parent_preview_attempts_kidUserId_fkey" FOREIGN KEY ("kidUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_attempts" ADD CONSTRAINT "parent_preview_attempts_lessonId_fkey" FOREIGN KEY ("lessonId") REFERENCES "ai_learning"."lessons"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_knowledge_states" ADD CONSTRAINT "parent_preview_knowledge_states_parentUserId_fkey" FOREIGN KEY ("parentUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_knowledge_states" ADD CONSTRAINT "parent_preview_knowledge_states_kidUserId_fkey" FOREIGN KEY ("kidUserId") REFERENCES "ai_learning"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ai_learning"."parent_preview_knowledge_states" ADD CONSTRAINT "parent_preview_knowledge_states_knowledgeNodeId_fkey" FOREIGN KEY ("knowledgeNodeId") REFERENCES "ai_learning"."knowledge_nodes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 

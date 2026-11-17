@@ -117,8 +117,9 @@ You can preview the sign-in UI without credentials with `npx vite --host
 | `POST /graphql` | Query `{ me { id email username roles accountStatus } }` |
 | `POST /api/auth/dev-token` | Dev-only (`DEV_CONSOLE_AUTH=true`): exchange console OTT |
 | `GET /api/ready` | Database readiness (`SELECT 1`) |
-| `GET/POST/DELETE /api/parent/*` | `PARENT` role: register kids, GDPR consent/erase, approve curricula |
-| `GET/POST /api/learn/*` | `KID` role: approved Romanian chapters, interactive exercises, mastery |
+| `GET/POST/DELETE /api/parent/*` | `PARENT` role: register kids, GDPR consent/erase, impersonate preview, approve curricula |
+| `POST /api/auth/impersonate/*` | Parent impersonation tab exchange (`X-Impersonation-Token` in `sessionStorage`) and exit |
+| `GET/POST /api/learn/*` | `KID` role (or parent impersonation preview): approved Romanian chapters & isolated progress |
 
 ### Prototype Quick Start (Romanian 3-Chapter Prototype)
 

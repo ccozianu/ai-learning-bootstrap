@@ -855,6 +855,29 @@ h3 {
   background: #fee2e2;
   color: #991b1b;
 }
+.impersonation-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  color: #78350f;
+}
+.impersonation-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.impersonation-banner button {
+  width: auto;
+  min-height: 36px;
+  padding: 6px 12px;
+}
 
 @media (max-width: 860px) {
   .lesson-shell {

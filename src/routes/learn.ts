@@ -136,11 +136,13 @@ export function registerLearnRoutes(
   auth: AuthContext,
 ) {
   app.get("/api/learn/overview", async (req) => {
-    const kid = await auth.requireRole(req, "KID");
+    const actor = await auth.requireLearnActor(req);
+    const isPreview = actor.mode === "PARENT_IMPERSONATION";
+
     const [approvals, nodes, dependencies, states, recentAttempts] =
       await Promise.all([
         db.parentCurriculumApproval.findMany({
-          where: { kidUserId: kid.id, revokedAt: null },
+          where: { kidUserId: actor.kid.id, revokedAt: null },
           include: {
             curriculumVersion: {
               include: {
@@ -167,11 +169,29 @@ export function registerLearnRoutes(
         }),
         db.knowledgeNode.findMany({ orderBy: { id: "asc" } }),
         db.knowledgeDependency.findMany(),
-        db.studentKnowledgeState.findMany({ where: { studentUserId: kid.id } }),
-        db.exerciseAttempt.findMany({
-          where: { studentUserId: kid.id, isCorrect: true },
-          select: { lessonId: true, exerciseId: true },
-        }),
+        isPreview
+          ? db.parentPreviewKnowledgeState.findMany({
+              where: {
+                parentUserId: actor.previewParentId,
+                kidUserId: actor.kid.id,
+              },
+            })
+          : db.studentKnowledgeState.findMany({
+              where: { studentUserId: actor.kid.id },
+            }),
+        isPreview
+          ? db.parentPreviewAttempt.findMany({
+              where: {
+                parentUserId: actor.previewParentId,
+                kidUserId: actor.kid.id,
+                isCorrect: true,
+              },
+              select: { lessonId: true, exerciseId: true },
+            })
+          : db.exerciseAttempt.findMany({
+              where: { studentUserId: actor.kid.id, isCorrect: true },
+              select: { lessonId: true, exerciseId: true },
+            }),
       ]);
 
     const solvedByLesson = new Map<string, Set<string>>();
@@ -183,6 +203,7 @@ export function registerLearnRoutes(
     }
 
     return {
+      previewMode: isPreview,
       knowledgeGraph: computeKnowledgeGraph(nodes, dependencies, states),
       curricula: approvals.map((a) => ({
         versionId: a.curriculumVersion.id,
@@ -202,7 +223,7 @@ export function registerLearnRoutes(
   });
 
   app.get("/api/learn/lessons/:lessonId", async (req) => {
-    const kid = await auth.requireRole(req, "KID");
+    const actor = await auth.requireLearnActor(req);
     const { lessonId } = z
       .object({ lessonId: z.string().min(1).max(120) })
       .parse(req.params);
@@ -218,7 +239,7 @@ export function registerLearnRoutes(
 
     await assertStudentCurriculumApproved(
       db,
-      kid.id,
+      actor.kid.id,
       lesson.series.curriculumVersionId,
     );
 
@@ -245,7 +266,7 @@ export function registerLearnRoutes(
   });
 
   app.post("/api/learn/lessons/:lessonId/practice", async (req) => {
-    const kid = await auth.requireRole(req, "KID");
+    const actor = await auth.requireLearnActor(req);
     const { lessonId } = z
       .object({ lessonId: z.string().min(1).max(120) })
       .parse(req.params);
@@ -260,7 +281,7 @@ export function registerLearnRoutes(
     }
     await assertStudentCurriculumApproved(
       db,
-      kid.id,
+      actor.kid.id,
       lesson.series.curriculumVersionId,
     );
 
@@ -276,7 +297,7 @@ export function registerLearnRoutes(
   });
 
   app.get("/api/learn/numerals/preview", async (req) => {
-    await auth.requireRole(req, "KID");
+    await auth.requireLearnActor(req);
     const query = z
       .object({
         n: z.coerce.number().int().min(0).max(50_000_000),
@@ -289,8 +310,33 @@ export function registerLearnRoutes(
     return getNumeralPhrase(query.n, query.gender);
   });
 
+  app.post("/api/learn/preview/reset", async (req) => {
+    const actor = await auth.requireLearnActor(req);
+    if (actor.mode !== "PARENT_IMPERSONATION") {
+      throw new Denied(
+        403,
+        "Only parent impersonation preview state can be reset.",
+      );
+    }
+    await db.$transaction([
+      db.parentPreviewAttempt.deleteMany({
+        where: {
+          parentUserId: actor.previewParentId,
+          kidUserId: actor.kid.id,
+        },
+      }),
+      db.parentPreviewKnowledgeState.deleteMany({
+        where: {
+          parentUserId: actor.previewParentId,
+          kidUserId: actor.kid.id,
+        },
+      }),
+    ]);
+    return { ok: true };
+  });
+
   app.post("/api/learn/attempts", async (req) => {
-    const kid = await auth.requireRole(req, "KID");
+    const actor = await auth.requireLearnActor(req);
     const input = attemptSchema.parse(req.body);
 
     const lesson = await db.lesson.findUnique({
@@ -300,7 +346,7 @@ export function registerLearnRoutes(
     if (!lesson) throw new Denied(404, "Lesson not found.");
     await assertStudentCurriculumApproved(
       db,
-      kid.id,
+      actor.kid.id,
       lesson.series.curriculumVersionId,
     );
 
@@ -363,13 +409,140 @@ export function registerLearnRoutes(
     const finalEval = evalForAnswer(input.answer);
     const threshold = masteryThreshold(exerciseType);
 
-    const buildReplay = async () => {
+    if (actor.mode === "PARENT_IMPERSONATION") {
+      const buildPreviewReplay = async () => {
+        const existing = await db.parentPreviewAttempt.findUnique({
+          where: { clientEventId: input.clientEventId },
+        });
+        if (
+          !existing ||
+          existing.parentUserId !== actor.previewParentId ||
+          existing.kidUserId !== actor.kid.id ||
+          existing.exerciseId !== input.exerciseId ||
+          existing.lessonId !== input.lessonId
+        ) {
+          throw new Denied();
+        }
+        const state = await db.parentPreviewKnowledgeState.findUnique({
+          where: {
+            parentUserId_kidUserId_knowledgeNodeId: {
+              parentUserId: actor.previewParentId,
+              kidUserId: actor.kid.id,
+              knowledgeNodeId: existing.knowledgeNodeId,
+            },
+          },
+        });
+        let slotResults: boolean[] | undefined;
+        try {
+          slotResults = evalForAnswer(existing.submittedAnswer).slotResults;
+        } catch {
+          slotResults = undefined;
+        }
+        return {
+          idempotentReplay: true,
+          previewMode: true,
+          isCorrect: existing.isCorrect,
+          feedback: existing.feedback,
+          slotResults,
+          nodeState: state,
+        };
+      };
+
+      try {
+        const updatedState = await db.$transaction(async (tx) => {
+          await tx.parentPreviewAttempt.create({
+            data: {
+              clientEventId: input.clientEventId,
+              parentUserId: actor.previewParentId,
+              kidUserId: actor.kid.id,
+              exerciseId: input.exerciseId,
+              lessonId: lesson.id,
+              knowledgeNodeId,
+              submittedAnswer: input.answer as object,
+              isCorrect: finalEval.isCorrect,
+              feedback: finalEval.feedback,
+            },
+          });
+
+          const distinctCorrect = await tx.parentPreviewAttempt.findMany({
+            where: {
+              parentUserId: actor.previewParentId,
+              kidUserId: actor.kid.id,
+              knowledgeNodeId,
+              isCorrect: true,
+            },
+            distinct: ["exerciseId"],
+            select: { exerciseId: true },
+          });
+          const uniqueSolvedCount = distinctCorrect.length;
+          const currentState = await tx.parentPreviewKnowledgeState.findUnique({
+            where: {
+              parentUserId_kidUserId_knowledgeNodeId: {
+                parentUserId: actor.previewParentId,
+                kidUserId: actor.kid.id,
+                knowledgeNodeId,
+              },
+            },
+          });
+          const nextMastered =
+            Boolean(currentState?.mastered) || uniqueSolvedCount >= threshold;
+
+          return tx.parentPreviewKnowledgeState.upsert({
+            where: {
+              parentUserId_kidUserId_knowledgeNodeId: {
+                parentUserId: actor.previewParentId,
+                kidUserId: actor.kid.id,
+                knowledgeNodeId,
+              },
+            },
+            update: {
+              attemptsCount: { increment: 1 },
+              correctCount: uniqueSolvedCount,
+              mastered: nextMastered,
+              masteredAt:
+                currentState?.masteredAt ?? (nextMastered ? new Date() : null),
+            },
+            create: {
+              parentUserId: actor.previewParentId,
+              kidUserId: actor.kid.id,
+              knowledgeNodeId,
+              attemptsCount: 1,
+              correctCount: uniqueSolvedCount,
+              mastered: nextMastered,
+              masteredAt: nextMastered ? new Date() : null,
+            },
+          });
+        });
+
+        return {
+          idempotentReplay: false,
+          previewMode: true,
+          isCorrect: finalEval.isCorrect,
+          feedback: finalEval.feedback,
+          slotResults: finalEval.slotResults,
+          nodeState: updatedState,
+        };
+      } catch (error: unknown) {
+        if (
+          typeof error === "object" &&
+          error &&
+          "code" in error &&
+          error.code === "P2002"
+        ) {
+          return buildPreviewReplay();
+        }
+        throw error;
+      }
+    }
+
+    // Real student attempt persistence (isolated from parent preview state).
+    const buildStudentReplay = async () => {
       const existing = await db.exerciseAttempt.findUnique({
         where: { clientEventId: input.clientEventId },
       });
       if (
         !existing ||
-        existing.studentUserId !== kid.id ||
+        existing.studentUserId !== actor.kid.id ||
         existing.exerciseId !== input.exerciseId ||
         existing.lessonId !== input.lessonId
       ) {
@@ -378,7 +551,7 @@ export function registerLearnRoutes(
       const state = await db.studentKnowledgeState.findUnique({
         where: {
           studentUserId_knowledgeNodeId: {
-            studentUserId: kid.id,
+            studentUserId: actor.kid.id,
             knowledgeNodeId: existing.knowledgeNodeId,
           },
         },
@@ -391,6 +564,7 @@ export function registerLearnRoutes(
       }
       return {
         idempotentReplay: true,
+        previewMode: false,
         isCorrect: existing.isCorrect,
         feedback: existing.feedback,
         slotResults,
@@ -403,7 +577,7 @@ export function registerLearnRoutes(
         await tx.exerciseAttempt.create({
           data: {
             clientEventId: input.clientEventId,
-            studentUserId: kid.id,
+            studentUserId: actor.kid.id,
             exerciseId: input.exerciseId,
             lessonId: lesson.id,
             knowledgeNodeId,
@@ -413,10 +587,9 @@ export function registerLearnRoutes(
           },
         });
 
-        // Anti-gaming: only distinct solved exerciseIds count toward mastery threshold.
         const distinctCorrect = await tx.exerciseAttempt.findMany({
           where: {
-            studentUserId: kid.id,
+            studentUserId: actor.kid.id,
             knowledgeNodeId,
             isCorrect: true,
           },
@@ -427,7 +600,7 @@ export function registerLearnRoutes(
         const currentState = await tx.studentKnowledgeState.findUnique({
           where: {
             studentUserId_knowledgeNodeId: {
-              studentUserId: kid.id,
+              studentUserId: actor.kid.id,
               knowledgeNodeId,
             },
           },
@@ -438,7 +611,7 @@ export function registerLearnRoutes(
         return tx.studentKnowledgeState.upsert({
           where: {
             studentUserId_knowledgeNodeId: {
-              studentUserId: kid.id,
+              studentUserId: actor.kid.id,
               knowledgeNodeId,
             },
           },
@@ -450,7 +623,7 @@ export function registerLearnRoutes(
               currentState?.masteredAt ?? (nextMastered ? new Date() : null),
           },
           create: {
-            studentUserId: kid.id,
+            studentUserId: actor.kid.id,
             knowledgeNodeId,
             attemptsCount: 1,
             correctCount: uniqueSolvedCount,
@@ -462,6 +635,7 @@ export function registerLearnRoutes(
 
       return {
         idempotentReplay: false,
+        previewMode: false,
         isCorrect: finalEval.isCorrect,
         feedback: finalEval.feedback,
         slotResults: finalEval.slotResults,
@@ -474,7 +648,7 @@ export function registerLearnRoutes(
         "code" in error &&
         error.code === "P2002"
       ) {
-        return buildReplay();
+        return buildStudentReplay();
       }
       throw error;
     }

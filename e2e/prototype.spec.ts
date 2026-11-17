@@ -91,6 +91,106 @@ test("parent OTT dashboard renders kid registration & Romanian curriculum catalo
   await expect(
     page.getByRole("button", { name: /Approved: Learn Romanian Part 1/ }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Impersonate in New Tab" }),
+  ).toBeVisible();
+});
+
+test("parent impersonation opens kid studio in a new tab without switching parent tab", async ({
+  context,
+  page,
+}) => {
+  await context.route("**/api/auth/impersonate/exchange", (route) =>
+    route.fulfill({
+      json: { tabToken: "tab-preview-token-123", kidDisplayName: "Matei" },
+    }),
+  );
+  await context.route("**/api/parent/kids/*/impersonate", (route) =>
+    route.fulfill({ json: { launchUrl: "/#impersonate=launch-code-123" } }),
+  );
+  await context.route("**/api/me", (route) => {
+    const impHeader = route.request().headers()["x-impersonation-token"];
+    if (impHeader === "tab-preview-token-123") {
+      return route.fulfill({
+        json: {
+          id: "22222222-2222-4222-8222-222222222222",
+          email: null,
+          username: "matei_ro",
+          displayName: "Matei",
+          roles: ["KID"],
+          accountStatus: "ACTIVE",
+          signInTypes: ["PASSWORD"],
+          lastSignInType: "PASSWORD",
+          impersonation: {
+            active: true,
+            parentEmail: "ccozianu@gmail.com",
+            kidId: "22222222-2222-4222-8222-222222222222",
+            kidDisplayName: "Matei",
+            kidUsername: "matei_ro",
+          },
+        },
+      });
+    }
+    return route.fulfill({
+      json: {
+        id: "11111111-1111-4111-8111-111111111111",
+        email: "ccozianu@gmail.com",
+        username: null,
+        displayName: "Parent Owner",
+        roles: ["PARENT"],
+        accountStatus: "ACTIVE",
+        signInTypes: ["DEV_TOKEN"],
+        lastSignInType: "DEV_TOKEN",
+      },
+    });
+  });
+  await context.route("**/api/parent/dashboard", (route) =>
+    route.fulfill({
+      json: {
+        kids: [
+          {
+            id: "22222222-2222-4222-8222-222222222222",
+            username: "matei_ro",
+            displayName: "Matei",
+            birthYear: 2016,
+            accountStatus: "ACTIVE",
+            gdprConsentGrantedAt: new Date().toISOString(),
+            gdprConsentWithdrawnAt: null,
+            attemptsTotal: 0,
+            approvedVersionIds: ["romanian-fundamentals@1.0.0"],
+            mastery: [],
+          },
+        ],
+        curricula: [],
+      },
+    }),
+  );
+  await context.route("**/api/learn/overview", (route) =>
+    route.fulfill({
+      json: {
+        previewMode: true,
+        knowledgeGraph: [],
+        curricula: [],
+      },
+    }),
+  );
+
+  await page.goto("/");
+  await expect(page.getByText("Parent Dashboard")).toBeVisible();
+
+  const [newTab] = await Promise.all([
+    context.waitForEvent("page"),
+    page.getByRole("button", { name: "Impersonate in New Tab" }).click(),
+  ]);
+  await newTab.waitForLoadState();
+  await expect(
+    newTab.getByText(/Parent Impersonation Preview: Matei/),
+  ).toBeVisible();
+  await expect(
+    newTab.getByRole("button", { name: "Reset Preview Progress" }),
+  ).toBeVisible();
+  // Original parent tab stays on Parent Dashboard!
+  await expect(page.getByText("Parent Dashboard")).toBeVisible();
 });
 
 test("student studio renders KG map, all 3 chapters, sorting game & diacritics", async ({
